@@ -32,15 +32,7 @@ public class SpringBootAwsS3DemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootAwsS3DemoApplication.class, args);
-//		final AmazonS3 s3 = AmazonS3ClientBuilder.standard().build();
-//		BasicAWSCredentials awsCreds=new BasicAWSCredentials("AKIA6F5JK3CDCV6W2K5W", "4rD5x/bmlyDrfyQg1fRvriX8QWxewnobtTBsM0GF");
-//		AmazonS3 s3=AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(awsCreds)).build();
-//		List<Bucket> buckets = s3.listBuckets();
-//		buckets.stream().forEach(bucket -> {
-//			System.out.println("Bucket Name : " + bucket.getName() + " Bucket Owner : " + bucket.getOwner()
-//					+ ", Creation date : " + bucket.getCreationDate());
-//		});
-//		VPC vp=new VPC();
+
 //		Region region = Region.US_EAST_1;
 ////		AwsCredentialsProvider awsCredentialsProvider=new Bas
 ////		AwsBasicCredentials awsBasicCredentials=new AwsBasicCredentials(null, null)
