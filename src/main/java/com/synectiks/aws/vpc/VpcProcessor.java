@@ -53,7 +53,6 @@ public class VpcProcessor {
 			customVpcs = getAllCustomVpc(response.vpcs());
 		} catch (Ec2Exception e) {
 			System.err.println(e.awsErrorDetails().errorMessage());
-			System.exit(1);
 		}finally {
 			if(ec2 != null) {
 				ec2.close();
@@ -81,7 +80,6 @@ public class VpcProcessor {
 			customVpcs = getAllCustomVpc(response.vpcs());
 		} catch (Ec2Exception e) {
 			System.err.println(e.awsErrorDetails().errorMessage());
-			System.exit(1);
 		}finally {
 			if(ec2 != null) {
 				ec2.close();
