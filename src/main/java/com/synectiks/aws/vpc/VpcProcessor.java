@@ -7,6 +7,10 @@ import com.synectiks.aws.config.Constants;
 import com.synectiks.aws.entities.vpc.CustomTag;
 import com.synectiks.aws.entities.vpc.CustomVpc;
 
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsRequest;
@@ -18,43 +22,60 @@ import software.amazon.awssdk.services.ec2.model.Vpc;
 public class VpcProcessor {
 
 	private String accessKey;
-	private String secretKey; 
+	private String secretKey;
 	private Region region;
-	
+
 	public VpcProcessor() {
-		
+
 	}
-	
+
 	public VpcProcessor(String accessKey, String secretKey, Region region) {
 		this.accessKey = accessKey;
 		this.secretKey = secretKey;
 		this.region = region;
 	}
-	
+
+	public VpcProcessor(String accessKey, String secretKey) {
+		this.accessKey = accessKey;
+		this.secretKey = secretKey;
+	}
+
 	public VpcProcessor(Region region) {
 		this.region = region;
 	}
-	
-	public List<CustomVpc> describeEC2VpcById(Region region, String vpcId) {
+
+	public Ec2Client getEC2Client() {
 		Region rg = null;
-		if(region != null) {
-			rg = region;
-		}else {
-			System.out.println("Default region is: "+Constants.DEFAULT_REGION.toString());
+		if (this.region != null) {
+			rg = this.region;
+		} else {
+			System.out.println("Default region is: " + Constants.DEFAULT_REGION.toString());
 			rg = Constants.DEFAULT_REGION;
 		}
-		Ec2Client ec2 = Ec2Client.builder().region(rg).build();
+		Ec2Client ec2 = null;
+		if (accessKey != null && secretKey != null) {
+			AwsCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
+			AwsCredentialsProvider asAwsCredentialsProvider = StaticCredentialsProvider.create(credentials);
+			ec2 = Ec2Client.builder().credentialsProvider(asAwsCredentialsProvider).region(rg).build();
+			return ec2;
+		} else {
+			ec2 = Ec2Client.builder().region(rg).build();
+			return ec2;
+		}
+	}
 
+	public List<CustomVpc> describeEC2VpcById(Region region, String vpcId) {
+		this.region=region;
+		Ec2Client ec2 = getEC2Client();
 		List<CustomVpc> customVpcs = null;
 		try {
 			DescribeVpcsRequest request = DescribeVpcsRequest.builder().vpcIds(vpcId).build();
-
 			DescribeVpcsResponse response = ec2.describeVpcs(request);
 			customVpcs = getAllCustomVpc(response.vpcs());
 		} catch (Ec2Exception e) {
 			System.err.println(e.awsErrorDetails().errorMessage());
-		}finally {
-			if(ec2 != null) {
+		} finally {
+			if (ec2 != null) {
 				ec2.close();
 			}
 		}
@@ -62,26 +83,17 @@ public class VpcProcessor {
 	}
 
 	public List<CustomVpc> describeEC2Vpcs(Region region) {
-		Region rg = null;
-		if(region != null) {
-			rg = region;
-		}else {
-			System.out.println("Default region is: "+Constants.DEFAULT_REGION.toString());
-			rg = Constants.DEFAULT_REGION;
-		}
-			
-		Ec2Client ec2 = Ec2Client.builder().region(rg).build();
-
+		this.region=region;
+		Ec2Client ec2 = getEC2Client();
 		List<CustomVpc> customVpcs = null;
 		try {
 			DescribeVpcsRequest request = DescribeVpcsRequest.builder().build();
-
 			DescribeVpcsResponse response = ec2.describeVpcs(request);
 			customVpcs = getAllCustomVpc(response.vpcs());
 		} catch (Ec2Exception e) {
 			System.err.println(e.awsErrorDetails().errorMessage());
-		}finally {
-			if(ec2 != null) {
+		} finally {
+			if (ec2 != null) {
 				ec2.close();
 			}
 		}
