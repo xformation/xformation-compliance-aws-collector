@@ -46,8 +46,8 @@ public class VpcProcessor {
 
 	public Ec2Client getEC2Client() {
 		Region rg = null;
-		if (region != null) {
-			rg = region;
+		if (this.region != null) {
+			rg = this.region;
 		} else {
 			System.out.println("Default region is: " + Constants.DEFAULT_REGION.toString());
 			rg = Constants.DEFAULT_REGION;
