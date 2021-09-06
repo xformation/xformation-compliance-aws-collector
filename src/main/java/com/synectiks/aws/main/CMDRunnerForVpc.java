@@ -18,9 +18,9 @@ public class CMDRunnerForVpc {
 		Option getOpt = new Option("get", "get", true, "get param value");
 		getOpt.setRequired(false);
 		options.addOption(getOpt);
-		Option kafkaTopic = new Option("id", "id", true, "Enter Vpc Id");
-		kafkaTopic.setRequired(false);
-		options.addOption(kafkaTopic);
+		Option idOpt = new Option("id", "id", true, "Enter Vpc Id");
+		idOpt.setRequired(false);
+		options.addOption(idOpt);
 		Option region = new Option("r", "r", true, "Enter Region");
 		region.setRequired(false);
 		options.addOption(region);

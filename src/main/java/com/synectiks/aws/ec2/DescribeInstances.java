@@ -29,32 +29,15 @@ import software.amazon.awssdk.services.ec2.model.Tag;
 import software.amazon.awssdk.services.ec2.model.Vpc;
 import software.amazon.awssdk.services.ec2.model.Ec2Exception;
 
-/**
- * To run this Java V2 code example, ensure that you have setup your development
- * environment, including your credentials.
- *
- * For information, see this documentation topic:
- *
- * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
- */
 public class DescribeInstances {
-	private String accessKey;
-	private String secretKey;
 	private Region region;
-//	private Ec2Client ec2;
+	private AwsCredentialsProvider asAwsCredentialsProvider;
 
 	public DescribeInstances() {
 	}
 
-	public DescribeInstances(String accessKey, String secretKey, Region region) {
-		this.accessKey = accessKey;
-		this.secretKey = secretKey;
-		this.region = region;
-	}
-
-	public DescribeInstances(String accessKey, String secretKey) {
-		this.accessKey = accessKey;
-		this.secretKey = secretKey;
+	public DescribeInstances(Region reg, AwsCredentialsProvider asAwsCredentialsProvider) {
+		this.asAwsCredentialsProvider = asAwsCredentialsProvider;
 	}
 
 	public DescribeInstances(Region region) {
@@ -71,15 +54,8 @@ public class DescribeInstances {
 			rg = Constants.DEFAULT_REGION;
 		}
 		Ec2Client ec2 = null;
-		if (accessKey != null && secretKey != null) {
-			AwsCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
-			AwsCredentialsProvider asAwsCredentialsProvider = StaticCredentialsProvider.create(credentials);
-			ec2 = Ec2Client.builder().credentialsProvider(asAwsCredentialsProvider).region(rg).build();
-			return ec2;
-		} else {
-			ec2 = Ec2Client.builder().region(rg).build();
-			return ec2;
-		}
+		ec2 = Ec2Client.builder().credentialsProvider(asAwsCredentialsProvider).region(rg).build();
+		return ec2;
 	}
 
 	public CustomVpc describeEC2VpcById(String vpcId) throws IOException {
@@ -188,11 +164,8 @@ public class DescribeInstances {
 			System.err.println(e.awsErrorDetails().errorMessage());
 			System.exit(1);
 		}
-		System.out.println("Hello");
 		System.out.println(customInstances);
 		ec2.close();
 	}
-
-
 
 }
