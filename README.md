@@ -8,6 +8,6 @@ one is xform-aws-cli-0.0.1-SNAPSHOT-jar-with-dependencies.jar and another one is
 3. TO get All vpc fire command
 java -jar xform-aws-cli-0.0.1-SNAPSHOT-jar-with-dependencies.jar vpcs
 4. To get Particular vpc or vpc By Id 
-java -jar xform-aws-cli-0.0.1-SNAPSHOT-jar-with-dependencies.jar vpc <enter vpc id>
+java -jar xform-aws-cli-0.0.1-SNAPSHOT-jar-with-dependencies.jar vpc  <enter vpc id>
 
  
