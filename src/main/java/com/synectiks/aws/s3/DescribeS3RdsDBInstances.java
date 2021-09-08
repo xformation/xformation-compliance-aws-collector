@@ -1,51 +1,58 @@
 package com.synectiks.aws.s3;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.synectiks.aws.config.Constants;
+//snippet-end:[rds.java2.describe_instances.import]
+import com.synectiks.aws.entities.s3.S3RDSEntity;
+
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 //snippet-start:[rds.java2.describe_instances.import]
 import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.rds.RdsClient;
-import software.amazon.awssdk.services.rds.model.DescribeDbInstancesResponse;
 import software.amazon.awssdk.services.rds.model.DBInstance;
 import software.amazon.awssdk.services.rds.model.DescribeDbInstancesRequest;
+import software.amazon.awssdk.services.rds.model.DescribeDbInstancesResponse;
 import software.amazon.awssdk.services.rds.model.RdsException;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.synectiks.aws.config.Constants;
-//snippet-end:[rds.java2.describe_instances.import]
-
-/**
- * To run this Java V2 code example, ensure that you have setup your development
- * environment, including your credentials.
- *
- * For information, see this documentation topic:
- *
- * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
- */
 public class DescribeS3RdsDBInstances {
+	private String accessKey;
+	private String secretKey;
 	private Region region;
-	private AwsCredentialsProvider asAwsCredentialsProvider;
-
-	public DescribeS3RdsDBInstances() {
-
-	}
-
-	public DescribeS3RdsDBInstances(Region region,AwsCredentialsProvider asAwsCredentialsProvider) {
-		this.asAwsCredentialsProvider = asAwsCredentialsProvider;
-		this.region = region;
-	}
-
-	public DescribeS3RdsDBInstances(AwsCredentialsProvider asAwsCredentialsProvider) {
-		this.asAwsCredentialsProvider = asAwsCredentialsProvider;
-	}
+	private AwsCredentialsProvider awsCredentialsProvider;
 
 	public DescribeS3RdsDBInstances(Region region) {
 		this.region = region;
+	}
+
+	public DescribeS3RdsDBInstances(String accessKey, String secretKey) {
+		this.accessKey = accessKey;
+		this.secretKey = secretKey;
+	}
+
+	public DescribeS3RdsDBInstances(String accessKey, String secretKey, Region region) {
+		this.accessKey = accessKey;
+		this.secretKey = secretKey;
+		this.region = region;
+	}
+
+	public DescribeS3RdsDBInstances(AwsCredentialsProvider awsCredentialsProvider) {
+		this.awsCredentialsProvider = awsCredentialsProvider;
+	}
+
+	public DescribeS3RdsDBInstances(AwsCredentialsProvider awsCredentialsProvider, Region region) {
+		this.awsCredentialsProvider = awsCredentialsProvider;
+		this.region = region;
+	}
+
+	public static AwsCredentialsProvider getAwsCredentialsProvider(String accessKey, String secretKey) {
+		AwsCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
+		AwsCredentialsProvider asAwsCredentialsProvider = StaticCredentialsProvider.create(credentials);
+		return asAwsCredentialsProvider;
 	}
 
 	public RdsClient getRdsClient() {
@@ -56,7 +63,15 @@ public class DescribeS3RdsDBInstances {
 			System.out.println("Default region is: " + Constants.DEFAULT_REGION.toString());
 			rg = Constants.DEFAULT_REGION;
 		}
-		RdsClient rdsClient = RdsClient.builder().region(region).build();
+		RdsClient rdsClient = null;
+		if (accessKey != null && secretKey != null) {
+			AwsCredentialsProvider asAwsCredentialsProvider = getAwsCredentialsProvider(accessKey, secretKey);
+			rdsClient = RdsClient.builder().credentialsProvider(asAwsCredentialsProvider).region(rg).build();
+		} else if (awsCredentialsProvider != null) {
+			rdsClient = RdsClient.builder().credentialsProvider(awsCredentialsProvider).region(rg).build();
+		} else {
+			rdsClient = RdsClient.builder().region(rg).build();
+		}
 		return rdsClient;
 	}
 
@@ -112,7 +127,6 @@ public class DescribeS3RdsDBInstances {
 			System.exit(1);
 		}
 		rdsClient.close();
-		// snippet-end:[rds.java2.describe_instances.main]
 		return rdsInsancesList;
 	}
 }

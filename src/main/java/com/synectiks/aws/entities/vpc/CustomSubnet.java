@@ -2,127 +2,227 @@ package com.synectiks.aws.entities.vpc;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CustomSubnet {
-    private CustomVpc customVpc;
-    private String state;
-    private String availabilityZone;
-    private String defaultForAz;
-    private String mapPublicIPOnLaunch;
-    private String availableIPAddressCount;
-    private String externalID;
-    private String description;
-    private String cidr;
-    private RouteTable routeTable;
-    private String ownerID;
-    private Nacl nacl;
-    private List<CustomTag> customTags;
-    private String id;
-    private String type;
-    private String name;
-    private String dome9ID;
-    private String accountNumber;
-    private String region;
-    private ExternalFindings externalFindings;
+	private CustomVpc customVpc;
+	private String state;
+	private String availabilityZone;
+	private String defaultForAz;
+	private String mapPublicIPOnLaunch;
+	private String availableIPAddressCount;
+	private String externalID;
+	private String description;
+	private String cidr;
+	private RouteTable routeTable;
+	private String ownerID;
+	private Nacl nacl;
+	private List<CustomTag> customTags;
+	private String id;
+	private String type;
+	private String name;
+	private String dome9ID;
+	private String accountNumber;
+	private String region;
+	private ExternalFindings externalFindings;
 
-    @JsonProperty("vpc")
-    public CustomVpc getCustomVpc() { return customVpc; }
-    @JsonProperty("vpc")
-    public void setCustomVpc(CustomVpc value) { this.customVpc = value; }
+	@JsonProperty("vpc")
+	public CustomVpc getCustomVpc() {
+		return customVpc;
+	}
 
-    @JsonProperty("state")
-    public String getState() { return state; }
-    @JsonProperty("state")
-    public void setState(String value) { this.state = value; }
+	@JsonProperty("vpc")
+	public void setCustomVpc(CustomVpc value) {
+		this.customVpc = value;
+	}
 
-    @JsonProperty("availabilityZone")
-    public String getAvailabilityZone() { return availabilityZone; }
-    @JsonProperty("availabilityZone")
-    public void setAvailabilityZone(String value) { this.availabilityZone = value; }
+	@JsonProperty("state")
+	public String getState() {
+		return state;
+	}
 
-    @JsonProperty("defaultForAz")
-    public String getDefaultForAz() { return defaultForAz; }
-    @JsonProperty("defaultForAz")
-    public void setDefaultForAz(String value) { this.defaultForAz = value; }
+	@JsonProperty("state")
+	public void setState(String value) {
+		this.state = value;
+	}
 
-    @JsonProperty("mapPublicIpOnLaunch")
-    public String getMapPublicIPOnLaunch() { return mapPublicIPOnLaunch; }
-    @JsonProperty("mapPublicIpOnLaunch")
-    public void setMapPublicIPOnLaunch(String value) { this.mapPublicIPOnLaunch = value; }
+	@JsonProperty("availabilityZone")
+	public String getAvailabilityZone() {
+		return availabilityZone;
+	}
 
-    @JsonProperty("availableIpAddressCount")
-    public String getAvailableIPAddressCount() { return availableIPAddressCount; }
-    @JsonProperty("availableIpAddressCount")
-    public void setAvailableIPAddressCount(String value) { this.availableIPAddressCount = value; }
+	@JsonProperty("availabilityZone")
+	public void setAvailabilityZone(String value) {
+		this.availabilityZone = value;
+	}
 
-    @JsonProperty("externalId")
-    public String getExternalID() { return externalID; }
-    @JsonProperty("externalId")
-    public void setExternalID(String value) { this.externalID = value; }
+	@JsonProperty("defaultForAz")
+	public String getDefaultForAz() {
+		return defaultForAz;
+	}
 
-    @JsonProperty("description")
-    public String getDescription() { return description; }
-    @JsonProperty("description")
-    public void setDescription(String value) { this.description = value; }
+	@JsonProperty("defaultForAz")
+	public void setDefaultForAz(String value) {
+		this.defaultForAz = value;
+	}
 
-    @JsonProperty("cidr")
-    public String getCIDR() { return cidr; }
-    @JsonProperty("cidr")
-    public void setCIDR(String value) { this.cidr = value; }
+	@JsonProperty("mapPublicIpOnLaunch")
+	public String getMapPublicIPOnLaunch() {
+		return mapPublicIPOnLaunch;
+	}
 
-    @JsonProperty("routeTable")
-    public RouteTable getRouteTable() { return routeTable; }
-    @JsonProperty("routeTable")
-    public void setRouteTable(RouteTable value) { this.routeTable = value; }
+	@JsonProperty("mapPublicIpOnLaunch")
+	public void setMapPublicIPOnLaunch(String value) {
+		this.mapPublicIPOnLaunch = value;
+	}
 
-    @JsonProperty("ownerId")
-    public String getOwnerID() { return ownerID; }
-    @JsonProperty("ownerId")
-    public void setOwnerID(String value) { this.ownerID = value; }
+	@JsonProperty("availableIpAddressCount")
+	public String getAvailableIPAddressCount() {
+		return availableIPAddressCount;
+	}
 
-    @JsonProperty("nacl")
-    public Nacl getNacl() { return nacl; }
-    @JsonProperty("nacl")
-    public void setNacl(Nacl value) { this.nacl = value; }
+	@JsonProperty("availableIpAddressCount")
+	public void setAvailableIPAddressCount(String value) {
+		this.availableIPAddressCount = value;
+	}
 
-    @JsonProperty("tags")
-    public List<CustomTag> getCustomTags() { return customTags; }
-    @JsonProperty("tags")
-    public void setCustomTags(List<CustomTag> value) { this.customTags = value; }
+	@JsonProperty("externalId")
+	public String getExternalID() {
+		return externalID;
+	}
 
-    @JsonProperty("id")
-    public String getID() { return id; }
-    @JsonProperty("id")
-    public void setID(String value) { this.id = value; }
+	@JsonProperty("externalId")
+	public void setExternalID(String value) {
+		this.externalID = value;
+	}
 
-    @JsonProperty("type")
-    public String getType() { return type; }
-    @JsonProperty("type")
-    public void setType(String value) { this.type = value; }
+	@JsonProperty("description")
+	public String getDescription() {
+		return description;
+	}
 
-    @JsonProperty("name")
-    public String getName() { return name; }
-    @JsonProperty("name")
-    public void setName(String value) { this.name = value; }
+	@JsonProperty("description")
+	public void setDescription(String value) {
+		this.description = value;
+	}
 
-    @JsonProperty("dome9Id")
-    public String getDome9ID() { return dome9ID; }
-    @JsonProperty("dome9Id")
-    public void setDome9ID(String value) { this.dome9ID = value; }
+	@JsonProperty("cidr")
+	public String getCIDR() {
+		return cidr;
+	}
 
-    @JsonProperty("accountNumber")
-    public String getAccountNumber() { return accountNumber; }
-    @JsonProperty("accountNumber")
-    public void setAccountNumber(String value) { this.accountNumber = value; }
+	@JsonProperty("cidr")
+	public void setCIDR(String value) {
+		this.cidr = value;
+	}
 
-    @JsonProperty("region")
-    public String getRegion() { return region; }
-    @JsonProperty("region")
-    public void setRegion(String value) { this.region = value; }
+	@JsonProperty("routeTable")
+	public RouteTable getRouteTable() {
+		return routeTable;
+	}
 
-    @JsonProperty("externalFindings")
-    public ExternalFindings getExternalFindings() { return externalFindings; }
-    @JsonProperty("externalFindings")
-    public void setExternalFindings(ExternalFindings value) { this.externalFindings = value; }
+	@JsonProperty("routeTable")
+	public void setRouteTable(RouteTable value) {
+		this.routeTable = value;
+	}
+
+	@JsonProperty("ownerId")
+	public String getOwnerID() {
+		return ownerID;
+	}
+
+	@JsonProperty("ownerId")
+	public void setOwnerID(String value) {
+		this.ownerID = value;
+	}
+
+	@JsonProperty("nacl")
+	public Nacl getNacl() {
+		return nacl;
+	}
+
+	@JsonProperty("nacl")
+	public void setNacl(Nacl value) {
+		this.nacl = value;
+	}
+
+	@JsonProperty("tags")
+	public List<CustomTag> getCustomTags() {
+		return customTags;
+	}
+
+	@JsonProperty("tags")
+	public void setCustomTags(List<CustomTag> value) {
+		this.customTags = value;
+	}
+
+	@JsonProperty("id")
+	public String getID() {
+		return id;
+	}
+
+	@JsonProperty("id")
+	public void setID(String value) {
+		this.id = value;
+	}
+
+	@JsonProperty("type")
+	public String getType() {
+		return type;
+	}
+
+	@JsonProperty("type")
+	public void setType(String value) {
+		this.type = value;
+	}
+
+	@JsonProperty("name")
+	public String getName() {
+		return name;
+	}
+
+	@JsonProperty("name")
+	public void setName(String value) {
+		this.name = value;
+	}
+
+	@JsonProperty("dome9Id")
+	public String getDome9ID() {
+		return dome9ID;
+	}
+
+	@JsonProperty("dome9Id")
+	public void setDome9ID(String value) {
+		this.dome9ID = value;
+	}
+
+	@JsonProperty("accountNumber")
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	@JsonProperty("accountNumber")
+	public void setAccountNumber(String value) {
+		this.accountNumber = value;
+	}
+
+	@JsonProperty("region")
+	public String getRegion() {
+		return region;
+	}
+
+	@JsonProperty("region")
+	public void setRegion(String value) {
+		this.region = value;
+	}
+
+	@JsonProperty("externalFindings")
+	public ExternalFindings getExternalFindings() {
+		return externalFindings;
+	}
+
+	@JsonProperty("externalFindings")
+	public void setExternalFindings(ExternalFindings value) {
+		this.externalFindings = value;
+	}
 }

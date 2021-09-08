@@ -22,39 +22,66 @@ import software.amazon.awssdk.services.ec2.model.DescribeInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesResponse;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsResponse;
+import software.amazon.awssdk.services.ec2.model.Ec2Exception;
 import software.amazon.awssdk.services.ec2.model.Instance;
-import software.amazon.awssdk.services.ec2.model.InstanceAttributeName;
 import software.amazon.awssdk.services.ec2.model.Reservation;
 import software.amazon.awssdk.services.ec2.model.Tag;
 import software.amazon.awssdk.services.ec2.model.Vpc;
-import software.amazon.awssdk.services.ec2.model.Ec2Exception;
 
 public class DescribeInstances {
+	private String accessKey;
+	private String secretKey;
 	private Region region;
-	private AwsCredentialsProvider asAwsCredentialsProvider;
-
-	public DescribeInstances() {
-	}
-
-	public DescribeInstances(Region reg, AwsCredentialsProvider asAwsCredentialsProvider) {
-		this.asAwsCredentialsProvider = asAwsCredentialsProvider;
-	}
+	private AwsCredentialsProvider awsCredentialsProvider;
 
 	public DescribeInstances(Region region) {
 		this.region = region;
+	}
 
+	public DescribeInstances(String accessKey, String secretKey) {
+		this.accessKey = accessKey;
+		this.secretKey = secretKey;
+	}
+
+	public DescribeInstances(String accessKey, String secretKey, Region region) {
+		this.accessKey = accessKey;
+		this.secretKey = secretKey;
+		this.region = region;
+	}
+
+	public DescribeInstances(AwsCredentialsProvider awsCredentialsProvider) {
+		this.awsCredentialsProvider = awsCredentialsProvider;
+	}
+
+	public DescribeInstances(AwsCredentialsProvider awsCredentialsProvider, Region region) {
+		this.awsCredentialsProvider = awsCredentialsProvider;
+		this.region = region;
+	}
+
+	public static AwsCredentialsProvider getAwsCredentialsProvider(String accessKey, String secretKey) {
+		AwsCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
+		AwsCredentialsProvider asAwsCredentialsProvider = StaticCredentialsProvider.create(credentials);
+		return asAwsCredentialsProvider;
 	}
 
 	public Ec2Client getEC2Client() {
 		Region rg = null;
-		if (region != null) {
-			rg = region;
+		if (this.region != null) {
+			rg = this.region;
 		} else {
 			System.out.println("Default region is: " + Constants.DEFAULT_REGION.toString());
 			rg = Constants.DEFAULT_REGION;
 		}
 		Ec2Client ec2 = null;
-		ec2 = Ec2Client.builder().credentialsProvider(asAwsCredentialsProvider).region(rg).build();
+		if (accessKey != null && secretKey != null) {
+			AwsCredentialsProvider asAwsCredentialsProvider = getAwsCredentialsProvider(accessKey, secretKey);
+			ec2 = Ec2Client.builder().credentialsProvider(asAwsCredentialsProvider).region(rg).build();
+			return ec2;
+		} else if (awsCredentialsProvider != null) {
+			ec2 = Ec2Client.builder().credentialsProvider(awsCredentialsProvider).region(rg).build();
+		} else {
+			ec2 = Ec2Client.builder().region(rg).build();
+		}
 		return ec2;
 	}
 

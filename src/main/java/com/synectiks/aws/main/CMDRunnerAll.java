@@ -49,8 +49,9 @@ public class CMDRunnerAll {
 
 	public static void getHelp(Options options) {
 		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp("vpc -id <vpcId> -r <region> -a <access key> -s secret key", "Type vpc, ec2, s3rds and subnets",
-				options, "vpc for get vpc\n ec2 for describe ec2 instance\n s3rds for describe s3rds");
+		formatter.printHelp("vpc -id <vpcId> -r <region> -a <access key> -s secret key",
+				"Type vpc, ec2, s3rds and subnets", options,
+				"vpc for get vpc\n ec2 for describe ec2 instance\n s3rds for describe s3rds");
 	}
 
 	public static AwsCredentialsProvider getAwsCredentialsProvider(String accessKey, String secretKey) {
@@ -90,29 +91,28 @@ public class CMDRunnerAll {
 		if (cmdArgs.size() > 0) {
 			String firstArg = cmdArgs.get(0);
 			if (firstArg.equalsIgnoreCase("ec2")) {
-				DescribeInstances describeInstances = new DescribeInstances(reg, asAwsCredentialsProvider);
+				DescribeInstances describeInstances = new DescribeInstances(asAwsCredentialsProvider, reg);
 				try {
 					describeInstances.describeEC2Instances();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else if (firstArg.equalsIgnoreCase("vpc")) {
-				VpcProcessor vp = new VpcProcessor();
+				VpcProcessor vp = new VpcProcessor(asAwsCredentialsProvider);
 				if (cmd.hasOption("id")) {
 					String vpcId = cmd.getOptionValue("id");
-					System.out.println(vp.describeEC2VpcById(reg, vpcId));
+					System.out.println(vp.describeEC2VpcById(vpcId));
 				} else {
-					System.out.println(vp.describeEC2Vpcs(reg));
+					System.out.println(vp.describeEC2Vpcs());
 				}
 			} else if (firstArg.equalsIgnoreCase("s3rds")) {
-				DescribeS3RdsDBInstances describeS3RdsDBInstances = new DescribeS3RdsDBInstances(reg,
-						asAwsCredentialsProvider);
+				DescribeS3RdsDBInstances describeS3RdsDBInstances = new DescribeS3RdsDBInstances(
+						asAwsCredentialsProvider, reg);
 				System.out.println(describeS3RdsDBInstances.describeInstances());
 			} else if (firstArg.equalsIgnoreCase("subnets")) {
-				VpcProcessor vpcProcessor=new VpcProcessor();
+				VpcProcessor vpcProcessor = new VpcProcessor(asAwsCredentialsProvider, reg);
 				System.out.println(vpcProcessor.describeSubnets());
-			} 
-			else {
+			} else {
 				System.out.println("please Enter valid command");
 				System.out.println("To get more information type -h or -help");
 			}

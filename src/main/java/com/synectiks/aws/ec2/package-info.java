@@ -1,1 +1,0 @@
-package com.synectiks.aws.ec2;
