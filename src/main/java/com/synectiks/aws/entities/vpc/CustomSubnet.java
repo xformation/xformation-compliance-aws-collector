@@ -1,9 +1,11 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class Subnet {
-    private CustomVpc vpc;
+public class CustomSubnet {
+    private CustomVpc customVpc;
     private String state;
     private String availabilityZone;
     private String defaultForAz;
@@ -15,7 +17,7 @@ public class Subnet {
     private RouteTable routeTable;
     private String ownerID;
     private Nacl nacl;
-    private CustomTag[] tags;
+    private List<CustomTag> customTags;
     private String id;
     private String type;
     private String name;
@@ -25,9 +27,9 @@ public class Subnet {
     private ExternalFindings externalFindings;
 
     @JsonProperty("vpc")
-    public CustomVpc getVpc() { return vpc; }
+    public CustomVpc getCustomVpc() { return customVpc; }
     @JsonProperty("vpc")
-    public void setVpc(CustomVpc value) { this.vpc = value; }
+    public void setCustomVpc(CustomVpc value) { this.customVpc = value; }
 
     @JsonProperty("state")
     public String getState() { return state; }
@@ -85,9 +87,9 @@ public class Subnet {
     public void setNacl(Nacl value) { this.nacl = value; }
 
     @JsonProperty("tags")
-    public CustomTag[] getTags() { return tags; }
+    public List<CustomTag> getCustomTags() { return customTags; }
     @JsonProperty("tags")
-    public void setTags(CustomTag[] value) { this.tags = value; }
+    public void setCustomTags(List<CustomTag> value) { this.customTags = value; }
 
     @JsonProperty("id")
     public String getID() { return id; }

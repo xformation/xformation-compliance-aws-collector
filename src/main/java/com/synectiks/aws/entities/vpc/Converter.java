@@ -6,7 +6,7 @@
 //
 // Import this package:
 //
-//     import com.example.demo.pojo.vpc.Converter;
+//     import com.synectiks.aws.entities.vpc.Converter;
 //
 // Then you can deserialize a JSON string with
 //

@@ -1,11 +1,12 @@
 package com.synectiks.aws.entities.vpc;
 
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
 
 public class RouteTable {
-    private Association[] associations;
-    private PropagatingVgw[] propagatingVgws;
-    private Route[] routes;
+    private List<Association> associations;
+    private List<PropagatingVgw> propagatingVgws;
+    private List<Route> routes;
     private String routeTableID;
     private String vpcID;
     private Tags tags;
@@ -13,19 +14,19 @@ public class RouteTable {
     private TagsEntities tagsEntities;
 
     @JsonProperty("associations")
-    public Association[] getAssociations() { return associations; }
+    public List<Association> getAssociations() { return associations; }
     @JsonProperty("associations")
-    public void setAssociations(Association[] value) { this.associations = value; }
+    public void setAssociations(List<Association> value) { this.associations = value; }
 
     @JsonProperty("propagatingVgws")
-    public PropagatingVgw[] getPropagatingVgws() { return propagatingVgws; }
+    public List<PropagatingVgw> getPropagatingVgws() { return propagatingVgws; }
     @JsonProperty("propagatingVgws")
-    public void setPropagatingVgws(PropagatingVgw[] value) { this.propagatingVgws = value; }
+    public void setPropagatingVgws(List<PropagatingVgw> value) { this.propagatingVgws = value; }
 
     @JsonProperty("routes")
-    public Route[] getRoutes() { return routes; }
+    public List<Route> getRoutes() { return routes; }
     @JsonProperty("routes")
-    public void setRoutes(Route[] value) { this.routes = value; }
+    public void setRoutes(List<Route> value) { this.routes = value; }
 
     @JsonProperty("routeTableId")
     public String getRouteTableID() { return routeTableID; }

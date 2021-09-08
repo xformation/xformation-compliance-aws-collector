@@ -1,8 +1,7 @@
 package com.synectiks.aws.entities.vpc;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
 
 public class CustomVpc {
     private String cloudAccountID;
@@ -10,15 +9,15 @@ public class CustomVpc {
     private String region;
     private String id;
     private String accountNumber;
-    private VPNGateway[] vpnGateways;
-    private InternetGateway[] internetGateways;
+    private List<VPNGateway> vpnGateways;
+    private List<InternetGateway> internetGateways;
     private String dhcpOptionsID;
     private String instanceTenancy;
-    private boolean isDefault;
+    private String isDefault;
     private String state;
-    private CustomTag[] tags;
+    private List<CustomTag> tags;
     private String name;
-    private VpcPeeringConnection[] vpcPeeringConnections;
+    private List<VpcPeeringConnection> vpcPeeringConnections;
     private String source;
     private String ownerID;
 
@@ -48,14 +47,14 @@ public class CustomVpc {
     public void setAccountNumber(String value) { this.accountNumber = value; }
 
     @JsonProperty("vpnGateways")
-    public VPNGateway[] getVPNGateways() { return vpnGateways; }
+    public List<VPNGateway> getVPNGateways() { return vpnGateways; }
     @JsonProperty("vpnGateways")
-    public void setVPNGateways(VPNGateway[] value) { this.vpnGateways = value; }
+    public void setVPNGateways(List<VPNGateway> value) { this.vpnGateways = value; }
 
     @JsonProperty("internetGateways")
-    public InternetGateway[] getInternetGateways() { return internetGateways; }
+    public List<InternetGateway> getInternetGateways() { return internetGateways; }
     @JsonProperty("internetGateways")
-    public void setInternetGateways(InternetGateway[] value) { this.internetGateways = value; }
+    public void setInternetGateways(List<InternetGateway> value) { this.internetGateways = value; }
 
     @JsonProperty("dhcpOptionsId")
     public String getDHCPOptionsID() { return dhcpOptionsID; }
@@ -68,9 +67,9 @@ public class CustomVpc {
     public void setInstanceTenancy(String value) { this.instanceTenancy = value; }
 
     @JsonProperty("isDefault")
-    public boolean getIsDefault() { return isDefault; }
+    public String getIsDefault() { return isDefault; }
     @JsonProperty("isDefault")
-    public void setIsDefault(boolean value) { this.isDefault = value; }
+    public void setIsDefault(String value) { this.isDefault = value; }
 
     @JsonProperty("state")
     public String getState() { return state; }
@@ -78,9 +77,9 @@ public class CustomVpc {
     public void setState(String value) { this.state = value; }
 
     @JsonProperty("tags")
-    public CustomTag[] getTags() { return tags; }
+    public List<CustomTag> getTags() { return tags; }
     @JsonProperty("tags")
-    public void setTags(CustomTag[] value) { this.tags = value; }
+    public void setTags(List<CustomTag> value) { this.tags = value; }
 
     @JsonProperty("name")
     public String getName() { return name; }
@@ -88,9 +87,9 @@ public class CustomVpc {
     public void setName(String value) { this.name = value; }
 
     @JsonProperty("vpcPeeringConnections")
-    public VpcPeeringConnection[] getVpcPeeringConnections() { return vpcPeeringConnections; }
+    public List<VpcPeeringConnection> getVpcPeeringConnections() { return vpcPeeringConnections; }
     @JsonProperty("vpcPeeringConnections")
-    public void setVpcPeeringConnections(VpcPeeringConnection[] value) { this.vpcPeeringConnections = value; }
+    public void setVpcPeeringConnections(List<VpcPeeringConnection> value) { this.vpcPeeringConnections = value; }
 
     @JsonProperty("source")
     public String getSource() { return source; }
@@ -101,14 +100,4 @@ public class CustomVpc {
     public String getOwnerID() { return ownerID; }
     @JsonProperty("ownerId")
     public void setOwnerID(String value) { this.ownerID = value; }
-	@Override
-	public String toString() {
-		return "CustomVpc [cloudAccountID=" + cloudAccountID + ", cidr=" + cidr + ", region=" + region + ", id=" + id
-				+ ", accountNumber=" + accountNumber + ", vpnGateways=" + Arrays.toString(vpnGateways)
-				+ ", internetGateways=" + Arrays.toString(internetGateways) + ", dhcpOptionsID=" + dhcpOptionsID
-				+ ", instanceTenancy=" + instanceTenancy + ", isDefault=" + isDefault + ", state=" + state + ", tags="
-				+ Arrays.toString(tags) + ", name=" + name + ", vpcPeeringConnections="
-				+ Arrays.toString(vpcPeeringConnections) + ", source=" + source + ", ownerID=" + ownerID + "]";
-	}
-    
 }

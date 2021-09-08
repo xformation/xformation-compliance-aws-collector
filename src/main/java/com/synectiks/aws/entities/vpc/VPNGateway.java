@@ -1,6 +1,7 @@
 package com.synectiks.aws.entities.vpc;
 
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
 
 public class VPNGateway {
     private String availabilityZone;
@@ -8,8 +9,8 @@ public class VPNGateway {
     private String type;
     private String vpnGatewayID;
     private TagsEntities tags;
-    private DirectConnectVirtualInterface[] directConnectVirtualInterfaces;
-    private VpcAttachment[] vpcAttachments;
+    private List<DirectConnectVirtualInterface> directConnectVirtualInterfaces;
+    private List<VpcAttachment> vpcAttachments;
 
     @JsonProperty("availabilityZone")
     public String getAvailabilityZone() { return availabilityZone; }
@@ -37,12 +38,12 @@ public class VPNGateway {
     public void setTags(TagsEntities value) { this.tags = value; }
 
     @JsonProperty("directConnectVirtualInterfaces")
-    public DirectConnectVirtualInterface[] getDirectConnectVirtualInterfaces() { return directConnectVirtualInterfaces; }
+    public List<DirectConnectVirtualInterface> getDirectConnectVirtualInterfaces() { return directConnectVirtualInterfaces; }
     @JsonProperty("directConnectVirtualInterfaces")
-    public void setDirectConnectVirtualInterfaces(DirectConnectVirtualInterface[] value) { this.directConnectVirtualInterfaces = value; }
+    public void setDirectConnectVirtualInterfaces(List<DirectConnectVirtualInterface> value) { this.directConnectVirtualInterfaces = value; }
 
     @JsonProperty("vpcAttachments")
-    public VpcAttachment[] getVpcAttachments() { return vpcAttachments; }
+    public List<VpcAttachment> getVpcAttachments() { return vpcAttachments; }
     @JsonProperty("vpcAttachments")
-    public void setVpcAttachments(VpcAttachment[] value) { this.vpcAttachments = value; }
+    public void setVpcAttachments(List<VpcAttachment> value) { this.vpcAttachments = value; }
 }

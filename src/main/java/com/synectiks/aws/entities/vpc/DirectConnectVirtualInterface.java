@@ -1,19 +1,20 @@
 package com.synectiks.aws.entities.vpc;
 
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
 
 public class DirectConnectVirtualInterface {
     private String addressFamily;
     private String amazonAddress;
     private String asn;
     private String authKey;
-    private BGPPeer[] bgpPeers;
+    private List<BGPPeer> bgpPeers;
     private String connectionID;
     private String customerAddress;
     private String customerRouterConfig;
     private String location;
     private String ownerAccount;
-    private TagsEntities[] routeFilterPrefixes;
+    private List<TagsEntities> routeFilterPrefixes;
     private String virtualGatewayID;
     private String virtualInterfaceID;
     private String virtualInterfaceName;
@@ -44,9 +45,9 @@ public class DirectConnectVirtualInterface {
     public void setAuthKey(String value) { this.authKey = value; }
 
     @JsonProperty("bgpPeers")
-    public BGPPeer[] getBGPPeers() { return bgpPeers; }
+    public List<BGPPeer> getBGPPeers() { return bgpPeers; }
     @JsonProperty("bgpPeers")
-    public void setBGPPeers(BGPPeer[] value) { this.bgpPeers = value; }
+    public void setBGPPeers(List<BGPPeer> value) { this.bgpPeers = value; }
 
     @JsonProperty("connectionId")
     public String getConnectionID() { return connectionID; }
@@ -74,9 +75,9 @@ public class DirectConnectVirtualInterface {
     public void setOwnerAccount(String value) { this.ownerAccount = value; }
 
     @JsonProperty("routeFilterPrefixes")
-    public TagsEntities[] getRouteFilterPrefixes() { return routeFilterPrefixes; }
+    public List<TagsEntities> getRouteFilterPrefixes() { return routeFilterPrefixes; }
     @JsonProperty("routeFilterPrefixes")
-    public void setRouteFilterPrefixes(TagsEntities[] value) { this.routeFilterPrefixes = value; }
+    public void setRouteFilterPrefixes(List<TagsEntities> value) { this.routeFilterPrefixes = value; }
 
     @JsonProperty("virtualGatewayId")
     public String getVirtualGatewayID() { return virtualGatewayID; }

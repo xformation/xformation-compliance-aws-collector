@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.synectiks.aws.config.Constants;
+import com.synectiks.aws.entities.vpc.CustomSubnet;
 import com.synectiks.aws.entities.vpc.CustomTag;
 import com.synectiks.aws.entities.vpc.CustomVpc;
 
@@ -13,9 +14,12 @@ import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ec2.Ec2Client;
+import software.amazon.awssdk.services.ec2.model.DescribeSubnetsRequest;
+import software.amazon.awssdk.services.ec2.model.DescribeSubnetsResponse;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsResponse;
 import software.amazon.awssdk.services.ec2.model.Ec2Exception;
+import software.amazon.awssdk.services.ec2.model.Subnet;
 import software.amazon.awssdk.services.ec2.model.Tag;
 import software.amazon.awssdk.services.ec2.model.Vpc;
 
@@ -28,7 +32,53 @@ public class VpcProcessor {
 	public VpcProcessor() {
 
 	}
-
+	public static void main(String[] args) {
+		VpcProcessor vpcProcessor=new VpcProcessor();
+		vpcProcessor.describeSubnets();
+	}
+	public List<CustomSubnet> describeSubnets() {
+		Ec2Client ec2=getEC2Client();
+		List<CustomSubnet> customSubnets=new ArrayList<>();
+		DescribeSubnetsResponse describeSubnetsResponse=ec2.describeSubnets();
+		List<Subnet> subnets=describeSubnetsResponse.subnets();
+		for (Subnet subnet : subnets) {
+			CustomSubnet customSubnet=new CustomSubnet();
+//			customSubnet.setAccountNumber(subnet.);
+			customSubnet.setAvailabilityZone(customSubnet.getAvailabilityZone());
+			customSubnet.setAvailableIPAddressCount(subnet.availableIpAddressCount().toString());
+			customSubnet.setCIDR(subnet.cidrBlock());
+			customSubnet.setDefaultForAz(subnet.defaultForAz().toString());
+//			customSubnet.setDescription(subnet.);
+//			customSubnet.setDome9ID(value);
+//			customSubnet.setExternalFindings(subnet.e);
+//			customSubnet.setExternalID(subnet.);
+			customSubnet.setID(subnet.subnetId());
+			customSubnet.setMapPublicIPOnLaunch(subnet.mapPublicIpOnLaunch().toString());
+//			customSubnet.setNacl(subnet.);
+//			customSubnet.setName(subnet.);
+			customSubnet.setOwnerID(subnet.ownerId());
+//			customSubnet.setRegion(subnet.);
+//			customSubnet.setRouteTable(subnet.t);
+			customSubnet.setState(subnet.stateAsString());
+			customSubnet.setCustomTags(getCustomTagList(subnet.tags()));
+//			customSubnet.setType(subnet.ty);
+			List<CustomVpc> vpcs=describeEC2VpcById(null, subnet.vpcId());
+			customSubnet.setCustomVpc(vpcs.get(0));
+			customSubnets.add(customSubnet);
+		}
+		ec2.close();
+		System.out.println("subnets :: "+describeSubnetsResponse);
+		return customSubnets;
+	}
+	public List<CustomSubnet> describeSubnetByVpcId(String vpcId){
+		Ec2Client ec2=getEC2Client();
+		List<CustomSubnet> customSubnets=new ArrayList<>();
+//		DescribeVpcsRequest request = DescribeVpcsRequest.builder().vpcIds(vpcId).build();
+//		DescribeSubnetsRequest request=DescribeSubnetsRequest.builder().filters(null)
+//		DescribeSubnetsResponse describeSubnetsResponse=ec2.describeSubnets(request);
+		
+		return customSubnets;
+	}
 	public VpcProcessor(String accessKey, String secretKey, Region region) {
 		this.accessKey = accessKey;
 		this.secretKey = secretKey;
@@ -69,6 +119,7 @@ public class VpcProcessor {
 		Ec2Client ec2 = getEC2Client();
 		List<CustomVpc> customVpcs = null;
 		try {
+			
 			DescribeVpcsRequest request = DescribeVpcsRequest.builder().vpcIds(vpcId).build();
 			DescribeVpcsResponse response = ec2.describeVpcs(request);
 			customVpcs = getAllCustomVpc(response.vpcs());
@@ -121,7 +172,7 @@ public class VpcProcessor {
 		customVpc.setInternetGateways(null);
 		customVpc.setDHCPOptionsID(vpc.dhcpOptionsId());
 		customVpc.setInstanceTenancy(vpc.instanceTenancyAsString());
-		customVpc.setIsDefault(vpc.isDefault());
+		customVpc.setIsDefault(vpc.isDefault().toString());
 		customVpc.setState(vpc.stateAsString());
 		customVpc.setTags(getCustomTagList(vpc.tags()));
 		customVpc.setName(null);
@@ -131,18 +182,15 @@ public class VpcProcessor {
 		return customVpc;
 	}
 
-	public CustomTag[] getCustomTagList(List<Tag> tags) {
-//		List<CustomTag> customTags=new ArrayList<CustomTag>();
-		CustomTag[] customTags = new CustomTag[(tags.size())];
-		for (int i = 0; i < tags.size(); i++) {
-			Tag tag = tags.get(i);
+	public List<CustomTag> getCustomTagList(List<Tag> tags) {
+		List<CustomTag> customTags=new ArrayList<CustomTag>();
+		for (Tag tag : tags) {
 			CustomTag customTag = new CustomTag();
 			customTag.setKey(tag.key());
 			customTag.setValue(tag.value());
-//			customTags.add(customTag);
-			customTags[i] = customTag;
-
+			customTags.add(customTag);
 		}
 		return customTags;
 	}
+	
 }

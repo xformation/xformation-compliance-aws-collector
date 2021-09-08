@@ -1,23 +1,22 @@
 package com.synectiks.aws.entities.vpc;
 
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
 
 public class Welcome {
-    private String cidr;
-    private Subnet[] subnets;
-    private String dhcpOptionsID;
-    private String instanceTenancy;
-    private String isDefault;
-    private String state;
-    private VPNGateway[] vpnGateways;
-    private InternetGateway[] internetGateways;
-    private TransitGateway[] transitGateways;
-    private RouteTable[] routeTables;
-    private VpcPeeringConnection[] vpcPeeringConnections;
-    private String hasFlowLogs;
-    private FlowLog[] flowLogs;
     private CustomVpc vpc;
-    private CustomTag[] tags;
+    private String state;
+    private String availabilityZone;
+    private String defaultForAz;
+    private String mapPublicIPOnLaunch;
+    private String availableIPAddressCount;
+    private String externalID;
+    private String description;
+    private String cidr;
+    private RouteTable routeTable;
+    private String ownerID;
+    private Nacl nacl;
+    private List<CustomTag> tags;
     private String id;
     private String type;
     private String name;
@@ -26,80 +25,70 @@ public class Welcome {
     private String region;
     private ExternalFindings externalFindings;
 
-    @JsonProperty("cidr")
-    public String getCIDR() { return cidr; }
-    @JsonProperty("cidr")
-    public void setCIDR(String value) { this.cidr = value; }
-
-    @JsonProperty("subnets")
-    public Subnet[] getSubnets() { return subnets; }
-    @JsonProperty("subnets")
-    public void setSubnets(Subnet[] value) { this.subnets = value; }
-
-    @JsonProperty("dhcpOptionsId")
-    public String getDHCPOptionsID() { return dhcpOptionsID; }
-    @JsonProperty("dhcpOptionsId")
-    public void setDHCPOptionsID(String value) { this.dhcpOptionsID = value; }
-
-    @JsonProperty("instanceTenancy")
-    public String getInstanceTenancy() { return instanceTenancy; }
-    @JsonProperty("instanceTenancy")
-    public void setInstanceTenancy(String value) { this.instanceTenancy = value; }
-
-    @JsonProperty("isDefault")
-    public String getIsDefault() { return isDefault; }
-    @JsonProperty("isDefault")
-    public void setIsDefault(String value) { this.isDefault = value; }
+    @JsonProperty("vpc")
+    public CustomVpc getVpc() { return vpc; }
+    @JsonProperty("vpc")
+    public void setVpc(CustomVpc value) { this.vpc = value; }
 
     @JsonProperty("state")
     public String getState() { return state; }
     @JsonProperty("state")
     public void setState(String value) { this.state = value; }
 
-    @JsonProperty("vpnGateways")
-    public VPNGateway[] getVPNGateways() { return vpnGateways; }
-    @JsonProperty("vpnGateways")
-    public void setVPNGateways(VPNGateway[] value) { this.vpnGateways = value; }
+    @JsonProperty("availabilityZone")
+    public String getAvailabilityZone() { return availabilityZone; }
+    @JsonProperty("availabilityZone")
+    public void setAvailabilityZone(String value) { this.availabilityZone = value; }
 
-    @JsonProperty("internetGateways")
-    public InternetGateway[] getInternetGateways() { return internetGateways; }
-    @JsonProperty("internetGateways")
-    public void setInternetGateways(InternetGateway[] value) { this.internetGateways = value; }
+    @JsonProperty("defaultForAz")
+    public String getDefaultForAz() { return defaultForAz; }
+    @JsonProperty("defaultForAz")
+    public void setDefaultForAz(String value) { this.defaultForAz = value; }
 
-    @JsonProperty("transitGateways")
-    public TransitGateway[] getTransitGateways() { return transitGateways; }
-    @JsonProperty("transitGateways")
-    public void setTransitGateways(TransitGateway[] value) { this.transitGateways = value; }
+    @JsonProperty("mapPublicIpOnLaunch")
+    public String getMapPublicIPOnLaunch() { return mapPublicIPOnLaunch; }
+    @JsonProperty("mapPublicIpOnLaunch")
+    public void setMapPublicIPOnLaunch(String value) { this.mapPublicIPOnLaunch = value; }
 
-    @JsonProperty("routeTables")
-    public RouteTable[] getRouteTables() { return routeTables; }
-    @JsonProperty("routeTables")
-    public void setRouteTables(RouteTable[] value) { this.routeTables = value; }
+    @JsonProperty("availableIpAddressCount")
+    public String getAvailableIPAddressCount() { return availableIPAddressCount; }
+    @JsonProperty("availableIpAddressCount")
+    public void setAvailableIPAddressCount(String value) { this.availableIPAddressCount = value; }
 
-    @JsonProperty("vpcPeeringConnections")
-    public VpcPeeringConnection[] getVpcPeeringConnections() { return vpcPeeringConnections; }
-    @JsonProperty("vpcPeeringConnections")
-    public void setVpcPeeringConnections(VpcPeeringConnection[] value) { this.vpcPeeringConnections = value; }
+    @JsonProperty("externalId")
+    public String getExternalID() { return externalID; }
+    @JsonProperty("externalId")
+    public void setExternalID(String value) { this.externalID = value; }
 
-    @JsonProperty("hasFlowLogs")
-    public String getHasFlowLogs() { return hasFlowLogs; }
-    @JsonProperty("hasFlowLogs")
-    public void setHasFlowLogs(String value) { this.hasFlowLogs = value; }
+    @JsonProperty("description")
+    public String getDescription() { return description; }
+    @JsonProperty("description")
+    public void setDescription(String value) { this.description = value; }
 
-    @JsonProperty("flowLogs")
-    public FlowLog[] getFlowLogs() { return flowLogs; }
-    @JsonProperty("flowLogs")
-    public void setFlowLogs(FlowLog[] value) { this.flowLogs = value; }
+    @JsonProperty("cidr")
+    public String getCIDR() { return cidr; }
+    @JsonProperty("cidr")
+    public void setCIDR(String value) { this.cidr = value; }
 
-    @JsonProperty("vpc")
-    public CustomVpc getVpc() { return vpc; }
-    @JsonProperty("vpc")
-    public void setVpc(CustomVpc value) { this.vpc = value; }
+    @JsonProperty("routeTable")
+    public RouteTable getRouteTable() { return routeTable; }
+    @JsonProperty("routeTable")
+    public void setRouteTable(RouteTable value) { this.routeTable = value; }
+
+    @JsonProperty("ownerId")
+    public String getOwnerID() { return ownerID; }
+    @JsonProperty("ownerId")
+    public void setOwnerID(String value) { this.ownerID = value; }
+
+    @JsonProperty("nacl")
+    public Nacl getNacl() { return nacl; }
+    @JsonProperty("nacl")
+    public void setNacl(Nacl value) { this.nacl = value; }
 
     @JsonProperty("tags")
-    public CustomTag[] getTags() { return tags; }
+    public List<CustomTag> getTags() { return tags; }
     @JsonProperty("tags")
-    public void setTags(CustomTag[] value) { this.tags = value; }
+    public void setTags(List<CustomTag> value) { this.tags = value; }
 
     @JsonProperty("id")
     public String getID() { return id; }

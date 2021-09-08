@@ -15,9 +15,4 @@ public class CustomTag {
     public String getValue() { return value; }
     @JsonProperty("value")
     public void setValue(String value) { this.value = value; }
-	@Override
-	public String toString() {
-		return "CustomTag [key=" + key + ", value=" + value + "]";
-	}
-    
 }

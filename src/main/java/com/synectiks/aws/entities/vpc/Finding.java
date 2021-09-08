@@ -1,6 +1,7 @@
 package com.synectiks.aws.entities.vpc;
 
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
 
 public class Finding {
     private String receivedTimeStamp;
@@ -20,10 +21,10 @@ public class Finding {
     private String findingStatus;
     private String findingRecommendation;
     private String findingCategory;
-    private TagsEntities[] relatedFindingsRef;
+    private List<TagsEntities> relatedFindingsRef;
     private String ruleID;
     private FindingRulesPackage findingRulesPackage;
-    private AdditionalField[] additionalFields;
+    private List<AdditionalField> additionalFields;
 
     @JsonProperty("receivedTimeStamp")
     public String getReceivedTimeStamp() { return receivedTimeStamp; }
@@ -111,9 +112,9 @@ public class Finding {
     public void setFindingCategory(String value) { this.findingCategory = value; }
 
     @JsonProperty("relatedFindingsRef")
-    public TagsEntities[] getRelatedFindingsRef() { return relatedFindingsRef; }
+    public List<TagsEntities> getRelatedFindingsRef() { return relatedFindingsRef; }
     @JsonProperty("relatedFindingsRef")
-    public void setRelatedFindingsRef(TagsEntities[] value) { this.relatedFindingsRef = value; }
+    public void setRelatedFindingsRef(List<TagsEntities> value) { this.relatedFindingsRef = value; }
 
     @JsonProperty("ruleId")
     public String getRuleID() { return ruleID; }
@@ -126,7 +127,7 @@ public class Finding {
     public void setFindingRulesPackage(FindingRulesPackage value) { this.findingRulesPackage = value; }
 
     @JsonProperty("additionalFields")
-    public AdditionalField[] getAdditionalFields() { return additionalFields; }
+    public List<AdditionalField> getAdditionalFields() { return additionalFields; }
     @JsonProperty("additionalFields")
-    public void setAdditionalFields(AdditionalField[] value) { this.additionalFields = value; }
+    public void setAdditionalFields(List<AdditionalField> value) { this.additionalFields = value; }
 }

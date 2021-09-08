@@ -1,10 +1,11 @@
 package com.synectiks.aws.entities.vpc;
 
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
 
 public class InternetGateway {
     private String externalID;
-    private VpcAttachment[] vpcAttachments;
+    private List<VpcAttachment> vpcAttachments;
     private String name;
 
     @JsonProperty("externalId")
@@ -13,9 +14,9 @@ public class InternetGateway {
     public void setExternalID(String value) { this.externalID = value; }
 
     @JsonProperty("vpcAttachments")
-    public VpcAttachment[] getVpcAttachments() { return vpcAttachments; }
+    public List<VpcAttachment> getVpcAttachments() { return vpcAttachments; }
     @JsonProperty("vpcAttachments")
-    public void setVpcAttachments(VpcAttachment[] value) { this.vpcAttachments = value; }
+    public void setVpcAttachments(List<VpcAttachment> value) { this.vpcAttachments = value; }
 
     @JsonProperty("name")
     public String getName() { return name; }

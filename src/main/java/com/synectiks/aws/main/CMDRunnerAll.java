@@ -49,7 +49,7 @@ public class CMDRunnerAll {
 
 	public static void getHelp(Options options) {
 		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp("vpc -id <vpcId> -r <region> -a <access key> -s secret key", "Type vpc, ec2, s3rds",
+		formatter.printHelp("vpc -id <vpcId> -r <region> -a <access key> -s secret key", "Type vpc, ec2, s3rds and subnets",
 				options, "vpc for get vpc\n ec2 for describe ec2 instance\n s3rds for describe s3rds");
 	}
 
@@ -108,7 +108,11 @@ public class CMDRunnerAll {
 				DescribeS3RdsDBInstances describeS3RdsDBInstances = new DescribeS3RdsDBInstances(reg,
 						asAwsCredentialsProvider);
 				System.out.println(describeS3RdsDBInstances.describeInstances());
-			} else {
+			} else if (firstArg.equalsIgnoreCase("subnets")) {
+				VpcProcessor vpcProcessor=new VpcProcessor();
+				System.out.println(vpcProcessor.describeSubnets());
+			} 
+			else {
 				System.out.println("please Enter valid command");
 				System.out.println("To get more information type -h or -help");
 			}

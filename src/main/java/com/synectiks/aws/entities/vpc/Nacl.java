@@ -1,9 +1,10 @@
 package com.synectiks.aws.entities.vpc;
 
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
 
 public class Nacl {
-    private CustomTag[] tags;
+    private List<CustomTag> tags;
     private ExternalFindings externalFindings;
     private String source;
     private String type;
@@ -13,14 +14,14 @@ public class Nacl {
     private String dome9ID;
     private String accountNumber;
     private String region;
-    private Bound[] inbound;
-    private Bound[] outbound;
+    private List<Bound> inbound;
+    private List<Bound> outbound;
     private String isDefault;
 
     @JsonProperty("tags")
-    public CustomTag[] getTags() { return tags; }
+    public List<CustomTag> getTags() { return tags; }
     @JsonProperty("tags")
-    public void setTags(CustomTag[] value) { this.tags = value; }
+    public void setTags(List<CustomTag> value) { this.tags = value; }
 
     @JsonProperty("externalFindings")
     public ExternalFindings getExternalFindings() { return externalFindings; }
@@ -68,14 +69,14 @@ public class Nacl {
     public void setRegion(String value) { this.region = value; }
 
     @JsonProperty("inbound")
-    public Bound[] getInbound() { return inbound; }
+    public List<Bound> getInbound() { return inbound; }
     @JsonProperty("inbound")
-    public void setInbound(Bound[] value) { this.inbound = value; }
+    public void setInbound(List<Bound> value) { this.inbound = value; }
 
     @JsonProperty("outbound")
-    public Bound[] getOutbound() { return outbound; }
+    public List<Bound> getOutbound() { return outbound; }
     @JsonProperty("outbound")
-    public void setOutbound(Bound[] value) { this.outbound = value; }
+    public void setOutbound(List<Bound> value) { this.outbound = value; }
 
     @JsonProperty("isDefault")
     public String getIsDefault() { return isDefault; }
