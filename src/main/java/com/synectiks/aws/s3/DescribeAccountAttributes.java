@@ -2,6 +2,8 @@ package com.synectiks.aws.s3;
 
 import java.util.List;
 
+import com.synectiks.aws.config.Constants;
+
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rds.RdsClient;
 import software.amazon.awssdk.services.rds.model.AccountQuota;
@@ -13,7 +15,7 @@ public class DescribeAccountAttributes {
 
 	public static void main(String[] args) {
 
-		Region region = Region.US_WEST_2;
+		Region region = Constants.DEFAULT_REGION;
 		RdsClient rdsClient = RdsClient.builder().region(region).build();
 
 		getAccountAttributes(rdsClient);

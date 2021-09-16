@@ -1,19 +1,18 @@
 package com.synectiks.aws.entities.vpc;
 
-import java.util.List;
+import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 public class ExternalFindings {
-	private List<Finding> findings;
+    private Finding[] findings;
 
-	@JsonProperty("findings")
-	public List<Finding> getFindings() {
-		return findings;
-	}
-
-	@JsonProperty("findings")
-	public void setFindings(List<Finding> value) {
-		this.findings = value;
+    @JsonProperty("findings")
+    public Finding[] getFindings() { return findings; }
+    @JsonProperty("findings")
+    public void setFindings(Finding[] value) { this.findings = value; }
+	@Override
+	public String toString() {
+		return "ExternalFindings [findings=" + Arrays.toString(findings) + "]";
 	}
 }
