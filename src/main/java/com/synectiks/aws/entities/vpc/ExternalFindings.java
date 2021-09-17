@@ -1,11 +1,16 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.*;
 
-public class ExternalFindings {
-    private Finding[] findings;
+public class ExternalFindings implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Finding[] findings;
 
     @JsonProperty("findings")
     public Finding[] getFindings() { return findings; }

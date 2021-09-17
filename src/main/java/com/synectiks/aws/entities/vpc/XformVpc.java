@@ -1,11 +1,16 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class XformVpc {
-    private String cidr;
+public class XformVpc implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String cidr;
     private List<Subnet> subnets;
     private String dhcpOptionsID;
     private String instanceTenancy;

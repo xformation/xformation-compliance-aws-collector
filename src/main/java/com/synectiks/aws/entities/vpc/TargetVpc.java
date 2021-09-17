@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class TargetVpc {
-    private String cloudAccountID;
+public class TargetVpc implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String cloudAccountID;
     private String cidr;
     private String id;
     private String dhcpOptionsID;

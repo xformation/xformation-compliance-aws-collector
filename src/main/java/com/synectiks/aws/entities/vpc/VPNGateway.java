@@ -1,11 +1,16 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.*;
 
-public class VPNGateway {
-    private String availabilityZone;
+public class VPNGateway implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String availabilityZone;
     private String state;
     private String type;
     private String vpnGatewayID;

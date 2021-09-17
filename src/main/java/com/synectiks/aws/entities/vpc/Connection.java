@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class Connection {
-    private String connectionID;
+public class Connection implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String connectionID;
     private String connectionName;
     private String connectionState;
     private String location;

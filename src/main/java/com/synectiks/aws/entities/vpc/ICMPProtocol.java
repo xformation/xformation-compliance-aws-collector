@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class ICMPProtocol {
-    private String type;
+public class ICMPProtocol implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String type;
     private String code;
     private String description;
 

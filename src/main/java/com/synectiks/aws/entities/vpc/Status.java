@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class Status {
-    private String message;
+public class Status implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String message;
     private String code;
 
     @JsonProperty("message")

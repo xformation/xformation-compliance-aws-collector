@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class FlowLog {
-    private String id;
+public class FlowLog implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String id;
     private String vpcID;
     private String logGroupName;
     private String statusActive;

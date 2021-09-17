@@ -1,11 +1,16 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.*;
 
-public class DirectConnectVirtualInterface {
-    private String addressFamily;
+public class DirectConnectVirtualInterface implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String addressFamily;
     private String amazonAddress;
     private String asn;
     private String authKey;

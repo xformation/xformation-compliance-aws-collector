@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class Tags {
-    private StringClass string;
+public class Tags implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private StringClass string;
 
     @JsonProperty("string")
     public StringClass getString() { return string; }

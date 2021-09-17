@@ -1,11 +1,16 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Subnet {
-    private Vpc vpc;
+public class Subnet implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Vpc vpc;
     private String state;
     private String availabilityZone;
     private Boolean defaultForAz;

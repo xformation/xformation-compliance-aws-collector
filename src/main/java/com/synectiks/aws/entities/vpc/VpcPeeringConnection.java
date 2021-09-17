@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class VpcPeeringConnection {
-    private String vpcPeeringConnectionID;
+public class VpcPeeringConnection implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String vpcPeeringConnectionID;
     private TargetVpc targetVpc;
     private Status status;
     private String expirationTime;

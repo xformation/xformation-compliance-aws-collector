@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class Bound {
-    private ICMPProtocol icmpProtocol;
+public class Bound implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ICMPProtocol icmpProtocol;
     private String name;
     private String number;
     private String protocol;

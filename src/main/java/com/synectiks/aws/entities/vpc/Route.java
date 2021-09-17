@@ -1,9 +1,15 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.*;
 
-public class Route {
-    private String destinationCIDRBlock;
+public class Route implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String destinationCIDRBlock;
     private String destinationIpv6CIDRBlock;
     private String destinationPrefixListID;
     private String egressOnlyInternetGatewayID;

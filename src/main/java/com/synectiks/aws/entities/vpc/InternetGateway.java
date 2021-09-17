@@ -1,11 +1,16 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.*;
 
-public class InternetGateway {
-    private String externalID;
+public class InternetGateway implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String externalID;
     private VpcAttachment[] vpcAttachments;
     private String name;
 

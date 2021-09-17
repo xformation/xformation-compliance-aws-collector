@@ -1,11 +1,16 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.*;
 
-public class RouteTable {
-    private Association[] associations;
+public class RouteTable implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Association[] associations;
     private PropagatingVgw[] propagatingVgws;
     private Route[] routes;
     private String routeTableID;

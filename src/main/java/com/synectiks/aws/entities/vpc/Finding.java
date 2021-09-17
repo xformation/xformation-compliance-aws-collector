@@ -1,11 +1,16 @@
 package com.synectiks.aws.entities.vpc;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.*;
 
-public class Finding {
-    private String receivedTimeStamp;
+public class Finding implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String receivedTimeStamp;
     private String findingSeverity;
     private String originalFindingSeverity;
     private String resourceID;
