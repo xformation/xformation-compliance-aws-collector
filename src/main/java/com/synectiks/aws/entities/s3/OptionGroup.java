@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OptionGroup {
+public class OptionGroup implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String allowsVpcAndNonVpcInstanceMemberships;
 	private String engineName;
 	private String majorEngineVersion;
@@ -91,4 +97,14 @@ public class OptionGroup {
 	public void setStatus(String value) {
 		this.status = value;
 	}
+
+	@Override
+	public String toString() {
+		return "OptionGroup [allowsVpcAndNonVpcInstanceMemberships=" + allowsVpcAndNonVpcInstanceMemberships
+				+ ", engineName=" + engineName + ", majorEngineVersion=" + majorEngineVersion + ", optionGroupArn="
+				+ optionGroupArn + ", optionGroupDescription=" + optionGroupDescription + ", optionGroupName="
+				+ optionGroupName + ", vpcID=" + vpcID + ", status=" + status + "]";
+	}
+	
+	
 }

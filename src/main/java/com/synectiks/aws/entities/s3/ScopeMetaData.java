@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ScopeMetaData {
+public class ScopeMetaData implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String vpcID;
 	private String region;
 	private AccountInfo accountInfo;
@@ -47,4 +53,12 @@ public class ScopeMetaData {
 	public void setAccountNumber(String value) {
 		this.accountNumber = value;
 	}
+
+	@Override
+	public String toString() {
+		return "ScopeMetaData [vpcID=" + vpcID + ", region=" + region + ", accountInfo=" + accountInfo
+				+ ", accountNumber=" + accountNumber + "]";
+	}
+	
+	
 }

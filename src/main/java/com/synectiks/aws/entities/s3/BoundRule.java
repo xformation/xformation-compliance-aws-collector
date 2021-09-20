@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BoundRule {
+public class BoundRule implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String protocol;
 	private String port;
 	private String portTo;
@@ -69,4 +75,11 @@ public class BoundRule {
 	public void setServiceType(String value) {
 		this.serviceType = value;
 	}
+
+	@Override
+	public String toString() {
+		return "BoundRule [protocol=" + protocol + ", port=" + port + ", portTo=" + portTo + ", scope=" + scope
+				+ ", scopeMetaData=" + scopeMetaData + ", serviceType=" + serviceType + "]";
+	}
+
 }

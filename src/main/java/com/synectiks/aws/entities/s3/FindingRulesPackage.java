@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class FindingRulesPackage {
+public class FindingRulesPackage implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String name;
 	private String provider;
@@ -47,4 +53,11 @@ public class FindingRulesPackage {
 	public void setVersion(String value) {
 		this.version = value;
 	}
+
+	@Override
+	public String toString() {
+		return "FindingRulesPackage [id=" + id + ", name=" + name + ", provider=" + provider + ", version=" + version
+				+ "]";
+	}
+
 }

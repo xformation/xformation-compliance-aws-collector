@@ -1,10 +1,11 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Subnet {
+public class Subnet implements Serializable{
 	private Vpc vpc;
 	private String state;
 	private String availabilityZone;
@@ -225,4 +226,16 @@ public class Subnet {
 	public void setExternalFindings(ExternalFindings value) {
 		this.externalFindings = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Subnet [vpc=" + vpc + ", state=" + state + ", availabilityZone=" + availabilityZone + ", defaultForAz="
+				+ defaultForAz + ", mapPublicIPOnLaunch=" + mapPublicIPOnLaunch + ", availableIPAddressCount="
+				+ availableIPAddressCount + ", externalID=" + externalID + ", description=" + description + ", cidr="
+				+ cidr + ", routeTable=" + routeTable + ", ownerID=" + ownerID + ", nacl=" + nacl + ", tags=" + tags
+				+ ", id=" + id + ", type=" + type + ", name=" + name + ", dome9ID=" + dome9ID + ", accountNumber="
+				+ accountNumber + ", region=" + region + ", externalFindings=" + externalFindings + "]";
+	}
+	
+	
 }

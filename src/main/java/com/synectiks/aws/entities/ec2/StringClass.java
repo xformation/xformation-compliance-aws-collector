@@ -1,17 +1,18 @@
 package com.synectiks.aws.entities.ec2;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 
-public class StringClass {
+import com.fasterxml.jackson.annotation.*;
+
+public class StringClass implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String length;
 
-	@JsonProperty("length")
-	public String getLength() {
-		return length;
-	}
-
-	@JsonProperty("length")
-	public void setLength(String value) {
-		this.length = value;
-	}
+    @JsonProperty("length")
+    public String getLength() { return length; }
+    @JsonProperty("length")
+    public void setLength(String value) { this.length = value; }
 }

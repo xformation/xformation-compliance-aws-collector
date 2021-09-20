@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class NetworkInterface {
+public class NetworkInterface implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private NetworkInterfaceAssociation association;
 	private Attachment attachment;
@@ -203,4 +208,16 @@ public class NetworkInterface {
 	public void setSubnetID(String value) {
 		this.subnetID = value;
 	}
+
+	@Override
+	public String toString() {
+		return "NetworkInterface [name=" + name + ", association=" + association + ", attachment=" + attachment
+				+ ", availabilityZone=" + availabilityZone + ", description=" + description + ", interfaceType="
+				+ interfaceType + ", ipv6Addresses=" + ipv6Addresses + ", macAddress=" + macAddress
+				+ ", networkInterfaceID=" + networkInterfaceID + ", ownerID=" + ownerID + ", privateDNSName="
+				+ privateDNSName + ", privateIPAddress=" + privateIPAddress + ", privateIPAddresses="
+				+ privateIPAddresses + ", requesterID=" + requesterID + ", requesterManaged=" + requesterManaged
+				+ ", sourceDestCheck=" + sourceDestCheck + ", status=" + status + ", subnetID=" + subnetID + "]";
+	}
+
 }

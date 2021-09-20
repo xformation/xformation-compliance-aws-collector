@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AccountInfo {
+public class AccountInfo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String name;
 	private String externalAccountNumber;
@@ -36,4 +42,10 @@ public class AccountInfo {
 	public void setExternalAccountNumber(String value) {
 		this.externalAccountNumber = value;
 	}
+
+	@Override
+	public String toString() {
+		return "AccountInfo [id=" + id + ", name=" + name + ", externalAccountNumber=" + externalAccountNumber + "]";
+	}
+
 }

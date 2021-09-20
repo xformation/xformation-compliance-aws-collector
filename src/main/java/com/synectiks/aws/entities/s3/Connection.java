@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Connection {
+public class Connection implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String connectionID;
 	private String connectionName;
 	private String connectionState;
@@ -80,4 +86,12 @@ public class Connection {
 	public void setVLAN(String value) {
 		this.vlan = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Connection [connectionID=" + connectionID + ", connectionName=" + connectionName + ", connectionState="
+				+ connectionState + ", location=" + location + ", partnerName=" + partnerName + ", bandwidth="
+				+ bandwidth + ", vlan=" + vlan + "]";
+	}
+
 }

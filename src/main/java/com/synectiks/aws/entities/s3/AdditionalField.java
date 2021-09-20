@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AdditionalField {
+public class AdditionalField implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String value;
 	private String comment;
@@ -36,4 +42,10 @@ public class AdditionalField {
 	public void setComment(String value) {
 		this.comment = value;
 	}
+
+	@Override
+	public String toString() {
+		return "AdditionalField [name=" + name + ", value=" + value + ", comment=" + comment + "]";
+	}
+
 }

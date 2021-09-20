@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.ec2;
 
+import com.fasterxml.jackson.annotation.*;
+
+import java.io.Serializable;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class CustomInstance {
+public class XformEc2Instance implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String image;
 	private ImageDetails imageDetails;
 	private String kernelID;
@@ -24,12 +29,11 @@ public class CustomInstance {
 	private String privateDNS;
 	private String publicDNS;
 	private SsmAgentInstanceInformation ssmAgentInstanceInformation;
-	private List<CustomTag> tags;
-	private CustomVpc vpc;
+	private List<Tag> tags;
+	private Vpc vpc;
 	private String id;
 	private String type;
 	private String name;
-	private String dome9ID;
 	private String accountNumber;
 	private String region;
 	private ExternalFindings externalFindings;
@@ -225,22 +229,22 @@ public class CustomInstance {
 	}
 
 	@JsonProperty("tags")
-	public List<CustomTag> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
 	@JsonProperty("tags")
-	public void setTags(List<CustomTag> value) {
+	public void setTags(List<Tag> value) {
 		this.tags = value;
 	}
 
 	@JsonProperty("vpc")
-	public CustomVpc getVpc() {
+	public Vpc getVpc() {
 		return vpc;
 	}
 
 	@JsonProperty("vpc")
-	public void setVpc(CustomVpc value) {
+	public void setVpc(Vpc value) {
 		this.vpc = value;
 	}
 
@@ -274,16 +278,6 @@ public class CustomInstance {
 		this.name = value;
 	}
 
-	@JsonProperty("dome9Id")
-	public String getDome9ID() {
-		return dome9ID;
-	}
-
-	@JsonProperty("dome9Id")
-	public void setDome9ID(String value) {
-		this.dome9ID = value;
-	}
-
 	@JsonProperty("accountNumber")
 	public String getAccountNumber() {
 		return accountNumber;
@@ -314,25 +308,17 @@ public class CustomInstance {
 		this.externalFindings = value;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	@Override
 	public String toString() {
-		return "CustomInstance [image=" + image + ", imageDetails=" + imageDetails + ", kernelID=" + kernelID
+		return "XformEc2Instance [image=" + image + ", imageDetails=" + imageDetails + ", kernelID=" + kernelID
 				+ ", platform=" + platform + ", launchTime=" + launchTime + ", inboundRules=" + inboundRules
 				+ ", outboundRules=" + outboundRules + ", nics=" + nics + ", isPublic=" + isPublic + ", instanceType="
 				+ instanceType + ", isRunning=" + isRunning + ", volumes=" + volumes + ", profileArn=" + profileArn
 				+ ", roles=" + roles + ", scanners=" + scanners + ", autoScalingGroup=" + autoScalingGroup
 				+ ", privateDNS=" + privateDNS + ", publicDNS=" + publicDNS + ", ssmAgentInstanceInformation="
 				+ ssmAgentInstanceInformation + ", tags=" + tags + ", vpc=" + vpc + ", id=" + id + ", type=" + type
-				+ ", name=" + name + ", dome9ID=" + dome9ID + ", accountNumber=" + accountNumber + ", region=" + region
-				+ ", externalFindings=" + externalFindings + "]";
+				+ ", name=" + name + ", accountNumber=" + accountNumber + ", region=" + region + ", externalFindings="
+				+ externalFindings + "]";
 	}
 
 }

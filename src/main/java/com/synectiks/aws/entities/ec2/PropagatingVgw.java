@@ -1,17 +1,24 @@
 package com.synectiks.aws.entities.ec2;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 
-public class PropagatingVgw {
+import com.fasterxml.jackson.annotation.*;
+
+public class PropagatingVgw implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String gatewayID;
 
-	@JsonProperty("gatewayId")
-	public String getGatewayID() {
-		return gatewayID;
+    @JsonProperty("gatewayId")
+    public String getGatewayID() { return gatewayID; }
+    @JsonProperty("gatewayId")
+    public void setGatewayID(String value) { this.gatewayID = value; }
+	@Override
+	public String toString() {
+		return "PropagatingVgw [gatewayID=" + gatewayID + "]";
 	}
-
-	@JsonProperty("gatewayId")
-	public void setGatewayID(String value) {
-		this.gatewayID = value;
-	}
+    
+    
 }

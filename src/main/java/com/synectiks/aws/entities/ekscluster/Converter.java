@@ -17,10 +17,9 @@ package com.synectiks.aws.entities.ekscluster;
 import java.io.IOException;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.synectiks.aws.entities.s3.XformS3RDSEntity;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.*;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -67,7 +66,11 @@ public class Converter {
     public static String toJsonString(XformEksCluster obj) throws JsonProcessingException {
         return getObjectWriter().writeValueAsString(obj);
     }
-
+    public static String toPrettyJsonString(XformS3RDSEntity obj) throws JsonProcessingException {
+        return getObjectWriter()
+        		.with(SerializationFeature.INDENT_OUTPUT)
+        		.writeValueAsString(obj);
+    }
     private static ObjectReader reader;
     private static ObjectWriter writer;
 

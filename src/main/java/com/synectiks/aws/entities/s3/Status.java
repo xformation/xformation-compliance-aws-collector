@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Status {
+public class Status implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String message;
 	private String code;
 
@@ -25,4 +31,11 @@ public class Status {
 	public void setCode(String value) {
 		this.code = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Status [message=" + message + ", code=" + code + "]";
+	}
+	
+	
 }

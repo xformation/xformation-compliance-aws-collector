@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class NetworkInterfaceAssociation {
+public class NetworkInterfaceAssociation implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String allocationID;
 	private String associationID;
 	private String ipOwnerID;
@@ -44,6 +50,12 @@ public class NetworkInterfaceAssociation {
 		return publicDNSName;
 	}
 
+	@Override
+	public String toString() {
+		return "NetworkInterfaceAssociation [allocationID=" + allocationID + ", associationID=" + associationID
+				+ ", ipOwnerID=" + ipOwnerID + ", publicDNSName=" + publicDNSName + ", publicIP=" + publicIP + "]";
+	}
+
 	@JsonProperty("publicDnsName")
 	public void setPublicDNSName(String value) {
 		this.publicDNSName = value;
@@ -58,4 +70,5 @@ public class NetworkInterfaceAssociation {
 	public void setPublicIP(String value) {
 		this.publicIP = value;
 	}
+
 }

@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Route {
+public class Route implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String destinationCIDRBlock;
 	private String destinationIpv6CIDRBlock;
 	private String destinationPrefixListID;
@@ -134,5 +140,15 @@ public class Route {
 	@JsonProperty("vpcPeeringConnectionId")
 	public void setVpcPeeringConnectionID(String value) {
 		this.vpcPeeringConnectionID = value;
+	}
+
+	@Override
+	public String toString() {
+		return "Route [destinationCIDRBlock=" + destinationCIDRBlock + ", destinationIpv6CIDRBlock="
+				+ destinationIpv6CIDRBlock + ", destinationPrefixListID=" + destinationPrefixListID
+				+ ", egressOnlyInternetGatewayID=" + egressOnlyInternetGatewayID + ", gatewayID=" + gatewayID
+				+ ", instanceID=" + instanceID + ", instanceOwnerID=" + instanceOwnerID + ", natGatewayID="
+				+ natGatewayID + ", networkInterfaceID=" + networkInterfaceID + ", origin=" + origin + ", state="
+				+ state + ", vpcPeeringConnectionID=" + vpcPeeringConnectionID + "]";
 	}
 }

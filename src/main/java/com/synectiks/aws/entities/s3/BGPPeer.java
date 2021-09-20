@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BGPPeer {
+public class BGPPeer implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String addressFamily;
 	private String amazonAddress;
 	private String asn;
@@ -80,4 +86,12 @@ public class BGPPeer {
 	public void setCustomerAddress(String value) {
 		this.customerAddress = value;
 	}
+
+	@Override
+	public String toString() {
+		return "BGPPeer [addressFamily=" + addressFamily + ", amazonAddress=" + amazonAddress + ", asn=" + asn
+				+ ", authKey=" + authKey + ", bgpPeerState=" + bgpPeerState + ", bgpStatus=" + bgpStatus
+				+ ", customerAddress=" + customerAddress + "]";
+	}
+
 }

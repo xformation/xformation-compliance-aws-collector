@@ -1,14 +1,18 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SecurityGroup {
+public class SecurityGroup implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String type;
 	private String name;
-	private String dome9ID;
 	private String accountNumber;
 	private String region;
 	private Vpc vpc;
@@ -51,16 +55,6 @@ public class SecurityGroup {
 	@JsonProperty("name")
 	public void setName(String value) {
 		this.name = value;
-	}
-
-	@JsonProperty("dome9Id")
-	public String getDome9ID() {
-		return dome9ID;
-	}
-
-	@JsonProperty("dome9Id")
-	public void setDome9ID(String value) {
-		this.dome9ID = value;
 	}
 
 	@JsonProperty("accountNumber")
@@ -192,4 +186,15 @@ public class SecurityGroup {
 	public void setNetworkInterfaces(List<NetworkInterface> value) {
 		this.networkInterfaces = value;
 	}
+
+	@Override
+	public String toString() {
+		return "SecurityGroup [id=" + id + ", type=" + type + ", name=" + name + ", accountNumber=" + accountNumber
+				+ ", region=" + region + ", vpc=" + vpc + ", tags=" + tags + ", source=" + source + ", description="
+				+ description + ", inboundRules=" + inboundRules + ", outboundRules=" + outboundRules
+				+ ", inboundPrefixes=" + inboundPrefixes + ", outboundPrefixes=" + outboundPrefixes
+				+ ", networkAssetsStats=" + networkAssetsStats + ", isProtected=" + isProtected + ", networkInterfaces="
+				+ networkInterfaces + "]";
+	}
+	
 }

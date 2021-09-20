@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PrivateIPAddress {
+public class PrivateIPAddress implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private NetworkInterfaceAssociation association;
 	private String primary;
 	private String privateDNSName;
@@ -47,4 +53,12 @@ public class PrivateIPAddress {
 	public void setPrivateIPAddress(String value) {
 		this.privateIPAddress = value;
 	}
+
+	@Override
+	public String toString() {
+		return "PrivateIPAddress [association=" + association + ", primary=" + primary + ", privateDNSName="
+				+ privateDNSName + ", privateIPAddress=" + privateIPAddress + "]";
+	}
+	
+	
 }

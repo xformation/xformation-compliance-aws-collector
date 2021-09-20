@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class S3RDSEntity {
+public class XformS3RDSEntity {
 	private String description;
 	private String port;
 	private String address;
@@ -390,4 +390,5 @@ public class S3RDSEntity {
 	public void setExternalFindings(ExternalFindings value) {
 		this.externalFindings = value;
 	}
+
 }

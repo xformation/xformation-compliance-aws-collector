@@ -1,28 +1,30 @@
 package com.synectiks.aws.entities.ec2;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 
-public class AssetsStat {
+import com.fasterxml.jackson.annotation.*;
+
+public class AssetsStat implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String type;
-	private String count;
+    private String count;
 
-	@JsonProperty("type")
-	public String getType() {
-		return type;
-	}
+    @JsonProperty("type")
+    public String getType() { return type; }
+    @JsonProperty("type")
+    public void setType(String value) { this.type = value; }
 
-	@JsonProperty("type")
-	public void setType(String value) {
-		this.type = value;
+    @JsonProperty("count")
+    public String getCount() { return count; }
+    @JsonProperty("count")
+    public void setCount(String value) { this.count = value; }
+	@Override
+	public String toString() {
+		return "AssetsStat [type=" + type + ", count=" + count + "]";
 	}
-
-	@JsonProperty("count")
-	public String getCount() {
-		return count;
-	}
-
-	@JsonProperty("count")
-	public void setCount(String value) {
-		this.count = value;
-	}
+    
+    
 }

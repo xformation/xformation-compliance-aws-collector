@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Tags {
+public class Tags implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private StringClass string;
 
 	@JsonProperty("string")
@@ -14,4 +20,11 @@ public class Tags {
 	public void setString(StringClass value) {
 		this.string = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Tags [string=" + string + "]";
+	}
+	
+	
 }

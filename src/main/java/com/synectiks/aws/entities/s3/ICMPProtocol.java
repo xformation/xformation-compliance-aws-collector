@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ICMPProtocol {
+public class ICMPProtocol implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String type;
 	private String code;
 	private String description;
@@ -36,4 +42,10 @@ public class ICMPProtocol {
 	public void setDescription(String value) {
 		this.description = value;
 	}
+
+	@Override
+	public String toString() {
+		return "ICMPProtocol [type=" + type + ", code=" + code + ", description=" + description + "]";
+	}
+
 }

@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EncryptionKey {
+public class EncryptionKey implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String arn;
 	private String awsAccountID;
 	private String creationDate;
@@ -302,4 +307,19 @@ public class EncryptionKey {
 	public void setExternalFindings(ExternalFindings value) {
 		this.externalFindings = value;
 	}
+
+	@Override
+	public String toString() {
+		return "EncryptionKey [arn=" + arn + ", awsAccountID=" + awsAccountID + ", creationDate=" + creationDate
+				+ ", deletionDate=" + deletionDate + ", description=" + description + ", enabled=" + enabled
+				+ ", expirationModel=" + expirationModel + ", keyState=" + keyState + ", keyUsage=" + keyUsage
+				+ ", origin=" + origin + ", customerMasterKeySpec=" + customerMasterKeySpec + ", isSymmetricKey="
+				+ isSymmetricKey + ", keyManager=" + keyManager + ", aliases=" + aliases + ", isCustomerManaged="
+				+ isCustomerManaged + ", rotationStatus=" + rotationStatus + ", policies=" + policies
+				+ ", kmsAssetsStats=" + kmsAssetsStats + ", accessAnalyzerFindingCount=" + accessAnalyzerFindingCount
+				+ ", tags=" + tags + ", id=" + id + ", type=" + type + ", name=" + name + ", dome9ID=" + dome9ID
+				+ ", accountNumber=" + accountNumber + ", region=" + region + ", externalFindings=" + externalFindings
+				+ "]";
+	}
+
 }

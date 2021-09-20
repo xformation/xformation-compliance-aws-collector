@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Alias {
+public class Alias implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String arn;
 
@@ -25,4 +31,10 @@ public class Alias {
 	public void setArn(String value) {
 		this.arn = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Alias [name=" + name + ", arn=" + arn + "]";
+	}
+
 }

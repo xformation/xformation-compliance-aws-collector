@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Attachment {
+public class Attachment implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String attachmentID;
 	private String attachTime;
 	private String deleteOnTermination;
@@ -80,4 +86,12 @@ public class Attachment {
 	public void setStatus(String value) {
 		this.status = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Attachment [attachmentID=" + attachmentID + ", attachTime=" + attachTime + ", deleteOnTermination="
+				+ deleteOnTermination + ", deviceIndex=" + deviceIndex + ", instanceID=" + instanceID
+				+ ", instanceOwnerID=" + instanceOwnerID + ", status=" + status + "]";
+	}
+
 }

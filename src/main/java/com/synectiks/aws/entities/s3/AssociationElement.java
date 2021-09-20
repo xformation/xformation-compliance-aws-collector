@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AssociationElement {
+public class AssociationElement implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String isMain;
 	private String subnetID;
 
@@ -25,4 +31,10 @@ public class AssociationElement {
 	public void setSubnetID(String value) {
 		this.subnetID = value;
 	}
+
+	@Override
+	public String toString() {
+		return "AssociationElement [isMain=" + isMain + ", subnetID=" + subnetID + "]";
+	}
+
 }

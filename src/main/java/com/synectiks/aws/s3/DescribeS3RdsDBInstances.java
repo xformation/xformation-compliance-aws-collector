@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.synectiks.aws.config.Constants;
 //snippet-end:[rds.java2.describe_instances.import]
-import com.synectiks.aws.entities.s3.S3RDSEntity;
+import com.synectiks.aws.entities.s3.XformS3RDSEntity;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
@@ -75,9 +75,9 @@ public class DescribeS3RdsDBInstances {
 		return rdsClient;
 	}
 
-	public List<S3RDSEntity> describeInstances() {
+	public List<XformS3RDSEntity> describeInstances() {
 		RdsClient rdsClient = getRdsClient();
-		List<S3RDSEntity> rdsInsancesList = new ArrayList<>();
+		List<XformS3RDSEntity> rdsInsancesList = new ArrayList<>();
 		try {
 			DescribeDbInstancesResponse response = rdsClient.describeDBInstances();
 			DescribeDbInstancesRequest dbInstancesRequest = DescribeDbInstancesRequest.builder()
@@ -85,7 +85,7 @@ public class DescribeS3RdsDBInstances {
 			DescribeDbInstancesResponse response2 = rdsClient.describeDBInstances(dbInstancesRequest);
 			List<DBInstance> instanceList = response.dbInstances();
 			for (DBInstance instance : instanceList) {
-				S3RDSEntity entity = new S3RDSEntity();
+				XformS3RDSEntity entity = new XformS3RDSEntity();
 				entity.setAccountNumber(null);
 				entity.setAddress(null);
 				entity.setAutoMinorVersionUpgrade(null);

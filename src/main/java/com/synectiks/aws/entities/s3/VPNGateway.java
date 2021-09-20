@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class VPNGateway {
+public class VPNGateway implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String availabilityZone;
 	private String state;
 	private String type;
@@ -82,4 +87,13 @@ public class VPNGateway {
 	public void setVpcAttachments(List<VpcAttachment> value) {
 		this.vpcAttachments = value;
 	}
+
+	@Override
+	public String toString() {
+		return "VPNGateway [availabilityZone=" + availabilityZone + ", state=" + state + ", type=" + type
+				+ ", vpnGatewayID=" + vpnGatewayID + ", tags=" + tags + ", directConnectVirtualInterfaces="
+				+ directConnectVirtualInterfaces + ", vpcAttachments=" + vpcAttachments + "]";
+	}
+	
+	
 }

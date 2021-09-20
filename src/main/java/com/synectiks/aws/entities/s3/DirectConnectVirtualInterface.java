@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DirectConnectVirtualInterface {
+public class DirectConnectVirtualInterface implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String addressFamily;
 	private String amazonAddress;
 	private String asn;
@@ -214,4 +219,17 @@ public class DirectConnectVirtualInterface {
 	public void setConnection(Connection value) {
 		this.connection = value;
 	}
+
+	@Override
+	public String toString() {
+		return "DirectConnectVirtualInterface [addressFamily=" + addressFamily + ", amazonAddress=" + amazonAddress
+				+ ", asn=" + asn + ", authKey=" + authKey + ", bgpPeers=" + bgpPeers + ", connectionID=" + connectionID
+				+ ", customerAddress=" + customerAddress + ", customerRouterConfig=" + customerRouterConfig
+				+ ", location=" + location + ", ownerAccount=" + ownerAccount + ", routeFilterPrefixes="
+				+ routeFilterPrefixes + ", virtualGatewayID=" + virtualGatewayID + ", virtualInterfaceID="
+				+ virtualInterfaceID + ", virtualInterfaceName=" + virtualInterfaceName + ", virtualInterfaceState="
+				+ virtualInterfaceState + ", virtualInterfaceType=" + virtualInterfaceType + ", vlan=" + vlan
+				+ ", externalID=" + externalID + ", connection=" + connection + "]";
+	}
+
 }

@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RouteTable {
+public class RouteTable implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<AssociationElement> associations;
 	private List<PropagatingVgw> propagatingVgws;
 	private List<Route> routes;
@@ -93,4 +98,13 @@ public class RouteTable {
 	public void setTagsEntities(Document value) {
 		this.tagsEntities = value;
 	}
+
+	@Override
+	public String toString() {
+		return "RouteTable [associations=" + associations + ", propagatingVgws=" + propagatingVgws + ", routes="
+				+ routes + ", routeTableID=" + routeTableID + ", vpcID=" + vpcID + ", tags=" + tags + ", name=" + name
+				+ ", tagsEntities=" + tagsEntities + "]";
+	}
+	
+	
 }

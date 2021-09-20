@@ -1,28 +1,30 @@
 package com.synectiks.aws.entities.ec2;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 
-public class AssociationElement {
+import com.fasterxml.jackson.annotation.*;
+
+public class AssociationElement implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String isMain;
-	private String subnetID;
+    private String subnetID;
 
-	@JsonProperty("isMain")
-	public String getIsMain() {
-		return isMain;
-	}
+    @JsonProperty("isMain")
+    public String getIsMain() { return isMain; }
+    @JsonProperty("isMain")
+    public void setIsMain(String value) { this.isMain = value; }
 
-	@JsonProperty("isMain")
-	public void setIsMain(String value) {
-		this.isMain = value;
+    @JsonProperty("subnetId")
+    public String getSubnetID() { return subnetID; }
+    @JsonProperty("subnetId")
+    public void setSubnetID(String value) { this.subnetID = value; }
+	@Override
+	public String toString() {
+		return "AssociationElement [isMain=" + isMain + ", subnetID=" + subnetID + "]";
 	}
-
-	@JsonProperty("subnetId")
-	public String getSubnetID() {
-		return subnetID;
-	}
-
-	@JsonProperty("subnetId")
-	public void setSubnetID(String value) {
-		this.subnetID = value;
-	}
+    
+    
 }

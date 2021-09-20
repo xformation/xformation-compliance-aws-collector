@@ -1,8 +1,14 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ParameterGroup {
+public class ParameterGroup  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String parameterApplyStatus;
 	private String dbParameterGroupArn;
 	private String dbParameterGroupFamily;
@@ -58,4 +64,13 @@ public class ParameterGroup {
 	public void setDescription(String value) {
 		this.description = value;
 	}
+
+	@Override
+	public String toString() {
+		return "ParameterGroup [parameterApplyStatus=" + parameterApplyStatus + ", dbParameterGroupArn="
+				+ dbParameterGroupArn + ", dbParameterGroupFamily=" + dbParameterGroupFamily + ", dbParameterGroupName="
+				+ dbParameterGroupName + ", description=" + description + "]";
+	}
+	
+	
 }

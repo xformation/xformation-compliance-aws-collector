@@ -8,9 +8,9 @@ import com.synectiks.aws.config.Constants;
 //import com.synectiks.aws.entities.vpc.CustomVpc;
 //import com.synectiks.aws.entities.vpc.CustomVpc;
 //import com.synectiks.aws.entities.vpc.CustomTag;
-import com.synectiks.aws.entities.ec2.CustomInstance;
-import com.synectiks.aws.entities.ec2.CustomTag;
-import com.synectiks.aws.entities.ec2.CustomVpc;
+import com.synectiks.aws.entities.ec2.XformEc2Instance;
+import com.synectiks.aws.entities.ec2.Tag;
+import com.synectiks.aws.entities.ec2.Vpc;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
@@ -85,9 +85,9 @@ public class DescribeInstances {
 		return ec2;
 	}
 
-	public CustomVpc describeEC2VpcById(String vpcId) throws IOException {
+	public Vpc describeEC2VpcById(String vpcId) throws IOException {
 		Ec2Client ec2 = getEC2Client();
-		CustomVpc customVpc = new CustomVpc();
+		Vpc customVpc = new Vpc();
 		try {
 			DescribeVpcsRequest request = DescribeVpcsRequest.builder().vpcIds(vpcId).build();
 			DescribeVpcsResponse response = ec2.describeVpcs(request);
@@ -102,9 +102,9 @@ public class DescribeInstances {
 		return customVpc;
 	}
 
-	public CustomVpc populateCustomVpc(Vpc vpc) throws IOException {
+	public Vpc populateCustomVpc(Vpc vpc) throws IOException {
 
-		CustomVpc customVpc = new CustomVpc();
+		Vpc customVpc = new Vpc();
 		customVpc.setCloudAccountID(null);
 		customVpc.setCIDR(vpc.cidrBlock());
 		customVpc.setRegion(null);
@@ -124,10 +124,10 @@ public class DescribeInstances {
 		return customVpc;
 	}
 
-	public List<CustomTag> getCustomTagList(List<Tag> tags) throws IOException {
-		List<CustomTag> customTags = new ArrayList<>();
+	public List<Tag> getCustomTagList(List<Tag> tags) throws IOException {
+		List<Tag> customTags = new ArrayList<>();
 		for (Tag tag : tags) {
-			CustomTag customTag = new CustomTag();
+			Tag customTag = new Tag();
 			customTag.setKey(tag.key().toString());
 			customTag.setValue(tag.value());
 			customTags.add(customTag);
@@ -139,7 +139,7 @@ public class DescribeInstances {
 		boolean done = false;
 		Ec2Client ec2 = getEC2Client();
 		String nextToken = null;
-		List<CustomInstance> customInstances = new ArrayList<CustomInstance>();
+		List<XformEc2Instance> customInstances = new ArrayList<XformEc2Instance>();
 		try {
 			do {
 				DescribeInstancesRequest request = DescribeInstancesRequest.builder().maxResults(6).nextToken(nextToken)
@@ -147,7 +147,7 @@ public class DescribeInstances {
 				DescribeInstancesResponse response = ec2.describeInstances(request);
 				for (Reservation reservation : response.reservations()) {
 					for (Instance instance : reservation.instances()) {
-						CustomInstance customInstance = new CustomInstance();
+						XformEc2Instance customInstance = new XformEc2Instance();
 //						System.out.println("Image id is " + instance.imageId());
 //						System.out.println("Instance type is " + instance.instanceType());
 //						System.out.println("Instance state name is " + instance.state().name());

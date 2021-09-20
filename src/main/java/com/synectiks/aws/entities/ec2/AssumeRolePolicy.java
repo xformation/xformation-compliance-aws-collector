@@ -1,7 +1,9 @@
 package com.synectiks.aws.entities.ec2;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import java.io.Serializable;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
-public class AssumeRolePolicy {
+import com.fasterxml.jackson.annotation.*;
+
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.NONE)
+public class AssumeRolePolicy implements Serializable{
 }

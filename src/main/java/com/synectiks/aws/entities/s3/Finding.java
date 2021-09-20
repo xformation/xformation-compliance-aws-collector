@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Finding {
+public class Finding implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String receivedTimeStamp;
 	private String findingSeverity;
 	private String originalFindingSeverity;
@@ -236,4 +241,18 @@ public class Finding {
 	public void setAdditionalFields(List<AdditionalField> value) {
 		this.additionalFields = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Finding [receivedTimeStamp=" + receivedTimeStamp + ", findingSeverity=" + findingSeverity
+				+ ", originalFindingSeverity=" + originalFindingSeverity + ", resourceID=" + resourceID
+				+ ", resourceName=" + resourceName + ", findingSourceURL=" + findingSourceURL + ", platform=" + platform
+				+ ", findingSource=" + findingSource + ", findingSourceDescription=" + findingSourceDescription
+				+ ", findingID=" + findingID + ", scanID=" + scanID + ", findingCreatedAt=" + findingCreatedAt
+				+ ", findingTitle=" + findingTitle + ", findingDescription=" + findingDescription + ", findingStatus="
+				+ findingStatus + ", findingRecommendation=" + findingRecommendation + ", findingCategory="
+				+ findingCategory + ", relatedFindingsRef=" + relatedFindingsRef + ", ruleID=" + ruleID
+				+ ", findingRulesPackage=" + findingRulesPackage + ", additionalFields=" + additionalFields + "]";
+	}
+
 }

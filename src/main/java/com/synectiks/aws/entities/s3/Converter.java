@@ -6,7 +6,7 @@
 //
 // Import this package:
 //
-//     import com.synectiks.aws.s3.Converter;
+//     import com.synectiks.aws.entities.s3Test.Converter;
 //
 // Then you can deserialize a JSON string with
 //
@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.synectiks.aws.entities.vpc.XformVpc;
 
 public class Converter {
 	// Date-time helpers
@@ -57,14 +58,18 @@ public class Converter {
 	}
 	// Serialize/deserialize helpers
 
-	public static S3RDSEntity fromJsonString(String json) throws IOException {
+	public static XformS3RDSEntity fromJsonString(String json) throws IOException {
 		return getObjectReader().readValue(json);
 	}
 
-	public static String toJsonString(S3RDSEntity obj) throws JsonProcessingException {
+	public static String toJsonString(XformS3RDSEntity obj) throws JsonProcessingException {
 		return getObjectWriter().writeValueAsString(obj);
 	}
-
+	public static String toPrettyJsonString(XformVpc obj) throws JsonProcessingException {
+        return getObjectWriter()
+        		.with(SerializationFeature.INDENT_OUTPUT)
+        		.writeValueAsString(obj);
+    }
 	private static ObjectReader reader;
 	private static ObjectWriter writer;
 
@@ -82,8 +87,8 @@ public class Converter {
 			}
 		});
 		mapper.registerModule(module);
-		reader = mapper.readerFor(S3RDSEntity.class);
-		writer = mapper.writerFor(S3RDSEntity.class);
+		reader = mapper.readerFor(XformS3RDSEntity.class);
+		writer = mapper.writerFor(XformS3RDSEntity.class);
 	}
 
 	private static ObjectReader getObjectReader() {

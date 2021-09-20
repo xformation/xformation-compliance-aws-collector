@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Vpc {
+public class Vpc implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String cloudAccountID;
 	private String cidr;
 	private String region;
@@ -181,4 +186,16 @@ public class Vpc {
 	public void setOwnerID(String value) {
 		this.ownerID = value;
 	}
+
+	@Override
+	public String toString() {
+		return "Vpc [cloudAccountID=" + cloudAccountID + ", cidr=" + cidr + ", region=" + region + ", id=" + id
+				+ ", accountNumber=" + accountNumber + ", vpnGateways=" + vpnGateways + ", internetGateways="
+				+ internetGateways + ", dhcpOptionsID=" + dhcpOptionsID + ", instanceTenancy=" + instanceTenancy
+				+ ", isDefault=" + isDefault + ", state=" + state + ", tags=" + tags + ", name=" + name
+				+ ", vpcPeeringConnections=" + vpcPeeringConnections + ", source=" + source + ", ownerID=" + ownerID
+				+ "]";
+	}
+	
+	
 }

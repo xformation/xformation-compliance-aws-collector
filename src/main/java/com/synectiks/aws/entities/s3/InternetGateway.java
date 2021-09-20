@@ -1,10 +1,15 @@
 package com.synectiks.aws.entities.s3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class InternetGateway {
+public class InternetGateway implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String externalID;
 	private List<VpcAttachment> vpcAttachments;
 	private String name;
@@ -38,4 +43,11 @@ public class InternetGateway {
 	public void setName(String value) {
 		this.name = value;
 	}
+
+	@Override
+	public String toString() {
+		return "InternetGateway [externalID=" + externalID + ", vpcAttachments=" + vpcAttachments + ", name=" + name
+				+ "]";
+	}
+
 }
