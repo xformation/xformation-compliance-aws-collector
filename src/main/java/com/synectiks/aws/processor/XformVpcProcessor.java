@@ -257,11 +257,5 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return listTag;
 	}
 
-	public static void main(String a[]) throws Exception {
-		XformVpcProcessor xp = new XformVpcProcessor("AKIAZSLS3RLM24RZ4EV2", "V1ELmINCW7a9eat9hN/975mIxFKCfzf5iXCYMN59", "us-east-1");
-		List<XformVpc> list = xp.getXformObject();
-		for(XformVpc vpc : list) {
-			System.out.println(Converter.toPrettyJsonString(vpc));
-		}
-	}
+	
 }
