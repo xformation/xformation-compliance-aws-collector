@@ -26,6 +26,4 @@ public class Scanners implements Serializable{
 	public String toString() {
 		return "Scanners [scans=" + scans + ", findings=" + findings + "]";
 	}
-    
-    
 }

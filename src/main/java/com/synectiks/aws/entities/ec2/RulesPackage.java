@@ -37,6 +37,4 @@ public class RulesPackage implements Serializable{
 	public String toString() {
 		return "RulesPackage [id=" + id + ", name=" + name + ", provider=" + provider + ", version=" + version + "]";
 	}
-    
-    
 }

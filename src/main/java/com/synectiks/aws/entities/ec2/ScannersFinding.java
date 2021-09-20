@@ -69,6 +69,4 @@ public class ScannersFinding implements Serializable{
 				+ ", assetType=" + assetType + ", creationTime=" + creationTime + ", source=" + source
 				+ ", rulesPackage=" + rulesPackage + ", ruleID=" + ruleID + ", ruleSeverity=" + ruleSeverity + "]";
 	}
-    
-    
 }

@@ -25,6 +25,4 @@ public class Policy implements Serializable{
 	public String toString() {
 		return "Policy [name=" + name + ", document=" + document + "]";
 	}
-    
-    
 }

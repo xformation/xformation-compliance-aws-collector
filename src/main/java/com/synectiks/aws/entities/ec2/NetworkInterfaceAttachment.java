@@ -57,6 +57,4 @@ public class NetworkInterfaceAttachment implements Serializable{
 				+ ", deleteOnTermination=" + deleteOnTermination + ", deviceIndex=" + deviceIndex + ", instanceID="
 				+ instanceID + ", instanceOwnerID=" + instanceOwnerID + ", status=" + status + "]";
 	}
-    
-    
 }

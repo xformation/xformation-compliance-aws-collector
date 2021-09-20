@@ -81,4 +81,4 @@ public class TargetVpc implements Serializable{
 				+ dhcpOptionsID + ", instanceTenancy=" + instanceTenancy + ", isDefault=" + isDefault + ", state="
 				+ state + ", name=" + name + ", type=" + type + ", ownerID=" + ownerID + ", tags=" + tags + "]";
 	}
-}    
+}

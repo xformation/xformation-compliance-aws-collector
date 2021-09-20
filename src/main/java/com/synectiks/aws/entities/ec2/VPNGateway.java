@@ -1,20 +1,19 @@
 package com.synectiks.aws.entities.ec2;
 
 import com.fasterxml.jackson.annotation.*;
+import com.synectiks.aws.entities.vpc.TagsEntities;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class VPNGateway implements Serializable{
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String availabilityZone;
     private String state;
     private String type;
     private String vpnGatewayID;
-    private AssumeRolePolicy tags;
+    private TagsEntities tags;
+    
     private List<DirectConnectVirtualInterface> directConnectVirtualInterfaces;
     private List<VpcAttachment> vpcAttachments;
 
@@ -39,9 +38,9 @@ public class VPNGateway implements Serializable{
     public void setVPNGatewayID(String value) { this.vpnGatewayID = value; }
 
     @JsonProperty("tags")
-    public AssumeRolePolicy getTags() { return tags; }
+    public TagsEntities getTags() { return tags; }
     @JsonProperty("tags")
-    public void setTags(AssumeRolePolicy value) { this.tags = value; }
+    public void setTags(TagsEntities value) { this.tags = value; }
 
     @JsonProperty("directConnectVirtualInterfaces")
     public List<DirectConnectVirtualInterface> getDirectConnectVirtualInterfaces() { return directConnectVirtualInterfaces; }
@@ -58,5 +57,4 @@ public class VPNGateway implements Serializable{
 				+ ", vpnGatewayID=" + vpnGatewayID + ", tags=" + tags + ", directConnectVirtualInterfaces="
 				+ directConnectVirtualInterfaces + ", vpcAttachments=" + vpcAttachments + "]";
 	}
-    
 }

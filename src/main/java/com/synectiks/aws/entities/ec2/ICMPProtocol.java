@@ -31,6 +31,4 @@ public class ICMPProtocol implements Serializable{
 	public String toString() {
 		return "ICMPProtocol [type=" + type + ", code=" + code + ", description=" + description + "]";
 	}
-    
-    
 }

@@ -85,8 +85,8 @@ public abstract class XformAwsProcessor implements XformCollector {
 		return accessKey;
 	}
 
-	public void setSecretKey(String secretKey) {
-		this.secretKey = secretKey;
+	public String getSecretKey() {
+		return secretKey;
 	}
 
 	public Region getRegion() {

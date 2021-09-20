@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public class NIC implements Serializable{
-	
     /**
 	 * 
 	 */
@@ -71,6 +70,4 @@ public class NIC implements Serializable{
 				+ ", publicIPAddress=" + publicIPAddress + ", privateIPAddress=" + privateIPAddress + ", elasticIP="
 				+ elasticIP + ", macAddress=" + macAddress + ", securityGroups=" + securityGroups + "]";
 	}
-    
-    
 }

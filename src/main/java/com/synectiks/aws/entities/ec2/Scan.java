@@ -77,6 +77,4 @@ public class Scan implements Serializable{
 				+ creationTime + ", startTime=" + startTime + ", endTime=" + endTime + ", sourceAdditionalFields="
 				+ sourceAdditionalFields + "]";
 	}
-    
-    
 }

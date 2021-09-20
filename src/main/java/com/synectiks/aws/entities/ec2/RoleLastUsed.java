@@ -25,6 +25,4 @@ public class RoleLastUsed implements Serializable{
 	public String toString() {
 		return "RoleLastUsed [lastUsedDate=" + lastUsedDate + ", region=" + region + "]";
 	}
-    
-    
 }

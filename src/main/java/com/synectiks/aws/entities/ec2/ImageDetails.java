@@ -31,7 +31,7 @@ public class ImageDetails implements Serializable{
     private List<ProductCode> productCodes;
     private String enaSupport;
     private String sriovNetSupport;
-    private Stat stateReason;
+    private Status stateReason;
     private List<Tag> tags;
 
     @JsonProperty("name")
@@ -140,9 +140,9 @@ public class ImageDetails implements Serializable{
     public void setSriovNetSupport(String value) { this.sriovNetSupport = value; }
 
     @JsonProperty("stateReason")
-    public Stat getStateReason() { return stateReason; }
+    public Status getStateReason() { return stateReason; }
     @JsonProperty("stateReason")
-    public void setStateReason(Stat value) { this.stateReason = value; }
+    public void setStateReason(Status value) { this.stateReason = value; }
 
     @JsonProperty("tags")
     public List<Tag> getTags() { return tags; }
@@ -159,6 +159,4 @@ public class ImageDetails implements Serializable{
 				+ blockDeviceMappings + ", productCodes=" + productCodes + ", enaSupport=" + enaSupport
 				+ ", sriovNetSupport=" + sriovNetSupport + ", stateReason=" + stateReason + ", tags=" + tags + "]";
 	}
-    
-    
 }

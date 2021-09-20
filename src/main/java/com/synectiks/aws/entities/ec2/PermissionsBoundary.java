@@ -21,4 +21,9 @@ public class PermissionsBoundary implements Serializable{
     public String getPermissionsBoundaryType() { return permissionsBoundaryType; }
     @JsonProperty("permissionsBoundaryType")
     public void setPermissionsBoundaryType(String value) { this.permissionsBoundaryType = value; }
+	@Override
+	public String toString() {
+		return "PermissionsBoundary [permissionsBoundaryArn=" + permissionsBoundaryArn + ", permissionsBoundaryType="
+				+ permissionsBoundaryType + "]";
+	}
 }

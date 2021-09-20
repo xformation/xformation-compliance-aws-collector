@@ -25,6 +25,4 @@ public class VpcAttachment implements Serializable{
 	public String toString() {
 		return "VpcAttachment [state=" + state + ", vpcID=" + vpcID + "]";
 	}
-    
-    
 }

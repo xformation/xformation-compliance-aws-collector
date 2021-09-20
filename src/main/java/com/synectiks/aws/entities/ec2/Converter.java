@@ -6,7 +6,7 @@
 //
 // Import this package:
 //
-//     import com.synectiks.aws.entities.ec2Test.Converter;
+//     import io.quicktype.Converter;
 //
 // Then you can deserialize a JSON string with
 //
@@ -64,18 +64,20 @@ public class Converter {
     }
     // Serialize/deserialize helpers
 
-    public static XformEc2Instance fromJsonString(String json) throws IOException {
+    public static XformEc2 fromJsonString(String json) throws IOException {
         return getObjectReader().readValue(json);
     }
 
-    public static String toJsonString(XformEc2Instance obj) throws JsonProcessingException {
+    public static String toJsonString(XformEc2 obj) throws JsonProcessingException {
         return getObjectWriter().writeValueAsString(obj);
     }
-    public static String toPrettyJsonString(XformEc2Instance obj) throws JsonProcessingException {
+
+    public static String toPrettyJsonString(XformEc2 obj) throws JsonProcessingException {
         return getObjectWriter()
         		.with(SerializationFeature.INDENT_OUTPUT)
         		.writeValueAsString(obj);
     }
+    
     private static ObjectReader reader;
     private static ObjectWriter writer;
 
@@ -92,8 +94,8 @@ public class Converter {
             }
         });
         mapper.registerModule(module);
-        reader = mapper.readerFor(XformEc2Instance.class);
-        writer = mapper.writerFor(XformEc2Instance.class);
+        reader = mapper.readerFor(XformEc2.class);
+        writer = mapper.writerFor(XformEc2.class);
     }
 
     private static ObjectReader getObjectReader() {

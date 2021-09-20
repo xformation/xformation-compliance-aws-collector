@@ -2,12 +2,16 @@ package com.synectiks.aws.entities.ec2;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class VpcPeeringConnection implements Serializable{
-    private String vpcPeeringConnectionID;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String vpcPeeringConnectionID;
     private TargetVpc targetVpc;
-    private Stat status;
+    private Status status;
     private String expirationTime;
 
     @JsonProperty("vpcPeeringConnectionId")
@@ -21,12 +25,17 @@ public class VpcPeeringConnection implements Serializable{
     public void setTargetVpc(TargetVpc value) { this.targetVpc = value; }
 
     @JsonProperty("status")
-    public Stat getStatus() { return status; }
+    public Status getStatus() { return status; }
     @JsonProperty("status")
-    public void setStatus(Stat value) { this.status = value; }
+    public void setStatus(Status value) { this.status = value; }
 
     @JsonProperty("expirationTime")
     public String getExpirationTime() { return expirationTime; }
     @JsonProperty("expirationTime")
     public void setExpirationTime(String value) { this.expirationTime = value; }
+	@Override
+	public String toString() {
+		return "VpcPeeringConnection [vpcPeeringConnectionID=" + vpcPeeringConnectionID + ", targetVpc=" + targetVpc
+				+ ", status=" + status + ", expirationTime=" + expirationTime + "]";
+	}
 }

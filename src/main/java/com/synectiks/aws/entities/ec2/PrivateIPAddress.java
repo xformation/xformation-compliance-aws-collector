@@ -38,6 +38,4 @@ public class PrivateIPAddress implements Serializable{
 		return "PrivateIPAddress [association=" + association + ", primary=" + primary + ", privateDNSName="
 				+ privateDNSName + ", privateIPAddress=" + privateIPAddress + "]";
 	}
-    
-    
 }

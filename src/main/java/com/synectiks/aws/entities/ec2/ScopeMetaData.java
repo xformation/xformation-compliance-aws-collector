@@ -38,6 +38,4 @@ public class ScopeMetaData implements Serializable{
 		return "ScopeMetaData [vpcID=" + vpcID + ", region=" + region + ", accountInfo=" + accountInfo
 				+ ", accountNumber=" + accountNumber + "]";
 	}
-    
-    
 }

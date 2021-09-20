@@ -64,6 +64,4 @@ public class RouteTable implements Serializable{
 				+ routes + ", routeTableID=" + routeTableID + ", vpcID=" + vpcID + ", tags=" + tags + ", name=" + name
 				+ ", tagsEntities=" + tagsEntities + "]";
 	}
-    
-    
 }

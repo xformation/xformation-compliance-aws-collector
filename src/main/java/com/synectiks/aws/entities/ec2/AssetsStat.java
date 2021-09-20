@@ -10,7 +10,7 @@ public class AssetsStat implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String type;
-    private String count;
+    private Integer count;
 
     @JsonProperty("type")
     public String getType() { return type; }
@@ -18,13 +18,11 @@ public class AssetsStat implements Serializable{
     public void setType(String value) { this.type = value; }
 
     @JsonProperty("count")
-    public String getCount() { return count; }
+    public Integer getCount() { return count; }
     @JsonProperty("count")
-    public void setCount(String value) { this.count = value; }
+    public void setCount(Integer value) { this.count = value; }
 	@Override
 	public String toString() {
 		return "AssetsStat [type=" + type + ", count=" + count + "]";
 	}
-    
-    
 }

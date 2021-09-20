@@ -33,6 +33,4 @@ public class InternetGateway implements Serializable{
 		return "InternetGateway [externalID=" + externalID + ", vpcAttachments=" + vpcAttachments + ", name=" + name
 				+ "]";
 	}
-    
-    
 }

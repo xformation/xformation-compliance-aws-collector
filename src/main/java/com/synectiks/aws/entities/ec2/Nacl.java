@@ -1,9 +1,13 @@
 package com.synectiks.aws.entities.ec2;
 
-import com.fasterxml.jackson.annotation.*;
-
 import java.io.Serializable;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.vpc.Bound;
+import com.synectiks.aws.entities.vpc.ExternalFindings;
+import com.synectiks.aws.entities.vpc.Tag;
+import com.synectiks.aws.entities.vpc.Vpc;
 
 public class Nacl implements Serializable{
     /**
@@ -17,6 +21,7 @@ public class Nacl implements Serializable{
     private Vpc vpc;
     private String name;
     private String id;
+    private String dome9ID;
     private String accountNumber;
     private String region;
     private List<Bound> inbound;
@@ -58,6 +63,11 @@ public class Nacl implements Serializable{
     @JsonProperty("id")
     public void setID(String value) { this.id = value; }
 
+    @JsonProperty("dome9Id")
+    public String getDome9ID() { return dome9ID; }
+    @JsonProperty("dome9Id")
+    public void setDome9ID(String value) { this.dome9ID = value; }
+
     @JsonProperty("accountNumber")
     public String getAccountNumber() { return accountNumber; }
     @JsonProperty("accountNumber")
@@ -85,9 +95,9 @@ public class Nacl implements Serializable{
 	@Override
 	public String toString() {
 		return "Nacl [tags=" + tags + ", externalFindings=" + externalFindings + ", source=" + source + ", type=" + type
-				+ ", vpc=" + vpc + ", name=" + name + ", id=" + id + ", accountNumber=" + accountNumber + ", region="
-				+ region + ", inbound=" + inbound + ", outbound=" + outbound + ", isDefault=" + isDefault + "]";
+				+ ", vpc=" + vpc + ", name=" + name + ", id=" + id + ", dome9ID=" + dome9ID + ", accountNumber="
+				+ accountNumber + ", region=" + region + ", inbound=" + inbound + ", outbound=" + outbound
+				+ ", isDefault=" + isDefault + "]";
 	}
-    
-    
+	
 }

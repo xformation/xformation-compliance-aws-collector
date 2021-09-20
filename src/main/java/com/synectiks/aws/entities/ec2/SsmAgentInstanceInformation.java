@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.*;
 
-public class SsmAgentInstanceInformation  implements Serializable{
+public class SsmAgentInstanceInformation implements Serializable{
     /**
 	 * 
 	 */
@@ -135,5 +135,4 @@ public class SsmAgentInstanceInformation  implements Serializable{
 				+ ", platformName=" + platformName + ", platformType=" + platformType + ", platformVersion="
 				+ platformVersion + ", registrationDate=" + registrationDate + ", resourceType=" + resourceType + "]";
 	}
-    
 }

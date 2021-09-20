@@ -7,11 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import com.synectiks.aws.entities.vpc.Converter;
-import com.synectiks.aws.entities.vpc.InternetGateway;
-import com.synectiks.aws.entities.vpc.VPNGateway;
-import com.synectiks.aws.entities.vpc.VpcPeeringConnection;
+import com.synectiks.aws.config.Converter;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.main.XformAwsProcessor;
 
@@ -19,7 +15,6 @@ import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.DescribeSubnetsResponse;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsResponse;
-import software.amazon.awssdk.services.ec2.model.Ec2Exception;
 import software.amazon.awssdk.services.ec2.model.Subnet;
 import software.amazon.awssdk.services.ec2.model.Tag;
 import software.amazon.awssdk.services.ec2.model.Vpc;
@@ -136,7 +131,7 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return xformSubnetList;
 	}
 
-	private com.synectiks.aws.entities.vpc.Vpc getXformVpc(Vpc vpc) {
+	public com.synectiks.aws.entities.vpc.Vpc getXformVpc(Vpc vpc) {
 		com.synectiks.aws.entities.vpc.Vpc xfVpc = new com.synectiks.aws.entities.vpc.Vpc();
 //		xfVpc.setCloudAccountID(vpc.);
 		xfVpc.setCIDR(vpc.cidrBlock());
@@ -157,22 +152,6 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return xfVpc;    
 	}
 	
-//	public List<Subnet> describeSubnetByVpcId(String vpcId) {
-//		Ec2Client ec2 = getEc2Client();
-//		List<Subnet> subnetList = new ArrayList<>();
-//		DescribeSubnetsResponse describeSubnetsResponse = ec2.describeSubnets();
-//		List<Subnet> subnets = describeSubnetsResponse.subnets();
-//		for (Subnet subnet : subnetList) {
-//			if(subnet.vpcId().equalsIgnoreCase(vpcId)) {
-//				
-//			}
-//		}
-////		DescribeVpcsRequest request = DescribeVpcsRequest.builder().vpcIds(vpcId).build();
-////		DescribeSubnetsRequest request=DescribeSubnetsRequest.builder().filters(null)
-////		DescribeSubnetsResponse describeSubnetsResponse=ec2.describeSubnets(request);
-//		return customSubnets;
-//	}
-
 	public List<Subnet> getAwsSubnetByVpcId(String vpcId) {
 		Ec2Client ec2 = getEc2Client();
 		List<Subnet> listSubnets = new ArrayList<>();
@@ -266,54 +245,6 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return xformVpcList;
 	}
 	
-//	public List<CustomVpc> describeEC2Vpcs() {
-//		Ec2Client ec2 = getEC2Client();
-//		List<CustomVpc> customVpcs = null;
-//		try {
-//			DescribeVpcsRequest request = DescribeVpcsRequest.builder().build();
-//			DescribeVpcsResponse response = ec2.describeVpcs(request);
-//			customVpcs = getAllCustomVpc(response.vpcs());
-//		} catch (Ec2Exception e) {
-//			System.err.println(e.awsErrorDetails().errorMessage());
-//		} finally {
-//			if (ec2 != null) {
-//				ec2.close();
-//			}
-//		}
-//		return customVpcs;
-//	}
-
-//	public List<CustomVpc> getAllCustomVpc(List<Vpc> listVps) {
-//		List<CustomVpc> listCustomVpcs = new ArrayList<CustomVpc>();
-//		for (Vpc vpc : listVps) {
-//			CustomVpc customVpc = populateVpc(vpc);
-//			listCustomVpcs.add(customVpc);
-//		}
-//		return listCustomVpcs;
-//	}
-
-//	public CustomVpc populateVpc(Vpc vpc) {
-//
-//		CustomVpc customVpc = new CustomVpc();
-//		customVpc.setCloudAccountID(null);
-//		customVpc.setCIDR(vpc.cidrBlock());
-//		customVpc.setRegion(null);
-//		customVpc.setID(vpc.vpcId());
-//		customVpc.setAccountNumber(null);
-//		customVpc.setVPNGateways(null);
-//		customVpc.setInternetGateways(null);
-//		customVpc.setDHCPOptionsID(vpc.dhcpOptionsId());
-//		customVpc.setInstanceTenancy(vpc.instanceTenancyAsString());
-//		customVpc.setIsDefault(vpc.isDefault().toString());
-//		customVpc.setState(vpc.stateAsString());
-//		customVpc.setTags(getXformTagList(vpc.tags()));
-//		customVpc.setName(null);
-//		customVpc.setVpcPeeringConnections(null);
-//		customVpc.setSource(null);
-//		customVpc.setOwnerID(vpc.ownerId());
-//		return customVpc;
-//	}
-
 	public List<com.synectiks.aws.entities.vpc.Tag> getXformTagList(List tags) {
 		List<com.synectiks.aws.entities.vpc.Tag> listTag = new ArrayList<>();
 		for (Object obj : tags) {
@@ -326,5 +257,11 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return listTag;
 	}
 
-	
+	public static void main(String a[]) throws Exception {
+		XformVpcProcessor xp = new XformVpcProcessor("AKIAZSLS3RLM24RZ4EV2", "V1ELmINCW7a9eat9hN/975mIxFKCfzf5iXCYMN59", "us-east-1");
+		List<XformVpc> list = xp.getXformObject();
+		for(XformVpc vpc : list) {
+			System.out.println(Converter.toPrettyJsonString(vpc));
+		}
+	}
 }

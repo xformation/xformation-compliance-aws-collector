@@ -1,9 +1,9 @@
 package com.synectiks.aws.entities.ec2;
 
-import com.fasterxml.jackson.annotation.*;
-
 import java.io.Serializable;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Vpc implements Serializable{
     /**
@@ -19,7 +19,7 @@ public class Vpc implements Serializable{
     private List<InternetGateway> internetGateways;
     private String dhcpOptionsID;
     private String instanceTenancy;
-    private boolean isDefault;
+    private Boolean isDefault;
     private String state;
     private List<Tag> tags;
     private String name;
@@ -73,9 +73,9 @@ public class Vpc implements Serializable{
     public void setInstanceTenancy(String value) { this.instanceTenancy = value; }
 
     @JsonProperty("isDefault")
-    public boolean getIsDefault() { return isDefault; }
+    public Boolean getIsDefault() { return isDefault; }
     @JsonProperty("isDefault")
-    public void setIsDefault(boolean  value) { this.isDefault = value; }
+    public void setIsDefault(Boolean value) { this.isDefault = value; }
 
     @JsonProperty("state")
     public String getState() { return state; }
@@ -115,5 +115,4 @@ public class Vpc implements Serializable{
 				+ ", vpcPeeringConnections=" + vpcPeeringConnections + ", source=" + source + ", ownerID=" + ownerID
 				+ "]";
 	}
-    
 }

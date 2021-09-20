@@ -44,6 +44,4 @@ public class NetworkInterfaceAssociation implements Serializable{
 		return "NetworkInterfaceAssociation [allocationID=" + allocationID + ", associationID=" + associationID
 				+ ", ipOwnerID=" + ipOwnerID + ", publicDNSName=" + publicDNSName + ", publicIP=" + publicIP + "]";
 	}
-    
-    
 }

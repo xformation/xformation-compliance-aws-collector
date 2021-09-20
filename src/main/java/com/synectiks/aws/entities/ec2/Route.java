@@ -90,6 +90,4 @@ public class Route implements Serializable{
 				+ natGatewayID + ", networkInterfaceID=" + networkInterfaceID + ", origin=" + origin + ", state="
 				+ state + ", vpcPeeringConnectionID=" + vpcPeeringConnectionID + "]";
 	}
-    
-    
 }

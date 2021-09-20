@@ -13,9 +13,9 @@ public class AutoScalingGroup implements Serializable{
     private String name;
     private String region;
     private String launchConfigurationName;
-    private String minSize;
-    private String maxSize;
-    private String desiredCapacity;
+    private Integer minSize;
+    private Integer maxSize;
+    private Integer desiredCapacity;
     private String defaultCooldown;
     private String launchTemplateName;
     private String vpcZoneIdentifier;
@@ -43,19 +43,19 @@ public class AutoScalingGroup implements Serializable{
     public void setLaunchConfigurationName(String value) { this.launchConfigurationName = value; }
 
     @JsonProperty("minSize")
-    public String getMinSize() { return minSize; }
+    public Integer getMinSize() { return minSize; }
     @JsonProperty("minSize")
-    public void setMinSize(String value) { this.minSize = value; }
+    public void setMinSize(Integer value) { this.minSize = value; }
 
     @JsonProperty("maxSize")
-    public String getMaxSize() { return maxSize; }
+    public Integer getMaxSize() { return maxSize; }
     @JsonProperty("maxSize")
-    public void setMaxSize(String value) { this.maxSize = value; }
+    public void setMaxSize(Integer value) { this.maxSize = value; }
 
     @JsonProperty("desiredCapacity")
-    public String getDesiredCapacity() { return desiredCapacity; }
+    public Integer getDesiredCapacity() { return desiredCapacity; }
     @JsonProperty("desiredCapacity")
-    public void setDesiredCapacity(String value) { this.desiredCapacity = value; }
+    public void setDesiredCapacity(Integer value) { this.desiredCapacity = value; }
 
     @JsonProperty("defaultCooldown")
     public String getDefaultCooldown() { return defaultCooldown; }
@@ -89,8 +89,4 @@ public class AutoScalingGroup implements Serializable{
 				+ launchTemplateName + ", vpcZoneIdentifier=" + vpcZoneIdentifier + ", newInstanceProtectedFromScaleIn="
 				+ newInstanceProtectedFromScaleIn + ", serviceLinkedRoleARN=" + serviceLinkedRoleARN + "]";
 	}
-    
-    
-    
-    
 }

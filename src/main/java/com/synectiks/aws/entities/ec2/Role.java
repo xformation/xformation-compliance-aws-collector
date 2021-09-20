@@ -128,6 +128,4 @@ public class Role implements Serializable{
 				+ ", accountNumber=" + accountNumber + ", region=" + region + ", externalFindings=" + externalFindings
 				+ "]";
 	}
-    
-    
 }

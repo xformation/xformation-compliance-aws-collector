@@ -5,7 +5,11 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.*;
 
 public class Tag implements Serializable{
-    private String key;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String key;
     private String value;
 
     @JsonProperty("key")
@@ -21,6 +25,4 @@ public class Tag implements Serializable{
 	public String toString() {
 		return "Tag [key=" + key + ", value=" + value + "]";
 	}
-    
-    
 }

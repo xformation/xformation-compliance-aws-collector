@@ -128,6 +128,4 @@ public class NetworkInterface implements Serializable{
 				+ privateIPAddresses + ", requesterID=" + requesterID + ", requesterManaged=" + requesterManaged
 				+ ", sourceDestCheck=" + sourceDestCheck + ", status=" + status + ", subnetID=" + subnetID + "]";
 	}
-    
-    
 }

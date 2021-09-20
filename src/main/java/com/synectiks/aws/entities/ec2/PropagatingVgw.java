@@ -19,6 +19,4 @@ public class PropagatingVgw implements Serializable{
 	public String toString() {
 		return "PropagatingVgw [gatewayID=" + gatewayID + "]";
 	}
-    
-    
 }

@@ -1,16 +1,20 @@
 package com.synectiks.aws.entities.ec2;
 
-import com.fasterxml.jackson.annotation.*;
-
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Subnet implements Serializable{
-    private Vpc vpc;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Vpc vpc;
     private String state;
     private String availabilityZone;
-    private boolean defaultForAz;
-    private boolean mapPublicIPOnLaunch;
+    private Boolean defaultForAz;
+    private Boolean mapPublicIPOnLaunch;
     private Integer availableIPAddressCount;
     private String externalID;
     private String description;
@@ -22,7 +26,6 @@ public class Subnet implements Serializable{
     private String id;
     private String type;
     private String name;
-    private String dome9ID;
     private String accountNumber;
     private String region;
     private ExternalFindings externalFindings;
@@ -43,19 +46,19 @@ public class Subnet implements Serializable{
     public void setAvailabilityZone(String value) { this.availabilityZone = value; }
 
     @JsonProperty("defaultForAz")
-    public boolean getDefaultForAz() { return defaultForAz; }
+    public Boolean getDefaultForAz() { return defaultForAz; }
     @JsonProperty("defaultForAz")
-    public void setDefaultForAz(boolean value) { this.defaultForAz = value; }
+    public void setDefaultForAz(Boolean value) { this.defaultForAz = value; }
 
     @JsonProperty("mapPublicIpOnLaunch")
-    public boolean getMapPublicIPOnLaunch() { return mapPublicIPOnLaunch; }
+    public Boolean getMapPublicIPOnLaunch() { return mapPublicIPOnLaunch; }
     @JsonProperty("mapPublicIpOnLaunch")
-    public void setMapPublicIPOnLaunch(Boolean mapPublicIPOnLaunch) { this.mapPublicIPOnLaunch = mapPublicIPOnLaunch; }
+    public void setMapPublicIPOnLaunch(Boolean value) { this.mapPublicIPOnLaunch = value; }
 
     @JsonProperty("availableIpAddressCount")
     public Integer getAvailableIPAddressCount() { return availableIPAddressCount; }
     @JsonProperty("availableIpAddressCount")
-    public void setAvailableIPAddressCount(Integer availableIPAddressCount) { this.availableIPAddressCount = availableIPAddressCount; }
+    public void setAvailableIPAddressCount(Integer value) { this.availableIPAddressCount = value; }
 
     @JsonProperty("externalId")
     public String getExternalID() { return externalID; }
@@ -107,11 +110,6 @@ public class Subnet implements Serializable{
     @JsonProperty("name")
     public void setName(String value) { this.name = value; }
 
-    @JsonProperty("dome9Id")
-    public String getDome9ID() { return dome9ID; }
-    @JsonProperty("dome9Id")
-    public void setDome9ID(String value) { this.dome9ID = value; }
-
     @JsonProperty("accountNumber")
     public String getAccountNumber() { return accountNumber; }
     @JsonProperty("accountNumber")
@@ -126,4 +124,13 @@ public class Subnet implements Serializable{
     public ExternalFindings getExternalFindings() { return externalFindings; }
     @JsonProperty("externalFindings")
     public void setExternalFindings(ExternalFindings value) { this.externalFindings = value; }
+	@Override
+	public String toString() {
+		return "Subnet [vpc=" + vpc + ", state=" + state + ", availabilityZone=" + availabilityZone + ", defaultForAz="
+				+ defaultForAz + ", mapPublicIPOnLaunch=" + mapPublicIPOnLaunch + ", availableIPAddressCount="
+				+ availableIPAddressCount + ", externalID=" + externalID + ", description=" + description + ", cidr="
+				+ cidr + ", routeTable=" + routeTable + ", ownerID=" + ownerID + ", nacl=" + nacl + ", tags=" + tags
+				+ ", id=" + id + ", type=" + type + ", name=" + name + ", accountNumber=" + accountNumber + ", region="
+				+ region + ", externalFindings=" + externalFindings + "]";
+	}
 }

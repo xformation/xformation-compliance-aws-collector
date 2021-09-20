@@ -15,4 +15,8 @@ public class StringClass implements Serializable{
     public String getLength() { return length; }
     @JsonProperty("length")
     public void setLength(String value) { this.length = value; }
+	@Override
+	public String toString() {
+		return "StringClass [length=" + length + "]";
+	}
 }

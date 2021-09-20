@@ -7,10 +7,9 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
-import com.synectiks.aws.entities.ec2.XformEc2Instance;
-import com.synectiks.aws.entities.vpc.Converter;
+import com.synectiks.aws.config.Converter;
+import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.processor.XformEc2Processor;
 import com.synectiks.aws.processor.XformVpcProcessor;
@@ -18,35 +17,31 @@ import com.synectiks.aws.processor.XformVpcProcessor;
 public class XformAwsCmd {
 	private static Options buildOptions() {
 		Options options = new Options();
-
+		
 		Option accessKey = new Option("a", "a", true, "Enter access key");
 		accessKey.setRequired(true);
 		options.addOption(accessKey);
-
+		
 		Option secretKey = new Option("s", "s", true, "Enter secret key");
 		secretKey.setRequired(true);
 		options.addOption(secretKey);
-
+		
 		Option regionOpt = new Option("r", "r", true, "Enter Region");
 		regionOpt.setRequired(true);
 		options.addOption(regionOpt);
-
+		
 		Option vpc = new Option("vpc", "vpc");
 		vpc.setRequired(false);
 		options.addOption(vpc);
-
-		Option ec2 = new Option("ec2", "It'll describe ec2 instances");
-		ec2.setRequired(false);
-		options.addOption(ec2);
-
+		
 		Option id = new Option("vpcId", "vpcId", true, "Enter vpc id");
 		id.setRequired(false);
 		options.addOption(id);
-
+		
 //		Option helpOpt = new Option("help", "help", false, "For print helps");
 //		helpOpt.setRequired(false);
 //		options.addOption(helpOpt);
-
+		
 //		Option helpOpt1 = new Option("h", "h", false, "For print helps");
 //		helpOpt1.setRequired(false);
 //		options.addOption(helpOpt1);
@@ -81,50 +76,48 @@ public class XformAwsCmd {
 		Options options = buildOptions();
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
-		String accesskey = cmd.getOptionValue("a");
-		String secretKey = cmd.getOptionValue("s");
-		String region = cmd.getOptionValue("r");
-		if (cmd.hasOption("vpc")) {
-			if (cmd.hasOption("vpcId")) {
-				XformVpcProcessor processor = new XformVpcProcessor(accesskey, secretKey, region);
+		
+		if(cmd.hasOption("vpc")) {
+			if(cmd.hasOption("vpcId")) {
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 				List<XformVpc> list = processor.getXformObjectById(cmd.getOptionValue("vpcId"));
-				for (XformVpc vpc : list) {
+				for(XformVpc vpc : list) {
 					System.out.println(Converter.toPrettyJsonString(vpc));
 				}
-			} else {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-						cmd.getOptionValue("r"));
+			}else {
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 				List<XformVpc> list = processor.getXformObject();
-				for (XformVpc vpc : list) {
+				for(XformVpc vpc : list) {
 					System.out.println(Converter.toPrettyJsonString(vpc));
 				}
-			}
-			System.exit(0);
-		} else if (cmd.hasOption("ec2")) {
-			XformEc2Processor xformEc2Processor = new XformEc2Processor(accesskey, secretKey, region);
-			List<XformEc2Instance> xformEc2Instances = xformEc2Processor.getXformObject();
-			for (XformEc2Instance xformEc2Instance : xformEc2Instances) {
-				System.out.println(com.synectiks.aws.entities.ec2.Converter.toPrettyJsonString(xformEc2Instance));
 			}
 			System.exit(0);
 		}
-
+		
+		if(cmd.hasOption("ec2")) {
+			XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			List<XformEc2> list =  processor.getXformObject();
+			for(XformEc2 ec2 : list) {
+				System.out.println(Converter.toPrettyJsonString(ec2));
+			}
+			System.exit(0);
+		}
 //		String r = cmd.getOptionValue("r");
 //		Region reg = getRegion(r);
 //		AwsCredentialsProvider asAwsCredentialsProvider = null;
-
+		
 //		if (cmd.hasOption("a") && cmd.hasOption("s")) {
 //			asAwsCredentialsProvider = getAwsCredentialsProvider(cmd.getOptionValue("a"), cmd.getOptionValue("s"));
 //		} else {
 //			asAwsCredentialsProvider = DefaultCredentialsProvider.create();
 //		}
-
+		
 //		List<String> cmdArgs = cmd.getArgList();
 //		if (cmd.hasOption("help")) {
 //			getHelp(options);
 //			return;
 //		}
-
+		
 //		if (cmdArgs.size() > 0) {
 //			String firstArg = cmdArgs.get(0);
 //			if (firstArg.equalsIgnoreCase("ec2")) {
