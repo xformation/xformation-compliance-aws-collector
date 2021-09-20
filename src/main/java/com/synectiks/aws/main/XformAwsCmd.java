@@ -38,6 +38,10 @@ public class XformAwsCmd {
 		id.setRequired(false);
 		options.addOption(id);
 		
+		Option ec2 = new Option("ec2", "ec2");
+		ec2.setRequired(false);
+		options.addOption(ec2);
+		
 //		Option helpOpt = new Option("help", "help", false, "For print helps");
 //		helpOpt.setRequired(false);
 //		options.addOption(helpOpt);
