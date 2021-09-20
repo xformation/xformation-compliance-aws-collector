@@ -10,8 +10,10 @@ import org.apache.commons.cli.Options;
 
 import com.synectiks.aws.config.Converter;
 import com.synectiks.aws.entities.ec2.XformEc2;
+import com.synectiks.aws.entities.ekscluster.XformEksCluster;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.processor.XformEc2Processor;
+import com.synectiks.aws.processor.XformEksClusterProcessor;
 import com.synectiks.aws.processor.XformVpcProcessor;
 
 public class XformAwsCmd {
@@ -41,6 +43,10 @@ public class XformAwsCmd {
 		Option ec2 = new Option("ec2", "ec2");
 		ec2.setRequired(false);
 		options.addOption(ec2);
+		
+		Option eksCluster = new Option("eksCluster", "eksCluster");
+		eksCluster.setRequired(false);
+		options.addOption(eksCluster);
 		
 //		Option helpOpt = new Option("help", "help", false, "For print helps");
 //		helpOpt.setRequired(false);
@@ -106,6 +112,16 @@ public class XformAwsCmd {
 			}
 			System.exit(0);
 		}
+		
+		if(cmd.hasOption("eksCluster")) {
+			XformEksClusterProcessor processor = new XformEksClusterProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			List<XformEksCluster> list =  processor.getXformObject();
+			for(XformEksCluster eksClusterObj : list) {
+				System.out.println(Converter.toPrettyJsonString(eksClusterObj));
+			}
+			System.exit(0);
+		}
+		
 //		String r = cmd.getOptionValue("r");
 //		Region reg = getRegion(r);
 //		AwsCredentialsProvider asAwsCredentialsProvider = null;
