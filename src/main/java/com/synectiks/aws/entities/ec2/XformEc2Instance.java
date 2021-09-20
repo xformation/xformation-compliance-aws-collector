@@ -3,6 +3,7 @@ package com.synectiks.aws.entities.ec2;
 import com.fasterxml.jackson.annotation.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.List;
 
 public class XformEc2Instance implements Serializable {

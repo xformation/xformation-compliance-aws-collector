@@ -17,6 +17,7 @@ package com.synectiks.aws.entities.vpc;
 import java.io.IOException;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.synectiks.aws.entities.ec2.XformEc2Instance;
 import com.fasterxml.jackson.core.FormatFeature;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -72,10 +73,10 @@ public class Converter {
         return getObjectWriter().writeValueAsString(obj);
     }
 
-    public static String toPrettyJsonString(XformVpc obj) throws JsonProcessingException {
+    public static String toPrettyJsonString(XformVpc vpc) throws JsonProcessingException {
         return getObjectWriter()
         		.with(SerializationFeature.INDENT_OUTPUT)
-        		.writeValueAsString(obj);
+        		.writeValueAsString(vpc);
     }
     
     private static ObjectReader reader;

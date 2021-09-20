@@ -1,5 +1,6 @@
 package com.synectiks.aws.processor;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,13 +17,19 @@ import com.synectiks.aws.entities.ec2.XformEc2Instance;
 import com.synectiks.aws.main.XformAwsProcessor;
 
 import software.amazon.awssdk.services.ec2.Ec2Client;
+import software.amazon.awssdk.services.ec2.model.CapacityReservationSpecificationResponse;
+import software.amazon.awssdk.services.ec2.model.CpuOptions;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesResponse;
 import software.amazon.awssdk.services.ec2.model.DescribeSubnetsResponse;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeVpcsResponse;
 import software.amazon.awssdk.services.ec2.model.Ec2Exception;
+import software.amazon.awssdk.services.ec2.model.IamInstanceProfile;
 import software.amazon.awssdk.services.ec2.model.Instance;
+import software.amazon.awssdk.services.ec2.model.InstanceMetadataOptionsResponse;
+import software.amazon.awssdk.services.ec2.model.InstanceState;
+import software.amazon.awssdk.services.ec2.model.Placement;
 import software.amazon.awssdk.services.ec2.model.Reservation;
 import software.amazon.awssdk.services.ec2.model.Subnet;
 import software.amazon.awssdk.services.ec2.model.Tag;
@@ -38,7 +45,6 @@ public class XformEc2Processor extends XformAwsProcessor {
 
 	@Override
 	public List<Instance> getCloudObject() throws Exception {
-		boolean done = false;
 		Ec2Client ec2 = getEc2Client();
 		String nextToken = null;
 		List<Instance> instances = new ArrayList<Instance>();
@@ -64,62 +70,56 @@ public class XformEc2Processor extends XformAwsProcessor {
 	}
 
 	@Override
-	public List<Vpc> getXformObject() throws Exception {
+	public List<XformEc2Instance> getXformObject() throws Exception {
 		List<Instance> instances = getCloudObject();
-		List<com.synectiks.aws.entities.ec2.Vpc> xformVpcList = new ArrayList<>();
+		List<XformEc2Instance> xformEc2Instances = new ArrayList<>();
 		for(Instance instance: instances) {
 			Optional<String> imageId = instance.getValueForField("ImageId", String.class);
 			Optional<String> instanceId = instance.getValueForField("InstanceId", String.class);
 			Optional<String> instanceType = instance.getValueForField("InstanceType", String.class);
 			Optional<String> kernelId = instance.getValueForField("KernelId", String.class);
 			Optional<String> keyName = instance.getValueForField("KeyName", String.class);
-			Optional<String> monitoring = instance.getValueForField("Monitoring", String.class);
-			Optional<String> placement = instance.getValueForField("LaunchTime", String.class);
-			Optional<String> launchTime = instance.getValueForField("LaunchTime", String.class);
+			Optional<Object> monitoring = instance.getValueForField("Monitoring", Object.class);
+			Optional<Placement> placement = instance.getValueForField("Placement", Placement.class);
+			Optional<String> platform = instance.getValueForField("Platform", String.class);
+			Optional<Instant> launchTime = instance.getValueForField("LaunchTime", Instant.class);
 			Optional<String> privateDnsName = instance.getValueForField("privateDnsName", String.class);
 			Optional<String> privateIpAddress = instance.getValueForField("PrivateIpAddress", String.class);
-			Optional<String> productCodes = instance.getValueForField("ProductCodes", String.class);
+			Optional<List> productCodes = instance.getValueForField("ProductCodes", List.class);
 			Optional<String> publicDnsName = instance.getValueForField("publicDnsName", String.class);
 			Optional<String> publicIpAddress = instance.getValueForField("PublicIpAddress", String.class);
 			Optional<String> ramdiskId = instance.getValueForField("RamdiskId", String.class);
-			Optional<String> state = instance.getValueForField("State", String.class);
+			Optional<InstanceState> state = instance.getValueForField("State", InstanceState.class);
 			Optional<String> stateTransitionReason = instance.getValueForField("StateTransitionReason", String.class);
 			Optional<String> subnetId = instance.getValueForField("SubnetId", String.class);
 			Optional<String> vpcId = instance.getValueForField("vpcId", String.class);
 			Optional<String> architecture = instance.getValueForField("Architecture", String.class);
-			Optional<String> blockDeviceMappings = instance.getValueForField("BlockDeviceMappings", String.class);
+			Optional<List> blockDeviceMappings = instance.getValueForField("BlockDeviceMappings", List.class);
 			Optional<String> clientToken = instance.getValueForField("ClientToken", String.class);
 			Optional<String> ebsOptimized = instance.getValueForField("ebsOptimized", String.class);
-			Optional<String> enaSupport = instance.getValueForField("EnaSupport", String.class);
+			Optional<Boolean> enaSupport = instance.getValueForField("EnaSupport", Boolean.class);
 			Optional<String> hypervisor = instance.getValueForField("Hypervisor", String.class);
-			Optional<String> iamInstanceProfile = instance.getValueForField("IamInstanceProfile", String.class);
+			Optional<IamInstanceProfile> iamInstanceProfile = instance.getValueForField("IamInstanceProfile", IamInstanceProfile.class);
 			Optional<String> instanceLifecycle = instance.getValueForField("InstanceLifecycle", String.class);
-			
 			Optional<String> elasticGpuAssociations = instance.getValueForField("elasticGpuAssociations", String.class);
-			Optional<String> elasticInferenceAcceleratorAssociations = instance.getValueForField("ElasticInferenceAcceleratorAssociations", String.class);
-			Optional<String> networkInterfaces = instance.getValueForField("NetworkInterfaces", String.class);
+			Optional<List> elasticInferenceAcceleratorAssociations = instance.getValueForField("ElasticInferenceAcceleratorAssociations", List.class);
+			Optional<List> networkInterfaces = instance.getValueForField("NetworkInterfaces", List.class);
 			Optional<String> outpostArn = instance.getValueForField("OutpostArn", String.class);
 			Optional<String> rootDeviceName = instance.getValueForField("RootDeviceName", String.class);
 			Optional<String> rootDeviceType = instance.getValueForField("RootDeviceType", String.class);
-			Optional<String> securityGroups = instance.getValueForField("SecurityGroups", String.class);
-			Optional<String> sourceDestCheck = instance.getValueForField("SourceDestCheck", String.class);
+			Optional<List> securityGroups = instance.getValueForField("SecurityGroups", List.class);
+			Optional<Boolean> sourceDestCheck = instance.getValueForField("SourceDestCheck", Boolean.class);
 			Optional<String> spotInstanceRequestId = instance.getValueForField("SpotInstanceRequestId", String.class);
 			Optional<String> sriovNetSupport = instance.getValueForField("SriovNetSupport", String.class);
 			Optional<String> stateReason = instance.getValueForField("stateReason", String.class);
 			Optional<List> tags = instance.getValueForField("Tags", List.class);
-			Optional<List> cpuOptions = instance.getValueForField("CpuOptions", List.class);
+			Optional<CpuOptions> cpuOptions = instance.getValueForField("CpuOptions", CpuOptions.class);
 			Optional<String> capacityReservationId = instance.getValueForField("CapacityReservationId", String.class);
-			Optional<String> capacityReservationSpecification = instance.getValueForField("CapacityReservationSpecification", String.class);
+			Optional<CapacityReservationSpecificationResponse> capacityReservationSpecification = instance.getValueForField("CapacityReservationSpecification", CapacityReservationSpecificationResponse.class);
 			Optional<List> HibernationOptions = instance.getValueForField("SriovNetSupport", List.class);
 			Optional<List> licenses = instance.getValueForField("Licenses", List.class);
-			Optional<String> capacityReservationSpecification = instance.getValueForField("CapacityReservationSpecification", String.class);
-			Optional<List> HibernationOptions = instance.getValueForField("SriovNetSupport", List.class);
-			
-			
-			Optional<List> cidrBlockAssociationSet = instance.getValueForField("CidrBlockAssociationSet", List.class);
-			Optional<Boolean> isDefault = instance.getValueForField("IsDefault", Boolean.class);
-			Optional<List> tags = instance.getValueForField("Tags", List.class);
-			
+			Optional<InstanceMetadataOptionsResponse> metadataOptions = instance.getValueForField("MetadataOptions", InstanceMetadataOptionsResponse.class);
+			Optional<String> bootMode = instance.getValueForField("BootMode", String.class);
 			com.synectiks.aws.entities.ec2.XformEc2Instance xformEc2Instance = new com.synectiks.aws.entities.ec2.XformEc2Instance();
 			xformEc2Instance.setAccountNumber(getAwsAccountNumber());
 //			xformEc2Instance.setAutoScalingGroup(null);
@@ -135,65 +135,42 @@ public class XformEc2Processor extends XformAwsProcessor {
 				xformEc2Instance.setInstanceType(instanceType.get());
 			}
 //			xformEc2Instance.setIsPublic(null);
-			
-			
-			
-			xformEc2Instance.setIsRunning(instance.state().toString());
-			xformEc2Instance.setKernelID(null);
-			xformEc2Instance.setLaunchTime(null);
-			xformEc2Instance.setName(null);
-			xformEc2Instance.setNics(null);
-			xformEc2Instance.setOutboundRules(null);
-			xformEc2Instance.setPlatform(instance.platformAsString());
-			xformEc2Instance.setPrivateDNS(instance.privateDnsName());
-//			customInstance.setProfileArn(instance.iamInstanceProfile().arn());
-			xformEc2Instance.setPublicDNS(instance.publicDnsName());
-			xformEc2Instance.setRegion(null);
-			xformEc2Instance.setRoles(null);
-			xformEc2Instance.setScanners(null);
-			xformEc2Instance.setSsmAgentInstanceInformation(null);
-//			xformEc2Instance.setTags(getCustomTagList(instance.tags()));
-			xformEc2Instance.setType(null);
-			xformEc2Instance.setVolumes(null);
-			if(cidrBlock.isPresent()) {
-				xformVpc.setCIDR(cidrBlock.get());
-			}
-//			xformVpc.setSubnets(getXformSubnet(vpc));
-			if(dhcpOptionsId.isPresent()) {
-				xformVpc.setDHCPOptionsID(dhcpOptionsId.get());
-			}
-			if(instanceTenancy.isPresent()) {
-				xformVpc.setInstanceTenancy(instanceTenancy.get());
-			}
-			if(isDefault.isPresent()) {
-				xformVpc.setIsDefault(isDefault.get());
-			}
 			if(state.isPresent()) {
-				xformVpc.setState(state.get());
+				xformEc2Instance.setIsRunning(instance.state().toString());
 			}
-//			xformVpc.setVPNGateways();
-//			xformVpc.setInternetGateways();
-//			xformVpc.setTransitGateways();
-//			xformVpc.setRouteTables();
-//			xformVpc.setVpcPeeringConnections();
-//			xformVpc.setHasFlowLogs();
-//			xformVpc.setFlowLogs();
-//			xformVpc.setVpc(getXformVpc(vpc));
-			if(tags.isPresent()) {
-				xformVpc.setTags(getXformTagList(tags.get()));
+//			xformEc2Instance.setKernelID(null);
+			if(launchTime.isPresent()) {
+				xformEc2Instance.setLaunchTime(launchTime.get().toString());
 			}
-			
-			if(vpcId.isPresent()) {
-				xformVpc.setID(vpcId.get());
+			if(rootDeviceName.isPresent()) {
+				xformEc2Instance.setName(rootDeviceName.get());
 			}
-//			xformVpc.setType();
-//			xformVpc.setName();
-			xformVpc.setAccountNumber(getAwsAccountNumber());
-			xformVpc.setRegion(getRegionAsText());
-//			xformVpc.setExternalFindings();
-			xformVpcList.add(xformVpc);
+//			xformEc2Instance.setNics(null);
+//			xformEc2Instance.setOutboundRules(null);
+			if(platform.isPresent()) {
+				xformEc2Instance.setPlatform(platform.get());
+			}
+			if(privateDnsName.isPresent()) {
+				xformEc2Instance.setPrivateDNS(privateDnsName.get());
+			}
+			if(outpostArn.isPresent()) {
+				xformEc2Instance.setProfileArn(instance.iamInstanceProfile().arn());
+			}
+			if(publicDnsName.isPresent()) {
+				xformEc2Instance.setPublicDNS(publicDnsName.get());
+			}
+			xformEc2Instance.setRegion(getRegionAsText());
+//			xformEc2Instance.setRoles(null);
+//			xformEc2Instance.setScanners(null);
+//			xformEc2Instance.setSsmAgentInstanceInformation(null);
+//			xformEc2Instance.setTags(getCustomTagList(instance.tags()));
+			if(instanceType.isPresent()) {
+				xformEc2Instance.setType(instanceType.get());
+			}
+			xformEc2Instances.add(xformEc2Instance);
+//			xformEc2Instance.setVolumes(null);
 		}
-		return xformVpcList;
+		return xformEc2Instances;
 	}
 	
 	private List<com.synectiks.aws.entities.ec2.Subnet> getXformSubnet(Vpc vpc) {
@@ -298,9 +275,9 @@ public class XformEc2Processor extends XformAwsProcessor {
 		return response.vpcs();
 	}
 
-	public List<XformVpc> getXformObjectById(String vpcId) throws Exception {
+	public List<com.synectiks.aws.entities.ec2.Vpc> getXformObjectById(String vpcId) throws Exception {
 		List<Vpc> vpcList = getAwsVpcById(vpcId);
-		List<XformVpc> xformVpcList = new ArrayList<>();
+		List<com.synectiks.aws.entities.ec2.Vpc> xformVpcList = new ArrayList<>();
 		for(Vpc vpc: vpcList) {
 			Optional<String> cidrBlock = vpc.getValueForField("CidrBlock", String.class);
 			Optional<String> dhcpOptionsId = vpc.getValueForField("DhcpOptionsId", String.class);
@@ -313,11 +290,11 @@ public class XformEc2Processor extends XformAwsProcessor {
 			Optional<Boolean> isDefault = vpc.getValueForField("IsDefault", Boolean.class);
 			Optional<List> tags = vpc.getValueForField("Tags", List.class);
 			
-			XformVpc xformVpc = new XformVpc();
+			com.synectiks.aws.entities.ec2.Vpc xformVpc = new com.synectiks.aws.entities.ec2.Vpc();
 			if(cidrBlock.isPresent()) {
 				xformVpc.setCIDR(cidrBlock.get());
 			}
-			xformVpc.setSubnets(getXformSubnet(vpc));
+//			xformVpc.setSubnets(getXformSubnet(vpc));
 			if(dhcpOptionsId.isPresent()) {
 				xformVpc.setDHCPOptionsID(dhcpOptionsId.get());
 			}
@@ -337,7 +314,7 @@ public class XformEc2Processor extends XformAwsProcessor {
 //			xformVpc.setVpcPeeringConnections();
 //			xformVpc.setHasFlowLogs();
 //			xformVpc.setFlowLogs();
-			xformVpc.setVpc(getXformVpc(vpc));
+//			xformVpc.setVpc(getXformVpc(vpc));
 			if(tags.isPresent()) {
 				xformVpc.setTags(getXformTagList(tags.get()));
 			}
