@@ -11,47 +11,57 @@ import org.apache.commons.cli.Options;
 import com.synectiks.aws.config.Converter;
 import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
+import com.synectiks.aws.entities.lambda.XformLambda;
+import com.synectiks.aws.entities.s3.XformS3RDSEntity;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.processor.XformEc2Processor;
 import com.synectiks.aws.processor.XformEksClusterProcessor;
-import com.synectiks.aws.processor.XformVpcProcessor;
+import com.synectiks.aws.processor.*;
 
 public class XformAwsCmd {
 	private static Options buildOptions() {
 		Options options = new Options();
-		
+
 		Option accessKey = new Option("a", "a", true, "Enter access key");
 		accessKey.setRequired(true);
 		options.addOption(accessKey);
-		
+
 		Option secretKey = new Option("s", "s", true, "Enter secret key");
 		secretKey.setRequired(true);
 		options.addOption(secretKey);
-		
+
 		Option regionOpt = new Option("r", "r", true, "Enter Region");
 		regionOpt.setRequired(true);
 		options.addOption(regionOpt);
-		
+
 		Option vpc = new Option("vpc", "vpc");
 		vpc.setRequired(false);
 		options.addOption(vpc);
-		
+
 		Option id = new Option("vpcId", "vpcId", true, "Enter vpc id");
 		id.setRequired(false);
 		options.addOption(id);
-		
+
 		Option ec2 = new Option("ec2", "ec2");
 		ec2.setRequired(false);
 		options.addOption(ec2);
-		
+
 		Option eksCluster = new Option("eksCluster", "eksCluster");
 		eksCluster.setRequired(false);
 		options.addOption(eksCluster);
+
+		Option s3Rds = new Option("s3rds", "s3rds");
+		s3Rds.setRequired(false);
+		options.addOption(s3Rds);
 		
+		Option lambda = new Option("lambda", "lambda");
+		lambda.setRequired(false);
+		options.addOption(lambda);
+
 //		Option helpOpt = new Option("help", "help", false, "For print helps");
 //		helpOpt.setRequired(false);
 //		options.addOption(helpOpt);
-		
+
 //		Option helpOpt1 = new Option("h", "h", false, "For print helps");
 //		helpOpt1.setRequired(false);
 //		options.addOption(helpOpt1);
@@ -86,58 +96,86 @@ public class XformAwsCmd {
 		Options options = buildOptions();
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
-		
-		if(cmd.hasOption("vpc")) {
-			if(cmd.hasOption("vpcId")) {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+
+		if (cmd.hasOption("vpc")) {
+			if (cmd.hasOption("vpcId")) {
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+						cmd.getOptionValue("r"));
 				List<XformVpc> list = processor.getXformObjectById(cmd.getOptionValue("vpcId"));
-				for(XformVpc vpc : list) {
+				for (XformVpc vpc : list) {
 					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
 				}
-			}else {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			} else {
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+						cmd.getOptionValue("r"));
 				List<XformVpc> list = processor.getXformObject();
-				for(XformVpc vpc : list) {
+				for (XformVpc vpc : list) {
 					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
 				}
 			}
 			System.exit(0);
 		}
-		
-		if(cmd.hasOption("ec2")) {
-			XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
-			List<XformEc2> list =  processor.getXformObject();
-			for(XformEc2 ec2 : list) {
+
+		if (cmd.hasOption("ec2")) {
+			XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+					cmd.getOptionValue("r"));
+			List<XformEc2> list = processor.getXformObject();
+			for (XformEc2 ec2 : list) {
 				System.out.println(Converter.toPrettyJsonString(ec2, XformEc2.class));
 			}
 			System.exit(0);
 		}
-		
-		if(cmd.hasOption("eksCluster")) {
-			XformEksClusterProcessor processor = new XformEksClusterProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
-			List<XformEksCluster> list =  processor.getXformObject();
-			for(XformEksCluster eksClusterObj : list) {
+
+		if (cmd.hasOption("eksCluster")) {
+			XformEksClusterProcessor processor = new XformEksClusterProcessor(cmd.getOptionValue("a"),
+					cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			List<XformEksCluster> list = processor.getXformObject();
+			for (XformEksCluster eksClusterObj : list) {
 				System.out.println(Converter.toPrettyJsonString(eksClusterObj, XformEksCluster.class));
 			}
 			System.exit(0);
 		}
-		
+		System.out.println("Checking s3rds....");
+		if (cmd.hasOption("s3rds")) {
+			XformS3RDSProcessor processor = new XformS3RDSProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+					cmd.getOptionValue("r"));
+			System.out.println("In s3rds....");
+			List<XformS3RDSEntity> list = processor.getXformObject();
+			for (XformS3RDSEntity xformS3RDSEntity : list) {
+				System.out.println("pringting s3rds....");
+				System.out.println(Converter.toPrettyJsonString(xformS3RDSEntity, XformS3RDSEntity.class));
+			}
+			System.exit(0);
+		}
+		System.out.println("Checking lambda....");
+		if (cmd.hasOption("lambda")) {
+			System.out.println("in lambda....");
+			XformLambdaProcessor processor = new XformLambdaProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+					cmd.getOptionValue("r"));
+			List<XformLambda> list = processor.getXformObject();
+			for (XformLambda xformLambda : list) {
+				System.out.println("iterating list of lambda....");
+				System.out.println(Converter.toPrettyJsonString(xformLambda, XformLambda.class));
+			}
+			System.exit(0);
+		}
+
 //		String r = cmd.getOptionValue("r");
 //		Region reg = getRegion(r);
 //		AwsCredentialsProvider asAwsCredentialsProvider = null;
-		
+
 //		if (cmd.hasOption("a") && cmd.hasOption("s")) {
 //			asAwsCredentialsProvider = getAwsCredentialsProvider(cmd.getOptionValue("a"), cmd.getOptionValue("s"));
 //		} else {
 //			asAwsCredentialsProvider = DefaultCredentialsProvider.create();
 //		}
-		
+
 //		List<String> cmdArgs = cmd.getArgList();
 //		if (cmd.hasOption("help")) {
 //			getHelp(options);
 //			return;
 //		}
-		
+
 //		if (cmdArgs.size() > 0) {
 //			String firstArg = cmdArgs.get(0);
 //			if (firstArg.equalsIgnoreCase("ec2")) {

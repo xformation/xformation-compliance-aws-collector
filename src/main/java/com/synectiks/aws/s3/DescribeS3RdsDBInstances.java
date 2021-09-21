@@ -94,7 +94,6 @@ public class DescribeS3RdsDBInstances {
 				entity.setDBClusterName(instance.dbClusterIdentifier());
 				entity.setDBType(instance.storageType());
 				entity.setDescription(null);
-				entity.setDome9ID(null);
 				entity.setEncryptionKey(null);
 				entity.setEngineVersion(instance.engineVersion());
 				entity.setExternalFindings(null);

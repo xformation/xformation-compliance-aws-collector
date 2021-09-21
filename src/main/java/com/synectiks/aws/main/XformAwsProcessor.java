@@ -18,11 +18,11 @@ public abstract class XformAwsProcessor implements XformCollector {
 
 	private String accessKey; 
 	private String secretKey; 
-	private Region region;
+	protected Region region;
 	private String regionAsText;
 	private String bucket;
 	private AwsCredentials awsCredentials;
-	private AwsCredentialsProvider awsCredentialsProvider;
+	protected AwsCredentialsProvider awsCredentialsProvider;
 	private Ec2Client ec2Client;
 	
 	public XformAwsProcessor(String accessKey, String secretKey, String region) {

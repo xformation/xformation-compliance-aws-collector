@@ -36,7 +36,6 @@ public class XformS3RDSEntity {
 	private String id;
 	private String type;
 	private String name;
-	private String dome9ID;
 	private String accountNumber;
 	private String region;
 	private ExternalFindings externalFindings;
@@ -351,15 +350,7 @@ public class XformS3RDSEntity {
 		this.name = value;
 	}
 
-	@JsonProperty("dome9Id")
-	public String getDome9ID() {
-		return dome9ID;
-	}
 
-	@JsonProperty("dome9Id")
-	public void setDome9ID(String value) {
-		this.dome9ID = value;
-	}
 
 	@JsonProperty("accountNumber")
 	public String getAccountNumber() {
