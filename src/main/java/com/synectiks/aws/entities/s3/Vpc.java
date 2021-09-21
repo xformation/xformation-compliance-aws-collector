@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Vpc implements Serializable{
+public class Vpc implements Serializable {
 	/**
 	 * 
 	 */
@@ -196,6 +196,5 @@ public class Vpc implements Serializable{
 				+ ", vpcPeeringConnections=" + vpcPeeringConnections + ", source=" + source + ", ownerID=" + ownerID
 				+ "]";
 	}
-	
-	
+
 }

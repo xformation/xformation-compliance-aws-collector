@@ -1,54 +1,94 @@
 package com.synectiks.aws.entities.rds;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OptionGroup {
-    private String allowsVpcAndNonVpcInstanceMemberships;
-    private String engineName;
-    private String majorEngineVersion;
-    private String optionGroupArn;
-    private String optionGroupDescription;
-    private String optionGroupName;
-    private String vpcID;
-    private String status;
+	private String allowsVpcAndNonVpcInstanceMemberships;
+	private String engineName;
+	private String majorEngineVersion;
+	private String optionGroupArn;
+	private String optionGroupDescription;
+	private String optionGroupName;
+	private String vpcID;
+	private String status;
 
-    @JsonProperty("allowsVpcAndNonVpcInstanceMemberships")
-    public String getAllowsVpcAndNonVpcInstanceMemberships() { return allowsVpcAndNonVpcInstanceMemberships; }
-    @JsonProperty("allowsVpcAndNonVpcInstanceMemberships")
-    public void setAllowsVpcAndNonVpcInstanceMemberships(String value) { this.allowsVpcAndNonVpcInstanceMemberships = value; }
+	@JsonProperty("allowsVpcAndNonVpcInstanceMemberships")
+	public String getAllowsVpcAndNonVpcInstanceMemberships() {
+		return allowsVpcAndNonVpcInstanceMemberships;
+	}
 
-    @JsonProperty("engineName")
-    public String getEngineName() { return engineName; }
-    @JsonProperty("engineName")
-    public void setEngineName(String value) { this.engineName = value; }
+	@JsonProperty("allowsVpcAndNonVpcInstanceMemberships")
+	public void setAllowsVpcAndNonVpcInstanceMemberships(String value) {
+		this.allowsVpcAndNonVpcInstanceMemberships = value;
+	}
 
-    @JsonProperty("majorEngineVersion")
-    public String getMajorEngineVersion() { return majorEngineVersion; }
-    @JsonProperty("majorEngineVersion")
-    public void setMajorEngineVersion(String value) { this.majorEngineVersion = value; }
+	@JsonProperty("engineName")
+	public String getEngineName() {
+		return engineName;
+	}
 
-    @JsonProperty("optionGroupArn")
-    public String getOptionGroupArn() { return optionGroupArn; }
-    @JsonProperty("optionGroupArn")
-    public void setOptionGroupArn(String value) { this.optionGroupArn = value; }
+	@JsonProperty("engineName")
+	public void setEngineName(String value) {
+		this.engineName = value;
+	}
 
-    @JsonProperty("optionGroupDescription")
-    public String getOptionGroupDescription() { return optionGroupDescription; }
-    @JsonProperty("optionGroupDescription")
-    public void setOptionGroupDescription(String value) { this.optionGroupDescription = value; }
+	@JsonProperty("majorEngineVersion")
+	public String getMajorEngineVersion() {
+		return majorEngineVersion;
+	}
 
-    @JsonProperty("optionGroupName")
-    public String getOptionGroupName() { return optionGroupName; }
-    @JsonProperty("optionGroupName")
-    public void setOptionGroupName(String value) { this.optionGroupName = value; }
+	@JsonProperty("majorEngineVersion")
+	public void setMajorEngineVersion(String value) {
+		this.majorEngineVersion = value;
+	}
 
-    @JsonProperty("vpcId")
-    public String getVpcID() { return vpcID; }
-    @JsonProperty("vpcId")
-    public void setVpcID(String value) { this.vpcID = value; }
+	@JsonProperty("optionGroupArn")
+	public String getOptionGroupArn() {
+		return optionGroupArn;
+	}
 
-    @JsonProperty("status")
-    public String getStatus() { return status; }
-    @JsonProperty("status")
-    public void setStatus(String value) { this.status = value; }
+	@JsonProperty("optionGroupArn")
+	public void setOptionGroupArn(String value) {
+		this.optionGroupArn = value;
+	}
+
+	@JsonProperty("optionGroupDescription")
+	public String getOptionGroupDescription() {
+		return optionGroupDescription;
+	}
+
+	@JsonProperty("optionGroupDescription")
+	public void setOptionGroupDescription(String value) {
+		this.optionGroupDescription = value;
+	}
+
+	@JsonProperty("optionGroupName")
+	public String getOptionGroupName() {
+		return optionGroupName;
+	}
+
+	@JsonProperty("optionGroupName")
+	public void setOptionGroupName(String value) {
+		this.optionGroupName = value;
+	}
+
+	@JsonProperty("vpcId")
+	public String getVpcID() {
+		return vpcID;
+	}
+
+	@JsonProperty("vpcId")
+	public void setVpcID(String value) {
+		this.vpcID = value;
+	}
+
+	@JsonProperty("status")
+	public String getStatus() {
+		return status;
+	}
+
+	@JsonProperty("status")
+	public void setStatus(String value) {
+		this.status = value;
+	}
 }

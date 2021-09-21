@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SecurityGroup implements Serializable{
+public class SecurityGroup implements Serializable {
 	/**
 	 * 
 	 */
@@ -196,5 +196,5 @@ public class SecurityGroup implements Serializable{
 				+ ", networkAssetsStats=" + networkAssetsStats + ", isProtected=" + isProtected + ", networkInterfaces="
 				+ networkInterfaces + "]";
 	}
-	
+
 }

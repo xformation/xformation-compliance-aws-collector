@@ -2,9 +2,9 @@ package com.synectiks.aws.entities.ekscluster;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class PublicAccessCIDR implements Serializable {
 
 	/**

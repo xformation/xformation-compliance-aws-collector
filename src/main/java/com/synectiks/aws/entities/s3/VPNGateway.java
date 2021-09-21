@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class VPNGateway implements Serializable{
+public class VPNGateway implements Serializable {
 	/**
 	 * 
 	 */
@@ -94,6 +94,5 @@ public class VPNGateway implements Serializable{
 				+ ", vpnGatewayID=" + vpnGatewayID + ", tags=" + tags + ", directConnectVirtualInterfaces="
 				+ directConnectVirtualInterfaces + ", vpcAttachments=" + vpcAttachments + "]";
 	}
-	
-	
+
 }

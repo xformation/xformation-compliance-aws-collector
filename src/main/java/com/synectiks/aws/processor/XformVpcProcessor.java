@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synectiks.aws.config.Converter;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.main.XformAwsProcessor;
 
@@ -48,33 +47,34 @@ public class XformVpcProcessor extends XformAwsProcessor {
 	public List<XformVpc> getXformObject() throws Exception {
 		List<Vpc> vpcList = getCloudObject();
 		List<XformVpc> xformVpcList = new ArrayList<>();
-		for(Vpc vpc: vpcList) {
+		for (Vpc vpc : vpcList) {
 			Optional<String> cidrBlock = vpc.getValueForField("CidrBlock", String.class);
 			Optional<String> dhcpOptionsId = vpc.getValueForField("DhcpOptionsId", String.class);
 			Optional<String> state = vpc.getValueForField("State", String.class);
 			Optional<String> vpcId = vpc.getValueForField("VpcId", String.class);
 			Optional<String> ownerId = vpc.getValueForField("OwnerId", String.class);
 			Optional<String> instanceTenancy = vpc.getValueForField("InstanceTenancy", String.class);
-			Optional<List> ipv6CidrBlockAssociationSet = vpc.getValueForField("Ipv6CidrBlockAssociationSet", List.class);
+			Optional<List> ipv6CidrBlockAssociationSet = vpc.getValueForField("Ipv6CidrBlockAssociationSet",
+					List.class);
 			Optional<List> cidrBlockAssociationSet = vpc.getValueForField("CidrBlockAssociationSet", List.class);
 			Optional<Boolean> isDefault = vpc.getValueForField("IsDefault", Boolean.class);
 			Optional<List> tags = vpc.getValueForField("Tags", List.class);
-			
+
 			XformVpc xformVpc = new XformVpc();
-			if(cidrBlock.isPresent()) {
+			if (cidrBlock.isPresent()) {
 				xformVpc.setCIDR(cidrBlock.get());
 			}
 			xformVpc.setSubnets(getXformSubnet(vpc));
-			if(dhcpOptionsId.isPresent()) {
+			if (dhcpOptionsId.isPresent()) {
 				xformVpc.setDHCPOptionsID(dhcpOptionsId.get());
 			}
-			if(instanceTenancy.isPresent()) {
+			if (instanceTenancy.isPresent()) {
 				xformVpc.setInstanceTenancy(instanceTenancy.get());
 			}
-			if(isDefault.isPresent()) {
+			if (isDefault.isPresent()) {
 				xformVpc.setIsDefault(isDefault.get());
 			}
-			if(state.isPresent()) {
+			if (state.isPresent()) {
 				xformVpc.setState(state.get());
 			}
 //			xformVpc.setVPNGateways();
@@ -85,11 +85,11 @@ public class XformVpcProcessor extends XformAwsProcessor {
 //			xformVpc.setHasFlowLogs();
 //			xformVpc.setFlowLogs();
 			xformVpc.setVpc(getXformVpc(vpc));
-			if(tags.isPresent()) {
+			if (tags.isPresent()) {
 				xformVpc.setTags(getXformTagList(tags.get()));
 			}
-			
-			if(vpcId.isPresent()) {
+
+			if (vpcId.isPresent()) {
 				xformVpc.setID(vpcId.get());
 			}
 //			xformVpc.setType();
@@ -101,33 +101,33 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		}
 		return xformVpcList;
 	}
-	
+
 	private List<com.synectiks.aws.entities.vpc.Subnet> getXformSubnet(Vpc vpc) {
 		List<Subnet> awsSubnetList = getAwsSubnetByVpcId(vpc.vpcId());
 		List<com.synectiks.aws.entities.vpc.Subnet> xformSubnetList = new ArrayList<>();
-			for (Subnet subnet : awsSubnetList) {
-				com.synectiks.aws.entities.vpc.Subnet xformSubnet = new com.synectiks.aws.entities.vpc.Subnet();
-				xformSubnet.setVpc(getXformVpc(vpc));
-				xformSubnet.setState(subnet.stateAsString());
-				xformSubnet.setAvailabilityZone(xformSubnet.getAvailabilityZone());
-				xformSubnet.setDefaultForAz(subnet.defaultForAz());
-				xformSubnet.setMapPublicIPOnLaunch(subnet.mapPublicIpOnLaunch());
-				xformSubnet.setAvailableIPAddressCount(subnet.availableIpAddressCount());
+		for (Subnet subnet : awsSubnetList) {
+			com.synectiks.aws.entities.vpc.Subnet xformSubnet = new com.synectiks.aws.entities.vpc.Subnet();
+			xformSubnet.setVpc(getXformVpc(vpc));
+			xformSubnet.setState(subnet.stateAsString());
+			xformSubnet.setAvailabilityZone(xformSubnet.getAvailabilityZone());
+			xformSubnet.setDefaultForAz(subnet.defaultForAz());
+			xformSubnet.setMapPublicIPOnLaunch(subnet.mapPublicIpOnLaunch());
+			xformSubnet.setAvailableIPAddressCount(subnet.availableIpAddressCount());
 //				xformSubnet.setExternalID();
 //				xformSubnet.setDescription();
-				xformSubnet.setCIDR(subnet.cidrBlock());
+			xformSubnet.setCIDR(subnet.cidrBlock());
 //				xformSubnet.setRouteTable();
-				xformSubnet.setOwnerID(subnet.ownerId());
+			xformSubnet.setOwnerID(subnet.ownerId());
 //				xformSubnet.setNacl();
-				xformSubnet.setTags(getXformTagList(vpc.tags()));
-				xformSubnet.setID(subnet.subnetId());
+			xformSubnet.setTags(getXformTagList(vpc.tags()));
+			xformSubnet.setID(subnet.subnetId());
 //				xformSubnet.setType();
 //				xformSubnet.setName();
-				xformSubnet.setAccountNumber(getAwsAccountNumber());
-				xformSubnet.setRegion(getRegionAsText());
+			xformSubnet.setAccountNumber(getAwsAccountNumber());
+			xformSubnet.setRegion(getRegionAsText());
 //				xformSubnet.setExternalFindings();
-				xformSubnetList.add(xformSubnet);
-			}
+			xformSubnetList.add(xformSubnet);
+		}
 		return xformSubnetList;
 	}
 
@@ -135,23 +135,23 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		com.synectiks.aws.entities.vpc.Vpc xfVpc = new com.synectiks.aws.entities.vpc.Vpc();
 //		xfVpc.setCloudAccountID(vpc.);
 		xfVpc.setCIDR(vpc.cidrBlock());
-	    xfVpc.setRegion(getRegionAsText());
-	    xfVpc.setID(vpc.vpcId());
-	    xfVpc.setAccountNumber(getAwsAccountNumber());
+		xfVpc.setRegion(getRegionAsText());
+		xfVpc.setID(vpc.vpcId());
+		xfVpc.setAccountNumber(getAwsAccountNumber());
 //	    private VPNGateway[] vpnGateways;
 //	    private InternetGateway[] internetGateways;
-	    xfVpc.setDHCPOptionsID(vpc.dhcpOptionsId());
-	    xfVpc.setInstanceTenancy(vpc.instanceTenancyAsString());
-	    xfVpc.setIsDefault(vpc.isDefault());
-	    xfVpc.setState(vpc.stateAsString());
-	    xfVpc.setTags(getXformTagList(vpc.tags()));
+		xfVpc.setDHCPOptionsID(vpc.dhcpOptionsId());
+		xfVpc.setInstanceTenancy(vpc.instanceTenancyAsString());
+		xfVpc.setIsDefault(vpc.isDefault());
+		xfVpc.setState(vpc.stateAsString());
+		xfVpc.setTags(getXformTagList(vpc.tags()));
 //	    private String name;
 //	    private VpcPeeringConnection[] vpcPeeringConnections; 
 //	    xfVpc.setSource();;
-	    xfVpc.setOwnerID(vpc.ownerId());
-		return xfVpc;    
+		xfVpc.setOwnerID(vpc.ownerId());
+		return xfVpc;
 	}
-	
+
 	public List<Subnet> getAwsSubnetByVpcId(String vpcId) {
 		Ec2Client ec2 = getEc2Client();
 		List<Subnet> listSubnets = new ArrayList<>();
@@ -159,19 +159,19 @@ public class XformVpcProcessor extends XformAwsProcessor {
 			DescribeSubnetsResponse describeSubnetsResponse = ec2.describeSubnets();
 			List<Subnet> listAllSubnets = describeSubnetsResponse.subnets();
 			for (Subnet subnet : listAllSubnets) {
-				if(subnet.vpcId().equals(vpcId)) {
+				if (subnet.vpcId().equals(vpcId)) {
 					listSubnets.add(subnet);
 				}
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Exception in getAwsSubnetByVpcId: ", e);
-		}finally {
+		} finally {
 			closeEc2Client(ec2);
 		}
 		return listSubnets;
 	}
-	
+
 	public List<Vpc> getAwsVpcById(String vpcId) {
 		Ec2Client ec2 = getEc2Client();
 		DescribeVpcsRequest request = null;
@@ -181,7 +181,7 @@ public class XformVpcProcessor extends XformAwsProcessor {
 			response = ec2.describeVpcs(request);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Exception in getAwsVpcById: ",e);
+			logger.error("Exception in getAwsVpcById: ", e);
 		} finally {
 			closeEc2Client(ec2);
 		}
@@ -191,33 +191,34 @@ public class XformVpcProcessor extends XformAwsProcessor {
 	public List<XformVpc> getXformObjectById(String vpcId) throws Exception {
 		List<Vpc> vpcList = getAwsVpcById(vpcId);
 		List<XformVpc> xformVpcList = new ArrayList<>();
-		for(Vpc vpc: vpcList) {
+		for (Vpc vpc : vpcList) {
 			Optional<String> cidrBlock = vpc.getValueForField("CidrBlock", String.class);
 			Optional<String> dhcpOptionsId = vpc.getValueForField("DhcpOptionsId", String.class);
 			Optional<String> state = vpc.getValueForField("State", String.class);
 //			Optional<String> vpcId = vpc.getValueForField("VpcId", String.class);
 			Optional<String> ownerId = vpc.getValueForField("OwnerId", String.class);
 			Optional<String> instanceTenancy = vpc.getValueForField("InstanceTenancy", String.class);
-			Optional<List> ipv6CidrBlockAssociationSet = vpc.getValueForField("Ipv6CidrBlockAssociationSet", List.class);
+			Optional<List> ipv6CidrBlockAssociationSet = vpc.getValueForField("Ipv6CidrBlockAssociationSet",
+					List.class);
 			Optional<List> cidrBlockAssociationSet = vpc.getValueForField("CidrBlockAssociationSet", List.class);
 			Optional<Boolean> isDefault = vpc.getValueForField("IsDefault", Boolean.class);
 			Optional<List> tags = vpc.getValueForField("Tags", List.class);
-			
+
 			XformVpc xformVpc = new XformVpc();
-			if(cidrBlock.isPresent()) {
+			if (cidrBlock.isPresent()) {
 				xformVpc.setCIDR(cidrBlock.get());
 			}
 			xformVpc.setSubnets(getXformSubnet(vpc));
-			if(dhcpOptionsId.isPresent()) {
+			if (dhcpOptionsId.isPresent()) {
 				xformVpc.setDHCPOptionsID(dhcpOptionsId.get());
 			}
-			if(instanceTenancy.isPresent()) {
+			if (instanceTenancy.isPresent()) {
 				xformVpc.setInstanceTenancy(instanceTenancy.get());
 			}
-			if(isDefault.isPresent()) {
+			if (isDefault.isPresent()) {
 				xformVpc.setIsDefault(isDefault.get());
 			}
-			if(state.isPresent()) {
+			if (state.isPresent()) {
 				xformVpc.setState(state.get());
 			}
 //			xformVpc.setVPNGateways();
@@ -228,13 +229,12 @@ public class XformVpcProcessor extends XformAwsProcessor {
 //			xformVpc.setHasFlowLogs();
 //			xformVpc.setFlowLogs();
 			xformVpc.setVpc(getXformVpc(vpc));
-			if(tags.isPresent()) {
+			if (tags.isPresent()) {
 				xformVpc.setTags(getXformTagList(tags.get()));
 			}
-			
-			
+
 			xformVpc.setID(vpcId);
-			
+
 //			xformVpc.setType();
 //			xformVpc.setName();
 			xformVpc.setAccountNumber(getAwsAccountNumber());
@@ -244,11 +244,11 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		}
 		return xformVpcList;
 	}
-	
+
 	public List<com.synectiks.aws.entities.vpc.Tag> getXformTagList(List tags) {
 		List<com.synectiks.aws.entities.vpc.Tag> listTag = new ArrayList<>();
 		for (Object obj : tags) {
-			Tag tag = (Tag)obj;
+			Tag tag = (Tag) obj;
 			com.synectiks.aws.entities.vpc.Tag xformTag = new com.synectiks.aws.entities.vpc.Tag();
 			xformTag.setKey(tag.key());
 			xformTag.setValue(tag.value());
@@ -257,5 +257,4 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return listTag;
 	}
 
-	
 }

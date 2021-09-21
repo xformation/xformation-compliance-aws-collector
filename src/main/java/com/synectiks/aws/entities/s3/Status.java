@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Status implements Serializable{
+public class Status implements Serializable {
 	/**
 	 * 
 	 */
@@ -36,6 +36,5 @@ public class Status implements Serializable{
 	public String toString() {
 		return "Status [message=" + message + ", code=" + code + "]";
 	}
-	
-	
+
 }

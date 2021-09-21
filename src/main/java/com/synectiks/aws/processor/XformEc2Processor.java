@@ -11,7 +11,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synectiks.aws.entities.ec2.Converter;
 import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.main.XformAwsProcessor;
 
@@ -32,10 +31,10 @@ import software.amazon.awssdk.services.ec2.model.StateReason;
 import software.amazon.awssdk.services.ec2.model.Tag;
 import software.amazon.awssdk.services.ec2.model.Vpc;
 
-public class XformEc2Processor extends XformAwsProcessor{
-	
+public class XformEc2Processor extends XformAwsProcessor {
+
 	private static final Logger logger = LoggerFactory.getLogger(XformEc2Processor.class);
-	
+
 	public XformEc2Processor(String accessKey, String secretKey, String region) {
 		super(accessKey, secretKey, region);
 	}
@@ -47,39 +46,39 @@ public class XformEc2Processor extends XformAwsProcessor{
 		try {
 			DescribeInstancesRequest request = DescribeInstancesRequest.builder().build();
 			List<Reservation> listReservations = describeAwsEc2Instance(request);
-			for (Reservation reservation: listReservations) {
-				for (Instance instance: reservation.instances()) {
+			for (Reservation reservation : listReservations) {
+				for (Instance instance : reservation.instances()) {
 					instanceList.add(instance);
 				}
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Exception in getCloudObject: ",e);
-		}finally {
+			logger.error("Exception in getCloudObject: ", e);
+		} finally {
 			closeEc2Client(ec2);
 		}
 		return Collections.unmodifiableList(instanceList);
 	}
-	
+
 	public List<Reservation> describeAwsEc2Instance(final DescribeInstancesRequest describeInstancesRequest) {
 		Ec2Client ec2 = getEc2Client();
 		List<Reservation> reservationList = new ArrayList<>();
 		try {
 			ec2.describeInstances(describeInstancesRequest).reservations();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Exception in describeInstances: ",e);
-		}finally {
+			logger.error("Exception in describeInstances: ", e);
+		} finally {
 			closeEc2Client(ec2);
 		}
 		return Collections.unmodifiableList(reservationList);
-    }
-	
+	}
+
 	@Override
 	public List<XformEc2> getXformObject() throws Exception {
 		List<Instance> instanceList = getCloudObject();
 		List<XformEc2> xformEc2List = new ArrayList<XformEc2>();
-		for(Instance in: instanceList) {
+		for (Instance in : instanceList) {
 			Optional<Integer> amiLaunchIndex = in.getValueForField("AmiLaunchIndex", Integer.class);
 			Optional<String> imageId = in.getValueForField("ImageId", String.class);
 			Optional<String> instanceId = in.getValueForField("InstanceId", String.class);
@@ -106,10 +105,12 @@ public class XformEc2Processor extends XformAwsProcessor{
 			Optional<Boolean> ebsOptimized = in.getValueForField("EbsOptimized", Boolean.class);
 			Optional<Boolean> enaSupport = in.getValueForField("EnaSupport", Boolean.class);
 			Optional<String> hypervisor = in.getValueForField("Hypervisor", String.class);
-			Optional<IamInstanceProfile> iamInstanceProfile = in.getValueForField("IamInstanceProfile", IamInstanceProfile.class);
+			Optional<IamInstanceProfile> iamInstanceProfile = in.getValueForField("IamInstanceProfile",
+					IamInstanceProfile.class);
 			Optional<String> instanceLifecycle = in.getValueForField("InstanceLifecycle", String.class);
 			Optional<List> elasticGpuAssociations = in.getValueForField("ElasticGpuAssociations", List.class);
-			Optional<List> elasticInferenceAcceleratorAssociations = in.getValueForField("ElasticInferenceAcceleratorAssociations", List.class);
+			Optional<List> elasticInferenceAcceleratorAssociations = in
+					.getValueForField("ElasticInferenceAcceleratorAssociations", List.class);
 			Optional<List> networkInterfaces = in.getValueForField("NetworkInterfaces", List.class);
 			Optional<String> outpostArn = in.getValueForField("OutpostArn", String.class);
 			Optional<String> rootDeviceName = in.getValueForField("RootDeviceName", String.class);
@@ -123,160 +124,163 @@ public class XformEc2Processor extends XformAwsProcessor{
 			Optional<String> virtualizationType = in.getValueForField("VirtualizationType", String.class);
 			Optional<CpuOptions> cpuOptions = in.getValueForField("CpuOptions", CpuOptions.class);
 			Optional<String> capacityReservationId = in.getValueForField("CapacityReservationId", String.class);
-			Optional<CapacityReservationSpecificationResponse> capacityReservationSpecification = in.getValueForField("CapacityReservationSpecification", CapacityReservationSpecificationResponse.class);
-			Optional<HibernationOptions> hibernationOptions = in.getValueForField("HibernationOptions", HibernationOptions.class);
+			Optional<CapacityReservationSpecificationResponse> capacityReservationSpecification = in.getValueForField(
+					"CapacityReservationSpecification", CapacityReservationSpecificationResponse.class);
+			Optional<HibernationOptions> hibernationOptions = in.getValueForField("HibernationOptions",
+					HibernationOptions.class);
 			Optional<List> licenses = in.getValueForField("Licenses", List.class);
-			Optional<InstanceMetadataOptionsResponse> metadataOptions = in.getValueForField("MetadataOptions", InstanceMetadataOptionsResponse.class);
+			Optional<InstanceMetadataOptionsResponse> metadataOptions = in.getValueForField("MetadataOptions",
+					InstanceMetadataOptionsResponse.class);
 			Optional<EnclaveOptions> enclaveOptions = in.getValueForField("EnclaveOptions", EnclaveOptions.class);
 			Optional<String> bootMode = in.getValueForField("BootMode", String.class);
-        	
+
 			XformEc2 obj = new XformEc2();
-			if(amiLaunchIndex.isPresent()) {
+			if (amiLaunchIndex.isPresent()) {
 				obj.setAmiLaunchIndex(amiLaunchIndex.get());
 			}
-			if(imageId.isPresent()) {
+			if (imageId.isPresent()) {
 				obj.setImage(imageId.get());
 			}
-			if(instanceId.isPresent()) {
+			if (instanceId.isPresent()) {
 				obj.setID(instanceId.get());
 			}
-			if(instanceType.isPresent()) {
+			if (instanceType.isPresent()) {
 				obj.setInstanceType(instanceType.get());
 			}
-			if(kernelId.isPresent()) {
+			if (kernelId.isPresent()) {
 				obj.setKernelID(kernelId.get());
 			}
-			if(keyName.isPresent()) {
+			if (keyName.isPresent()) {
 				obj.setKeyName(keyName.get());
 			}
-			if(launchTime.isPresent()) {
+			if (launchTime.isPresent()) {
 				obj.setLaunchTime(launchTime.get());
 			}
-			if(monitoring.isPresent()) {
+			if (monitoring.isPresent()) {
 				obj.setMonitoring(monitoring.get());
 			}
-			if(placement.isPresent()) {
+			if (placement.isPresent()) {
 				obj.setPlacement(placement.get());
 			}
-			if(platform.isPresent()) {
+			if (platform.isPresent()) {
 				obj.setPlatform(platform.get());
 			}
-			if(privateDnsName.isPresent()) {
+			if (privateDnsName.isPresent()) {
 				obj.setPrivateDNS(privateDnsName.get());
 			}
-			if(privateIpAddress.isPresent()) {
+			if (privateIpAddress.isPresent()) {
 				obj.setPrivateIpAddress(privateIpAddress.get());
 			}
-			if(productCodes.isPresent()) {
+			if (productCodes.isPresent()) {
 				obj.setProductCodes(productCodes.get());
 			}
-			if(publicDnsName.isPresent()) {
+			if (publicDnsName.isPresent()) {
 				obj.setPublicDNS(publicDnsName.get());
 			}
-			if(publicIpAddress.isPresent()) {
+			if (publicIpAddress.isPresent()) {
 				obj.setPublicIpAddress(publicIpAddress.get());
 			}
-			if(ramdiskId.isPresent()) {
+			if (ramdiskId.isPresent()) {
 				obj.setRamdiskId(ramdiskId.get());
 			}
-			if(state.isPresent()) {
+			if (state.isPresent()) {
 				obj.setState(state.get());
 			}
-			if(stateTransitionReason.isPresent()) {
+			if (stateTransitionReason.isPresent()) {
 				obj.setStateTransitionReason(stateTransitionReason.get());
 			}
-			if(subnetId.isPresent()) {
+			if (subnetId.isPresent()) {
 				obj.setSubnetId(subnetId.get());
 			}
-			if(vpcId.isPresent()) {
+			if (vpcId.isPresent()) {
 				obj.setVpcId(vpcId.get());
 				obj.setVpc(getEc2Vpc(vpcId.get()));
 			}
-			if(architecture.isPresent()) {
+			if (architecture.isPresent()) {
 				obj.setArchitecture(architecture.get());
 			}
-			if(blockDeviceMappings.isPresent()) {
+			if (blockDeviceMappings.isPresent()) {
 				obj.setBlockDeviceMappings(blockDeviceMappings.get());
 			}
-			if(clientToken.isPresent()) {
+			if (clientToken.isPresent()) {
 				obj.setClientToken(clientToken.get());
 			}
-			if(ebsOptimized.isPresent()) {
+			if (ebsOptimized.isPresent()) {
 				obj.setEbsOptimized(ebsOptimized.get());
 			}
-			if(enaSupport.isPresent()) {
+			if (enaSupport.isPresent()) {
 				obj.setEnaSupport(enaSupport.get());
 			}
-			if(hypervisor.isPresent()) {
+			if (hypervisor.isPresent()) {
 				obj.setHypervisor(hypervisor.get());
 			}
-			if(iamInstanceProfile.isPresent()) {
+			if (iamInstanceProfile.isPresent()) {
 				obj.setIamInstanceProfile(iamInstanceProfile.get());
 			}
-			if(instanceLifecycle.isPresent()) {
+			if (instanceLifecycle.isPresent()) {
 				obj.setInstanceLifecycle(instanceLifecycle.get());
 			}
-			if(elasticGpuAssociations.isPresent()) {
+			if (elasticGpuAssociations.isPresent()) {
 				obj.setElasticGpuAssociations(elasticGpuAssociations.get());
 			}
-			if(elasticInferenceAcceleratorAssociations.isPresent()) {
+			if (elasticInferenceAcceleratorAssociations.isPresent()) {
 				obj.setElasticInferenceAcceleratorAssociations(elasticInferenceAcceleratorAssociations.get());
 			}
-			if(networkInterfaces.isPresent()) {
+			if (networkInterfaces.isPresent()) {
 				obj.setNetworkInterfaces(networkInterfaces.get());
 			}
-			if(outpostArn.isPresent()) {
+			if (outpostArn.isPresent()) {
 				obj.setOutpostArn(outpostArn.get());
 			}
-			if(rootDeviceName.isPresent()) {
+			if (rootDeviceName.isPresent()) {
 				obj.setRootDeviceName(rootDeviceName.get());
 			}
-			if(rootDeviceType.isPresent()) {
+			if (rootDeviceType.isPresent()) {
 				obj.setRootDeviceType(rootDeviceType.get());
 			}
-			if(securityGroups.isPresent()) {
+			if (securityGroups.isPresent()) {
 				obj.setSecurityGroups(securityGroups.get());
 			}
-			if(sourceDestCheck.isPresent()) {
+			if (sourceDestCheck.isPresent()) {
 				obj.setSourceDestCheck(sourceDestCheck.get());
 			}
-			if(spotInstanceRequestId.isPresent()) {
+			if (spotInstanceRequestId.isPresent()) {
 				obj.setSpotInstanceRequestId(spotInstanceRequestId.get());
 			}
-			if(sriovNetSupport.isPresent()) {
+			if (sriovNetSupport.isPresent()) {
 				obj.setSriovNetSupport(sriovNetSupport.get());
 			}
-			if(stateReason.isPresent()) {
+			if (stateReason.isPresent()) {
 				obj.setStateReason(stateReason.get());
 			}
-			if(tags.isPresent()) {
+			if (tags.isPresent()) {
 				obj.setTags(getEc2TagList(tags.get()));
 			}
-			if(virtualizationType.isPresent()) {
+			if (virtualizationType.isPresent()) {
 				obj.setVirtualizationType(virtualizationType.get());
 			}
-			if(cpuOptions.isPresent()) {
+			if (cpuOptions.isPresent()) {
 				obj.setCpuOptions(cpuOptions.get());
 			}
-			if(capacityReservationId.isPresent()) {
+			if (capacityReservationId.isPresent()) {
 				obj.setCapacityReservationId(capacityReservationId.get());
 			}
-			if(capacityReservationSpecification.isPresent()) {
+			if (capacityReservationSpecification.isPresent()) {
 				obj.setCapacityReservationSpecification(capacityReservationSpecification.get());
 			}
-			if(hibernationOptions.isPresent()) {
+			if (hibernationOptions.isPresent()) {
 				obj.setHibernationOptions(hibernationOptions.get());
 			}
-			if(licenses.isPresent()) {
+			if (licenses.isPresent()) {
 				obj.setLicenses(licenses.get());
 			}
-			if(metadataOptions.isPresent()) {
+			if (metadataOptions.isPresent()) {
 				obj.setMetadataOptions(metadataOptions.get());
 			}
-			if(enclaveOptions.isPresent()) {
+			if (enclaveOptions.isPresent()) {
 				obj.setEnclaveOptions(enclaveOptions.get());
 			}
-			if(bootMode.isPresent()) {
+			if (bootMode.isPresent()) {
 				obj.setBootMode(bootMode.get());
 			}
 			obj.setAccountNumber(getAwsAccountNumber());
@@ -287,29 +291,30 @@ public class XformEc2Processor extends XformAwsProcessor{
 		return xformEc2List;
 	}
 
-	private com.synectiks.aws.entities.ec2.Vpc getEc2Vpc(String vpcId){
+	private com.synectiks.aws.entities.ec2.Vpc getEc2Vpc(String vpcId) {
 		com.synectiks.aws.entities.ec2.Vpc ec2Vpc = null;
 		try {
-			XformVpcProcessor xformVpcProcessor = new XformVpcProcessor(getAccessKey(), getSecretKey(), getRegionAsText());
+			XformVpcProcessor xformVpcProcessor = new XformVpcProcessor(getAccessKey(), getSecretKey(),
+					getRegionAsText());
 			List<Vpc> vpcList = xformVpcProcessor.getAwsVpcById(vpcId);
-			if(vpcList.size() > 0) {
+			if (vpcList.size() > 0) {
 				Vpc vpc = vpcList.get(0);
 				com.synectiks.aws.entities.vpc.Vpc xformVpc = xformVpcProcessor.getXformVpc(vpc);
 				ec2Vpc = new com.synectiks.aws.entities.ec2.Vpc();
 				BeanUtils.copyProperties(ec2Vpc, xformVpc);
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn("Exception in getEc2Vpc: ", e);
 		}
-		
+
 		return ec2Vpc;
 	}
-	
+
 	private List<com.synectiks.aws.entities.ec2.Tag> getEc2TagList(List tags) throws IOException {
 		List<com.synectiks.aws.entities.ec2.Tag> ec2Tags = new ArrayList<>();
 		for (Object obj : tags) {
-			Tag tag= (Tag)obj;
+			Tag tag = (Tag) obj;
 			com.synectiks.aws.entities.ec2.Tag customTag = new com.synectiks.aws.entities.ec2.Tag();
 			customTag.setKey(tag.key().toString());
 			customTag.setValue(tag.value());
@@ -317,6 +322,5 @@ public class XformEc2Processor extends XformAwsProcessor{
 		}
 		return ec2Tags;
 	}
-	
-	
+
 }

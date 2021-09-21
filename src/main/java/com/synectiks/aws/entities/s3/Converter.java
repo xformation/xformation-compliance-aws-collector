@@ -65,11 +65,11 @@ public class Converter {
 	public static String toJsonString(XformS3RDSEntity obj) throws JsonProcessingException {
 		return getObjectWriter().writeValueAsString(obj);
 	}
+
 	public static String toPrettyJsonString(XformVpc obj) throws JsonProcessingException {
-        return getObjectWriter()
-        		.with(SerializationFeature.INDENT_OUTPUT)
-        		.writeValueAsString(obj);
-    }
+		return getObjectWriter().with(SerializationFeature.INDENT_OUTPUT).writeValueAsString(obj);
+	}
+
 	private static ObjectReader reader;
 	private static ObjectWriter writer;
 

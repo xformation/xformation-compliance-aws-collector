@@ -1,30 +1,50 @@
 package com.synectiks.aws.entities.rds;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PrivateIPAddress {
-    private NetworkInterfaceAssociation association;
-    private String primary;
-    private String privateDNSName;
-    private String privateIPAddress;
+	private NetworkInterfaceAssociation association;
+	private String primary;
+	private String privateDNSName;
+	private String privateIPAddress;
 
-    @JsonProperty("association")
-    public NetworkInterfaceAssociation getAssociation() { return association; }
-    @JsonProperty("association")
-    public void setAssociation(NetworkInterfaceAssociation value) { this.association = value; }
+	@JsonProperty("association")
+	public NetworkInterfaceAssociation getAssociation() {
+		return association;
+	}
 
-    @JsonProperty("primary")
-    public String getPrimary() { return primary; }
-    @JsonProperty("primary")
-    public void setPrimary(String value) { this.primary = value; }
+	@JsonProperty("association")
+	public void setAssociation(NetworkInterfaceAssociation value) {
+		this.association = value;
+	}
 
-    @JsonProperty("privateDnsName")
-    public String getPrivateDNSName() { return privateDNSName; }
-    @JsonProperty("privateDnsName")
-    public void setPrivateDNSName(String value) { this.privateDNSName = value; }
+	@JsonProperty("primary")
+	public String getPrimary() {
+		return primary;
+	}
 
-    @JsonProperty("privateIpAddress")
-    public String getPrivateIPAddress() { return privateIPAddress; }
-    @JsonProperty("privateIpAddress")
-    public void setPrivateIPAddress(String value) { this.privateIPAddress = value; }
+	@JsonProperty("primary")
+	public void setPrimary(String value) {
+		this.primary = value;
+	}
+
+	@JsonProperty("privateDnsName")
+	public String getPrivateDNSName() {
+		return privateDNSName;
+	}
+
+	@JsonProperty("privateDnsName")
+	public void setPrivateDNSName(String value) {
+		this.privateDNSName = value;
+	}
+
+	@JsonProperty("privateIpAddress")
+	public String getPrivateIPAddress() {
+		return privateIPAddress;
+	}
+
+	@JsonProperty("privateIpAddress")
+	public void setPrivateIPAddress(String value) {
+		this.privateIPAddress = value;
+	}
 }

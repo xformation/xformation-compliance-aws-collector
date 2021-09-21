@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PropagatingVgw implements Serializable{
+public class PropagatingVgw implements Serializable {
 	/**
 	 * 
 	 */
@@ -25,7 +25,5 @@ public class PropagatingVgw implements Serializable{
 	public String toString() {
 		return "PropagatingVgw [gatewayID=" + gatewayID + "]";
 	}
-	
-	
-	
+
 }

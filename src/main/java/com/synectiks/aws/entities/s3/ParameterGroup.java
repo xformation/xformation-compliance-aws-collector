@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ParameterGroup  implements Serializable{
+public class ParameterGroup implements Serializable {
 	/**
 	 * 
 	 */
@@ -71,6 +71,5 @@ public class ParameterGroup  implements Serializable{
 				+ dbParameterGroupArn + ", dbParameterGroupFamily=" + dbParameterGroupFamily + ", dbParameterGroupName="
 				+ dbParameterGroupName + ", description=" + description + "]";
 	}
-	
-	
+
 }

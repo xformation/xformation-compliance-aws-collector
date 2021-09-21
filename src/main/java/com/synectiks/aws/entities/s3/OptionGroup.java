@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OptionGroup implements Serializable{
+public class OptionGroup implements Serializable {
 	/**
 	 * 
 	 */
@@ -105,6 +105,5 @@ public class OptionGroup implements Serializable{
 				+ optionGroupArn + ", optionGroupDescription=" + optionGroupDescription + ", optionGroupName="
 				+ optionGroupName + ", vpcID=" + vpcID + ", status=" + status + "]";
 	}
-	
-	
+
 }

@@ -2,10 +2,10 @@ package com.synectiks.aws.entities.vpc;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.NONE)
-public class TagsEntities implements Serializable{
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class TagsEntities implements Serializable {
 
 	/**
 	 * 

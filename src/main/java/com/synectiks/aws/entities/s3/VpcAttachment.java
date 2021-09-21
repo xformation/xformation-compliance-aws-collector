@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class VpcAttachment implements Serializable{
+public class VpcAttachment implements Serializable {
 	/**
 	 * 
 	 */

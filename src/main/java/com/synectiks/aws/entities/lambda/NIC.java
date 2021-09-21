@@ -1,27 +1,38 @@
 package com.synectiks.aws.entities.lambda;
 
-import com.fasterxml.jackson.annotation.*;
-
 import java.io.Serializable;
 import java.util.List;
 
-public class NIC implements Serializable{
-    /**
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class NIC implements Serializable {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private Subnet subnet;
-    private List<SecurityGroup> securityGroups;
+	private List<SecurityGroup> securityGroups;
 
-    @JsonProperty("subnet")
-    public Subnet getSubnet() { return subnet; }
-    @JsonProperty("subnet")
-    public void setSubnet(Subnet value) { this.subnet = value; }
+	@JsonProperty("subnet")
+	public Subnet getSubnet() {
+		return subnet;
+	}
 
-    @JsonProperty("securityGroups")
-    public List<SecurityGroup> getSecurityGroups() { return securityGroups; }
-    @JsonProperty("securityGroups")
-    public void setSecurityGroups(List<SecurityGroup> value) { this.securityGroups = value; }
+	@JsonProperty("subnet")
+	public void setSubnet(Subnet value) {
+		this.subnet = value;
+	}
+
+	@JsonProperty("securityGroups")
+	public List<SecurityGroup> getSecurityGroups() {
+		return securityGroups;
+	}
+
+	@JsonProperty("securityGroups")
+	public void setSecurityGroups(List<SecurityGroup> value) {
+		this.securityGroups = value;
+	}
+
 	@Override
 	public String toString() {
 		return "NIC [subnet=" + subnet + ", securityGroups=" + securityGroups + "]";

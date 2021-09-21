@@ -2,37 +2,58 @@ package com.synectiks.aws.entities.lambda;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ScopeMetaData implements Serializable{
-    /**
+public class ScopeMetaData implements Serializable {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String vpcID;
-    private String region;
-    private AccountInfo accountInfo;
-    private String accountNumber;
+	private String region;
+	private AccountInfo accountInfo;
+	private String accountNumber;
 
-    @JsonProperty("vpcId")
-    public String getVpcID() { return vpcID; }
-    @JsonProperty("vpcId")
-    public void setVpcID(String value) { this.vpcID = value; }
+	@JsonProperty("vpcId")
+	public String getVpcID() {
+		return vpcID;
+	}
 
-    @JsonProperty("region")
-    public String getRegion() { return region; }
-    @JsonProperty("region")
-    public void setRegion(String value) { this.region = value; }
+	@JsonProperty("vpcId")
+	public void setVpcID(String value) {
+		this.vpcID = value;
+	}
 
-    @JsonProperty("accountInfo")
-    public AccountInfo getAccountInfo() { return accountInfo; }
-    @JsonProperty("accountInfo")
-    public void setAccountInfo(AccountInfo value) { this.accountInfo = value; }
+	@JsonProperty("region")
+	public String getRegion() {
+		return region;
+	}
 
-    @JsonProperty("accountNumber")
-    public String getAccountNumber() { return accountNumber; }
-    @JsonProperty("accountNumber")
-    public void setAccountNumber(String value) { this.accountNumber = value; }
+	@JsonProperty("region")
+	public void setRegion(String value) {
+		this.region = value;
+	}
+
+	@JsonProperty("accountInfo")
+	public AccountInfo getAccountInfo() {
+		return accountInfo;
+	}
+
+	@JsonProperty("accountInfo")
+	public void setAccountInfo(AccountInfo value) {
+		this.accountInfo = value;
+	}
+
+	@JsonProperty("accountNumber")
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	@JsonProperty("accountNumber")
+	public void setAccountNumber(String value) {
+		this.accountNumber = value;
+	}
+
 	@Override
 	public String toString() {
 		return "ScopeMetaData [vpcID=" + vpcID + ", region=" + region + ", accountInfo=" + accountInfo

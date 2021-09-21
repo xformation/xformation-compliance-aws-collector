@@ -350,8 +350,6 @@ public class XformS3RDSEntity {
 		this.name = value;
 	}
 
-
-
 	@JsonProperty("accountNumber")
 	public String getAccountNumber() {
 		return accountNumber;

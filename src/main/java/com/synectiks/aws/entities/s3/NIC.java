@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class NIC implements Serializable{
+public class NIC implements Serializable {
 	/**
 	 * 
 	 */
@@ -37,6 +37,5 @@ public class NIC implements Serializable{
 	public String toString() {
 		return "NIC [subnet=" + subnet + ", securityGroups=" + securityGroups + "]";
 	}
-	
-	
+
 }

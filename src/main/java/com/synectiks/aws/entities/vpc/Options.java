@@ -2,61 +2,102 @@ package com.synectiks.aws.entities.vpc;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Options implements Serializable{
-    /**
+public class Options implements Serializable {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String amazonSideAsn;
-    private String associationDefaultRouteTableID;
-    private String autoAcceptSharedAttachments;
-    private String defaultRouteTableAssociation;
-    private String defaultRouteTablePropagation;
-    private String dnsSupport;
-    private String propagationDefaultRouteTableID;
-    private String vpnEcmpSupport;
+	private String associationDefaultRouteTableID;
+	private String autoAcceptSharedAttachments;
+	private String defaultRouteTableAssociation;
+	private String defaultRouteTablePropagation;
+	private String dnsSupport;
+	private String propagationDefaultRouteTableID;
+	private String vpnEcmpSupport;
 
-    @JsonProperty("amazonSideAsn")
-    public String getAmazonSideAsn() { return amazonSideAsn; }
-    @JsonProperty("amazonSideAsn")
-    public void setAmazonSideAsn(String value) { this.amazonSideAsn = value; }
+	@JsonProperty("amazonSideAsn")
+	public String getAmazonSideAsn() {
+		return amazonSideAsn;
+	}
 
-    @JsonProperty("associationDefaultRouteTableId")
-    public String getAssociationDefaultRouteTableID() { return associationDefaultRouteTableID; }
-    @JsonProperty("associationDefaultRouteTableId")
-    public void setAssociationDefaultRouteTableID(String value) { this.associationDefaultRouteTableID = value; }
+	@JsonProperty("amazonSideAsn")
+	public void setAmazonSideAsn(String value) {
+		this.amazonSideAsn = value;
+	}
 
-    @JsonProperty("autoAcceptSharedAttachments")
-    public String getAutoAcceptSharedAttachments() { return autoAcceptSharedAttachments; }
-    @JsonProperty("autoAcceptSharedAttachments")
-    public void setAutoAcceptSharedAttachments(String value) { this.autoAcceptSharedAttachments = value; }
+	@JsonProperty("associationDefaultRouteTableId")
+	public String getAssociationDefaultRouteTableID() {
+		return associationDefaultRouteTableID;
+	}
 
-    @JsonProperty("defaultRouteTableAssociation")
-    public String getDefaultRouteTableAssociation() { return defaultRouteTableAssociation; }
-    @JsonProperty("defaultRouteTableAssociation")
-    public void setDefaultRouteTableAssociation(String value) { this.defaultRouteTableAssociation = value; }
+	@JsonProperty("associationDefaultRouteTableId")
+	public void setAssociationDefaultRouteTableID(String value) {
+		this.associationDefaultRouteTableID = value;
+	}
 
-    @JsonProperty("defaultRouteTablePropagation")
-    public String getDefaultRouteTablePropagation() { return defaultRouteTablePropagation; }
-    @JsonProperty("defaultRouteTablePropagation")
-    public void setDefaultRouteTablePropagation(String value) { this.defaultRouteTablePropagation = value; }
+	@JsonProperty("autoAcceptSharedAttachments")
+	public String getAutoAcceptSharedAttachments() {
+		return autoAcceptSharedAttachments;
+	}
 
-    @JsonProperty("dnsSupport")
-    public String getDNSSupport() { return dnsSupport; }
-    @JsonProperty("dnsSupport")
-    public void setDNSSupport(String value) { this.dnsSupport = value; }
+	@JsonProperty("autoAcceptSharedAttachments")
+	public void setAutoAcceptSharedAttachments(String value) {
+		this.autoAcceptSharedAttachments = value;
+	}
 
-    @JsonProperty("propagationDefaultRouteTableId")
-    public String getPropagationDefaultRouteTableID() { return propagationDefaultRouteTableID; }
-    @JsonProperty("propagationDefaultRouteTableId")
-    public void setPropagationDefaultRouteTableID(String value) { this.propagationDefaultRouteTableID = value; }
+	@JsonProperty("defaultRouteTableAssociation")
+	public String getDefaultRouteTableAssociation() {
+		return defaultRouteTableAssociation;
+	}
 
-    @JsonProperty("vpnEcmpSupport")
-    public String getVPNEcmpSupport() { return vpnEcmpSupport; }
-    @JsonProperty("vpnEcmpSupport")
-    public void setVPNEcmpSupport(String value) { this.vpnEcmpSupport = value; }
+	@JsonProperty("defaultRouteTableAssociation")
+	public void setDefaultRouteTableAssociation(String value) {
+		this.defaultRouteTableAssociation = value;
+	}
+
+	@JsonProperty("defaultRouteTablePropagation")
+	public String getDefaultRouteTablePropagation() {
+		return defaultRouteTablePropagation;
+	}
+
+	@JsonProperty("defaultRouteTablePropagation")
+	public void setDefaultRouteTablePropagation(String value) {
+		this.defaultRouteTablePropagation = value;
+	}
+
+	@JsonProperty("dnsSupport")
+	public String getDNSSupport() {
+		return dnsSupport;
+	}
+
+	@JsonProperty("dnsSupport")
+	public void setDNSSupport(String value) {
+		this.dnsSupport = value;
+	}
+
+	@JsonProperty("propagationDefaultRouteTableId")
+	public String getPropagationDefaultRouteTableID() {
+		return propagationDefaultRouteTableID;
+	}
+
+	@JsonProperty("propagationDefaultRouteTableId")
+	public void setPropagationDefaultRouteTableID(String value) {
+		this.propagationDefaultRouteTableID = value;
+	}
+
+	@JsonProperty("vpnEcmpSupport")
+	public String getVPNEcmpSupport() {
+		return vpnEcmpSupport;
+	}
+
+	@JsonProperty("vpnEcmpSupport")
+	public void setVPNEcmpSupport(String value) {
+		this.vpnEcmpSupport = value;
+	}
+
 	@Override
 	public String toString() {
 		return "Options [amazonSideAsn=" + amazonSideAsn + ", associationDefaultRouteTableID="

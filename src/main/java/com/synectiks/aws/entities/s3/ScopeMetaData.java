@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ScopeMetaData implements Serializable{
+public class ScopeMetaData implements Serializable {
 	/**
 	 * 
 	 */
@@ -59,6 +59,5 @@ public class ScopeMetaData implements Serializable{
 		return "ScopeMetaData [vpcID=" + vpcID + ", region=" + region + ", accountInfo=" + accountInfo
 				+ ", accountNumber=" + accountNumber + "]";
 	}
-	
-	
+
 }

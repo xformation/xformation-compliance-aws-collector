@@ -1,87 +1,148 @@
 package com.synectiks.aws.entities.lambda;
 
-import com.fasterxml.jackson.annotation.*;
-
 import java.io.Serializable;
 import java.util.List;
 
-public class Nacl implements Serializable{
-    /**
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Nacl implements Serializable {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<EnvironmentVariable> tags;
-    private ExternalFindings externalFindings;
-    private String source;
-    private String type;
-    private Vpc vpc;
-    private String name;
-    private String id;
-    private String accountNumber;
-    private String region;
-    private List<Bound> inbound;
-    private List<Bound> outbound;
-    private String isDefault;
+	private ExternalFindings externalFindings;
+	private String source;
+	private String type;
+	private Vpc vpc;
+	private String name;
+	private String id;
+	private String accountNumber;
+	private String region;
+	private List<Bound> inbound;
+	private List<Bound> outbound;
+	private String isDefault;
 
-    @JsonProperty("tags")
-    public List<EnvironmentVariable> getTags() { return tags; }
-    @JsonProperty("tags")
-    public void setTags(List<EnvironmentVariable> value) { this.tags = value; }
+	@JsonProperty("tags")
+	public List<EnvironmentVariable> getTags() {
+		return tags;
+	}
 
-    @JsonProperty("externalFindings")
-    public ExternalFindings getExternalFindings() { return externalFindings; }
-    @JsonProperty("externalFindings")
-    public void setExternalFindings(ExternalFindings value) { this.externalFindings = value; }
+	@JsonProperty("tags")
+	public void setTags(List<EnvironmentVariable> value) {
+		this.tags = value;
+	}
 
-    @JsonProperty("source")
-    public String getSource() { return source; }
-    @JsonProperty("source")
-    public void setSource(String value) { this.source = value; }
+	@JsonProperty("externalFindings")
+	public ExternalFindings getExternalFindings() {
+		return externalFindings;
+	}
 
-    @JsonProperty("type")
-    public String getType() { return type; }
-    @JsonProperty("type")
-    public void setType(String value) { this.type = value; }
+	@JsonProperty("externalFindings")
+	public void setExternalFindings(ExternalFindings value) {
+		this.externalFindings = value;
+	}
 
-    @JsonProperty("vpc")
-    public Vpc getVpc() { return vpc; }
-    @JsonProperty("vpc")
-    public void setVpc(Vpc value) { this.vpc = value; }
+	@JsonProperty("source")
+	public String getSource() {
+		return source;
+	}
 
-    @JsonProperty("name")
-    public String getName() { return name; }
-    @JsonProperty("name")
-    public void setName(String value) { this.name = value; }
+	@JsonProperty("source")
+	public void setSource(String value) {
+		this.source = value;
+	}
 
-    @JsonProperty("id")
-    public String getID() { return id; }
-    @JsonProperty("id")
-    public void setID(String value) { this.id = value; }
+	@JsonProperty("type")
+	public String getType() {
+		return type;
+	}
 
-    @JsonProperty("accountNumber")
-    public String getAccountNumber() { return accountNumber; }
-    @JsonProperty("accountNumber")
-    public void setAccountNumber(String value) { this.accountNumber = value; }
+	@JsonProperty("type")
+	public void setType(String value) {
+		this.type = value;
+	}
 
-    @JsonProperty("region")
-    public String getRegion() { return region; }
-    @JsonProperty("region")
-    public void setRegion(String value) { this.region = value; }
+	@JsonProperty("vpc")
+	public Vpc getVpc() {
+		return vpc;
+	}
 
-    @JsonProperty("inbound")
-    public List<Bound> getInbound() { return inbound; }
-    @JsonProperty("inbound")
-    public void setInbound(List<Bound> value) { this.inbound = value; }
+	@JsonProperty("vpc")
+	public void setVpc(Vpc value) {
+		this.vpc = value;
+	}
 
-    @JsonProperty("outbound")
-    public List<Bound> getOutbound() { return outbound; }
-    @JsonProperty("outbound")
-    public void setOutbound(List<Bound> value) { this.outbound = value; }
+	@JsonProperty("name")
+	public String getName() {
+		return name;
+	}
 
-    @JsonProperty("isDefault")
-    public String getIsDefault() { return isDefault; }
-    @JsonProperty("isDefault")
-    public void setIsDefault(String value) { this.isDefault = value; }
+	@JsonProperty("name")
+	public void setName(String value) {
+		this.name = value;
+	}
+
+	@JsonProperty("id")
+	public String getID() {
+		return id;
+	}
+
+	@JsonProperty("id")
+	public void setID(String value) {
+		this.id = value;
+	}
+
+	@JsonProperty("accountNumber")
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	@JsonProperty("accountNumber")
+	public void setAccountNumber(String value) {
+		this.accountNumber = value;
+	}
+
+	@JsonProperty("region")
+	public String getRegion() {
+		return region;
+	}
+
+	@JsonProperty("region")
+	public void setRegion(String value) {
+		this.region = value;
+	}
+
+	@JsonProperty("inbound")
+	public List<Bound> getInbound() {
+		return inbound;
+	}
+
+	@JsonProperty("inbound")
+	public void setInbound(List<Bound> value) {
+		this.inbound = value;
+	}
+
+	@JsonProperty("outbound")
+	public List<Bound> getOutbound() {
+		return outbound;
+	}
+
+	@JsonProperty("outbound")
+	public void setOutbound(List<Bound> value) {
+		this.outbound = value;
+	}
+
+	@JsonProperty("isDefault")
+	public String getIsDefault() {
+		return isDefault;
+	}
+
+	@JsonProperty("isDefault")
+	public void setIsDefault(String value) {
+		this.isDefault = value;
+	}
+
 	@Override
 	public String toString() {
 		return "Nacl [tags=" + tags + ", externalFindings=" + externalFindings + ", source=" + source + ", type=" + type

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Tag implements Serializable{
+public class Tag implements Serializable {
 	/**
 	 * 
 	 */
@@ -36,5 +36,5 @@ public class Tag implements Serializable{
 	public String toString() {
 		return "Tag [key=" + key + ", value=" + value + "]";
 	}
-	
+
 }

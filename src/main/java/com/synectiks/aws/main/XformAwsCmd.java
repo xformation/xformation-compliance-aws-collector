@@ -16,7 +16,9 @@ import com.synectiks.aws.entities.s3.XformS3RDSEntity;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.processor.XformEc2Processor;
 import com.synectiks.aws.processor.XformEksClusterProcessor;
-import com.synectiks.aws.processor.*;
+import com.synectiks.aws.processor.XformLambdaProcessor;
+import com.synectiks.aws.processor.XformS3RDSProcessor;
+import com.synectiks.aws.processor.XformVpcProcessor;
 
 public class XformAwsCmd {
 	private static Options buildOptions() {
@@ -53,7 +55,7 @@ public class XformAwsCmd {
 		Option s3Rds = new Option("s3rds", "s3rds");
 		s3Rds.setRequired(false);
 		options.addOption(s3Rds);
-		
+
 		Option lambda = new Option("lambda", "lambda");
 		lambda.setRequired(false);
 		options.addOption(lambda);

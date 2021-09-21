@@ -1,18 +1,28 @@
 package com.synectiks.aws.entities.rds;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Policy {
-    private String name;
-    private Document document;
+	private String name;
+	private Document document;
 
-    @JsonProperty("name")
-    public String getName() { return name; }
-    @JsonProperty("name")
-    public void setName(String value) { this.name = value; }
+	@JsonProperty("name")
+	public String getName() {
+		return name;
+	}
 
-    @JsonProperty("document")
-    public Document getDocument() { return document; }
-    @JsonProperty("document")
-    public void setDocument(Document value) { this.document = value; }
+	@JsonProperty("name")
+	public void setName(String value) {
+		this.name = value;
+	}
+
+	@JsonProperty("document")
+	public Document getDocument() {
+		return document;
+	}
+
+	@JsonProperty("document")
+	public void setDocument(Document value) {
+		this.document = value;
+	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Subnet implements Serializable{
+public class Subnet implements Serializable {
 	private Vpc vpc;
 	private String state;
 	private String availabilityZone;
@@ -236,6 +236,5 @@ public class Subnet implements Serializable{
 				+ ", id=" + id + ", type=" + type + ", name=" + name + ", dome9ID=" + dome9ID + ", accountNumber="
 				+ accountNumber + ", region=" + region + ", externalFindings=" + externalFindings + "]";
 	}
-	
-	
+
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RouteTable implements Serializable{
+public class RouteTable implements Serializable {
 	/**
 	 * 
 	 */
@@ -105,6 +105,5 @@ public class RouteTable implements Serializable{
 				+ routes + ", routeTableID=" + routeTableID + ", vpcID=" + vpcID + ", tags=" + tags + ", name=" + name
 				+ ", tagsEntities=" + tagsEntities + "]";
 	}
-	
-	
+
 }

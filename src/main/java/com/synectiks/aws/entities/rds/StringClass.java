@@ -1,12 +1,17 @@
 package com.synectiks.aws.entities.rds;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StringClass {
-    private String length;
+	private String length;
 
-    @JsonProperty("length")
-    public String getLength() { return length; }
-    @JsonProperty("length")
-    public void setLength(String value) { this.length = value; }
+	@JsonProperty("length")
+	public String getLength() {
+		return length;
+	}
+
+	@JsonProperty("length")
+	public void setLength(String value) {
+		this.length = value;
+	}
 }

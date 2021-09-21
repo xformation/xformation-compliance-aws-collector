@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PrivateIPAddress implements Serializable{
+public class PrivateIPAddress implements Serializable {
 	/**
 	 * 
 	 */
@@ -59,6 +59,5 @@ public class PrivateIPAddress implements Serializable{
 		return "PrivateIPAddress [association=" + association + ", primary=" + primary + ", privateDNSName="
 				+ privateDNSName + ", privateIPAddress=" + privateIPAddress + "]";
 	}
-	
-	
+
 }
