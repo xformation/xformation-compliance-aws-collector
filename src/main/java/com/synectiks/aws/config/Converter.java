@@ -69,16 +69,16 @@ public class Converter {
 //        return getObjectReader().readValue(json);
 //    }
 
-    public static <T> T fromJsonString(String json) throws IOException {
-        return getObjectReader().readValue(json);
+    public static <T> T fromJsonString(String json, Class cls) throws IOException {
+        return getObjectReader(cls).readValue(json);
     }
     
-    public static String toJsonString(Object obj) throws JsonProcessingException {
-        return getObjectWriter().writeValueAsString(obj);
+    public static String toJsonString(Object obj, Class cls) throws JsonProcessingException {
+        return getObjectWriter(cls).writeValueAsString(obj);
     }
 
-    public static String toPrettyJsonString(Object obj) throws JsonProcessingException {
-        return getObjectWriter()
+    public static String toPrettyJsonString(Object obj, Class cls) throws JsonProcessingException {
+        return getObjectWriter(cls)
         		.with(SerializationFeature.INDENT_OUTPUT)
         		.writeValueAsString(obj);
     }
@@ -86,7 +86,7 @@ public class Converter {
     private static ObjectReader reader;
     private static ObjectWriter writer;
 
-    private static void instantiateMapper() {
+    private static void instantiateMapper(Class cls) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -99,17 +99,17 @@ public class Converter {
             }
         });
         mapper.registerModule(module);
-        reader = mapper.readerFor(XformVpc.class);
-        writer = mapper.writerFor(XformVpc.class);
+        reader = mapper.readerFor(cls);
+        writer = mapper.writerFor(cls);
     }
 
-    private static ObjectReader getObjectReader() {
-        if (reader == null) instantiateMapper();
+    private static ObjectReader getObjectReader(Class cls) {
+        if (reader == null) instantiateMapper(cls);
         return reader;
     }
 
-    private static ObjectWriter getObjectWriter() {
-        if (writer == null) instantiateMapper();
+    private static ObjectWriter getObjectWriter(Class cls) {
+        if (writer == null) instantiateMapper(cls);
         return writer;
     }
 }

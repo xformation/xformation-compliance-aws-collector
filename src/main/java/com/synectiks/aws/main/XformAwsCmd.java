@@ -92,13 +92,13 @@ public class XformAwsCmd {
 				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 				List<XformVpc> list = processor.getXformObjectById(cmd.getOptionValue("vpcId"));
 				for(XformVpc vpc : list) {
-					System.out.println(Converter.toPrettyJsonString(vpc));
+					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
 				}
 			}else {
 				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 				List<XformVpc> list = processor.getXformObject();
 				for(XformVpc vpc : list) {
-					System.out.println(Converter.toPrettyJsonString(vpc));
+					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
 				}
 			}
 			System.exit(0);
@@ -108,7 +108,7 @@ public class XformAwsCmd {
 			XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 			List<XformEc2> list =  processor.getXformObject();
 			for(XformEc2 ec2 : list) {
-				System.out.println(Converter.toPrettyJsonString(ec2));
+				System.out.println(Converter.toPrettyJsonString(ec2, XformEc2.class));
 			}
 			System.exit(0);
 		}
@@ -117,7 +117,7 @@ public class XformAwsCmd {
 			XformEksClusterProcessor processor = new XformEksClusterProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 			List<XformEksCluster> list =  processor.getXformObject();
 			for(XformEksCluster eksClusterObj : list) {
-				System.out.println(Converter.toPrettyJsonString(eksClusterObj));
+				System.out.println(Converter.toPrettyJsonString(eksClusterObj, XformEksCluster.class));
 			}
 			System.exit(0);
 		}
