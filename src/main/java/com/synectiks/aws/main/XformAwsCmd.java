@@ -9,11 +9,13 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 import com.synectiks.aws.config.Converter;
+import com.synectiks.aws.entities.ec2.AutoScalingGroup;
 import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
 import com.synectiks.aws.entities.lambda.XformLambda;
 import com.synectiks.aws.entities.s3.XformS3RDSEntity;
 import com.synectiks.aws.entities.vpc.XformVpc;
+import com.synectiks.aws.processor.XformAutoScalingProcessor;
 import com.synectiks.aws.processor.XformEc2Processor;
 import com.synectiks.aws.processor.XformEksClusterProcessor;
 import com.synectiks.aws.processor.XformLambdaProcessor;
@@ -65,6 +67,10 @@ public class XformAwsCmd {
 		Option subnet = new Option("subnet", "subnet");
 		subnet.setRequired(false);
 		options.addOption(subnet);
+
+		Option autoscaling = new Option("autoscaling", "autoscaling");
+		autoscaling.setRequired(false);
+		options.addOption(autoscaling);
 
 //		Option helpOpt = new Option("help", "help", false, "For print helps");
 //		helpOpt.setRequired(false);
@@ -179,6 +185,16 @@ public class XformAwsCmd {
 				for (XformVpc vpc : list) {
 					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
 				}
+			}
+			System.exit(0);
+		}
+
+		if (cmd.hasOption("autoscaling")) {
+			XformAutoScalingProcessor processor = new XformAutoScalingProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+					cmd.getOptionValue("r"));
+			List<AutoScalingGroup> list = processor.getXformObject();
+			for (AutoScalingGroup autoScalingGroup : list) {
+				System.out.println(Converter.toPrettyJsonString(autoScalingGroup, AutoScalingGroup.class));
 			}
 			System.exit(0);
 		}
