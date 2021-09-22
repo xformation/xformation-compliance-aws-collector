@@ -64,7 +64,7 @@ public class XformVpcProcessor extends XformAwsProcessor {
 			if (cidrBlock.isPresent()) {
 				xformVpc.setCIDR(cidrBlock.get());
 			}
-			xformVpc.setSubnets(getXformSubnet(vpc));
+			xformVpc.setSubnets(getXformSubnetByVpc(vpc));
 			if (dhcpOptionsId.isPresent()) {
 				xformVpc.setDHCPOptionsID(dhcpOptionsId.get());
 			}
@@ -102,7 +102,21 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return xformVpcList;
 	}
 
-	private List<com.synectiks.aws.entities.vpc.Subnet> getXformSubnet(Vpc vpc) {
+//	public List<com.synectiks.aws.entities.vpc.Subnet> getXformSubnetByVpcId(String vpcId){
+//		
+//		return null;
+//	}
+	public List<com.synectiks.aws.entities.vpc.Subnet> getAllXfromSubnets() throws Exception {
+		List<Vpc> vpcList = getCloudObject();
+		List<com.synectiks.aws.entities.vpc.Subnet> xformSubnetList = new ArrayList<>();
+		for (Vpc vpc : vpcList) {
+			List<com.synectiks.aws.entities.vpc.Subnet> xformSubnets = getXformSubnetByVpc(vpc);
+			xformSubnetList.addAll(xformSubnets);
+		}
+		return xformSubnetList;
+	}
+
+	public List<com.synectiks.aws.entities.vpc.Subnet> getXformSubnetByVpc(Vpc vpc) {
 		List<Subnet> awsSubnetList = getAwsSubnetByVpcId(vpc.vpcId());
 		List<com.synectiks.aws.entities.vpc.Subnet> xformSubnetList = new ArrayList<>();
 		for (Subnet subnet : awsSubnetList) {
@@ -208,7 +222,7 @@ public class XformVpcProcessor extends XformAwsProcessor {
 			if (cidrBlock.isPresent()) {
 				xformVpc.setCIDR(cidrBlock.get());
 			}
-			xformVpc.setSubnets(getXformSubnet(vpc));
+			xformVpc.setSubnets(getXformSubnetByVpc(vpc));
 			if (dhcpOptionsId.isPresent()) {
 				xformVpc.setDHCPOptionsID(dhcpOptionsId.get());
 			}

@@ -20,6 +20,8 @@ import com.synectiks.aws.processor.XformLambdaProcessor;
 import com.synectiks.aws.processor.XformS3RDSProcessor;
 import com.synectiks.aws.processor.XformVpcProcessor;
 
+import software.amazon.awssdk.services.ec2.model.Vpc;
+
 public class XformAwsCmd {
 	private static Options buildOptions() {
 		Options options = new Options();
@@ -59,6 +61,10 @@ public class XformAwsCmd {
 		Option lambda = new Option("lambda", "lambda");
 		lambda.setRequired(false);
 		options.addOption(lambda);
+
+		Option subnet = new Option("subnet", "subnet");
+		subnet.setRequired(false);
+		options.addOption(subnet);
 
 //		Option helpOpt = new Option("help", "help", false, "For print helps");
 //		helpOpt.setRequired(false);
@@ -137,27 +143,43 @@ public class XformAwsCmd {
 			}
 			System.exit(0);
 		}
-		System.out.println("Checking s3rds....");
 		if (cmd.hasOption("s3rds")) {
 			XformS3RDSProcessor processor = new XformS3RDSProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
 					cmd.getOptionValue("r"));
 			System.out.println("In s3rds....");
 			List<XformS3RDSEntity> list = processor.getXformObject();
 			for (XformS3RDSEntity xformS3RDSEntity : list) {
-				System.out.println("pringting s3rds....");
 				System.out.println(Converter.toPrettyJsonString(xformS3RDSEntity, XformS3RDSEntity.class));
 			}
 			System.exit(0);
 		}
-		System.out.println("Checking lambda....");
 		if (cmd.hasOption("lambda")) {
-			System.out.println("in lambda....");
 			XformLambdaProcessor processor = new XformLambdaProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
 					cmd.getOptionValue("r"));
 			List<XformLambda> list = processor.getXformObject();
 			for (XformLambda xformLambda : list) {
 				System.out.println("iterating list of lambda....");
 				System.out.println(Converter.toPrettyJsonString(xformLambda, XformLambda.class));
+			}
+			System.exit(0);
+		}
+
+		if (cmd.hasOption("subnet")) {
+			if (cmd.hasOption("vpcId")) {
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+						cmd.getOptionValue("r"));
+				List<com.synectiks.aws.entities.vpc.Subnet> subnets = processor.getAllXfromSubnets();
+				for (com.synectiks.aws.entities.vpc.Subnet subnet : subnets) {
+					System.out
+							.println(Converter.toPrettyJsonString(subnet, com.synectiks.aws.entities.vpc.Subnet.class));
+				}
+			} else {
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+						cmd.getOptionValue("r"));
+				List<XformVpc> list = processor.getXformObject();
+				for (XformVpc vpc : list) {
+					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
+				}
 			}
 			System.exit(0);
 		}

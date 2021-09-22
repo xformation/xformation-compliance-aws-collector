@@ -4,22 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.synectiks.aws.entities.lambda.DeadLetterConfig;
 import com.synectiks.aws.entities.lambda.XformLambda;
 import com.synectiks.aws.main.XformAwsProcessor;
 
 import software.amazon.awssdk.services.ec2.model.IamInstanceProfile;
 import software.amazon.awssdk.services.ec2.model.InstanceState;
+import software.amazon.awssdk.services.ec2.model.Vpc;
 import software.amazon.awssdk.services.lambda.LambdaClient;
 import software.amazon.awssdk.services.lambda.model.EnvironmentResponse;
 import software.amazon.awssdk.services.lambda.model.FunctionConfiguration;
 import software.amazon.awssdk.services.lambda.model.GetAccountSettingsResponse;
 import software.amazon.awssdk.services.lambda.model.LambdaException;
 import software.amazon.awssdk.services.lambda.model.ListFunctionsResponse;
+import software.amazon.awssdk.services.lambda.model.TracingConfig;
 import software.amazon.awssdk.services.lambda.model.TracingConfigResponse;
 import software.amazon.awssdk.services.lambda.model.VpcConfigResponse;
 
 public class XformLambdaProcessor extends XformAwsProcessor {
+	private static final Logger logger = LoggerFactory.getLogger(XformLambdaProcessor.class);
 
 	public XformLambdaProcessor(String accessKey, String secretKey, String region) {
 		super(accessKey, secretKey, region);
@@ -62,8 +69,8 @@ public class XformLambdaProcessor extends XformAwsProcessor {
 				Optional<EnvironmentResponse> environment = functionConfiguration.getValueForField("Environment",
 						EnvironmentResponse.class);
 				Optional<String> kMSKeyArn = functionConfiguration.getValueForField("KMSKeyArn", String.class);
-				Optional<TracingConfigResponse> tracingConfig = functionConfiguration.getValueForField("TracingConfig",
-						TracingConfigResponse.class);
+				Optional<TracingConfigResponse> tracingConfigOptional = functionConfiguration
+						.getValueForField("TracingConfig", TracingConfigResponse.class);
 				Optional<InstanceState> masterArn = functionConfiguration.getValueForField("MasterArn",
 						InstanceState.class);
 				Optional<String> revisionId = functionConfiguration.getValueForField("RevisionId", String.class);
@@ -137,9 +144,15 @@ public class XformLambdaProcessor extends XformAwsProcessor {
 				lambda.setResourcePolicy(null);
 				lambda.setSecurityGroups(null);
 				lambda.setTags(null);
-				if (tracingConfig.isPresent()) {
-					// convert Original tracking config to local tracking config
-//					lambda.setTracingConfig(tracingConfig.get());
+				if (tracingConfigOptional.isPresent()) {
+					TracingConfigResponse tracingConfigResponse = tracingConfigOptional.get();
+					com.synectiks.aws.entities.lambda.TracingConfig tracingConfig = new com.synectiks.aws.entities.lambda.TracingConfig();
+					Optional<String> mode = tracingConfigResponse.getValueForField("Mode", String.class);
+					if (mode.isPresent()) {
+						tracingConfig.setMode(mode.get());
+
+					}
+					lambda.setTracingConfig(tracingConfig);
 				}
 				if (packageType.isPresent()) {
 					lambda.setType(packageType.get());
@@ -150,6 +163,7 @@ public class XformLambdaProcessor extends XformAwsProcessor {
 				}
 				if (vpcConfig.isPresent()) {
 					VpcConfigResponse config = vpcConfig.get();
+					com.synectiks.aws.entities.lambda.Vpc vpc = getLambdaVpc(config.vpcId());
 //					lambda.setVpc(null);
 				}
 				lambdas.add(lambda);
@@ -178,6 +192,26 @@ public class XformLambdaProcessor extends XformAwsProcessor {
 			System.exit(1);
 		}
 		// snippet-end:[lambda.java2.list.main]
+	}
+
+	private com.synectiks.aws.entities.lambda.Vpc getLambdaVpc(String vpcId) {
+		com.synectiks.aws.entities.lambda.Vpc lambdaVpc = null;
+		try {
+			XformVpcProcessor xformVpcProcessor = new XformVpcProcessor(getAccessKey(), getSecretKey(),
+					getRegionAsText());
+			List<Vpc> vpcList = xformVpcProcessor.getAwsVpcById(vpcId);
+			if (vpcList.size() > 0) {
+				Vpc vpc = vpcList.get(0);
+				com.synectiks.aws.entities.vpc.Vpc xformVpc = xformVpcProcessor.getXformVpc(vpc);
+				lambdaVpc = new com.synectiks.aws.entities.lambda.Vpc();
+				BeanUtils.copyProperties(lambdaVpc, xformVpc);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.warn("Exception in getEc2Vpc: ", e);
+		}
+
+		return lambdaVpc;
 	}
 
 	public static void getSettings(LambdaClient awsLambda) {
