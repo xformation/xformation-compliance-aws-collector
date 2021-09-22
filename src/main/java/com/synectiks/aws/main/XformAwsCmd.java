@@ -146,7 +146,6 @@ public class XformAwsCmd {
 		if (cmd.hasOption("s3rds")) {
 			XformS3RDSProcessor processor = new XformS3RDSProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
 					cmd.getOptionValue("r"));
-			System.out.println("In s3rds....");
 			List<XformS3RDSEntity> list = processor.getXformObject();
 			for (XformS3RDSEntity xformS3RDSEntity : list) {
 				System.out.println(Converter.toPrettyJsonString(xformS3RDSEntity, XformS3RDSEntity.class));
