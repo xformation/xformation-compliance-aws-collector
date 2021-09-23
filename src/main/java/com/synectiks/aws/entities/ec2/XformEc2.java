@@ -5,7 +5,9 @@ import java.time.Instant;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.common.Tag;
 
+import software.amazon.awssdk.services.autoscaling.model.AutoScalingInstanceDetails;
 import software.amazon.awssdk.services.ec2.model.CapacityReservationSpecificationResponse;
 import software.amazon.awssdk.services.ec2.model.CpuOptions;
 import software.amazon.awssdk.services.ec2.model.EnclaveOptions;
@@ -91,6 +93,7 @@ public class XformEc2 implements Serializable {
 	private String bootMode;
 	private EnclaveOptions enclaveOptions;
 
+	List<AutoScalingInstanceDetails> autoScalingInstanceDetails;
 	//////////////////////
 
 	@JsonProperty("image")
@@ -774,5 +777,15 @@ public class XformEc2 implements Serializable {
 				+ ssmAgentInstanceInformation + ", tags=" + tags + ", vpc=" + vpc + ", id=" + id + ", type=" + type
 				+ ", name=" + name + ", accountNumber=" + accountNumber + ", region=" + region + ", externalFindings="
 				+ externalFindings + "]";
+	}
+
+	@JsonProperty("autoScalingInstanceDetails")
+	public List<AutoScalingInstanceDetails> getAutoScalingInstanceDetails() {
+		return autoScalingInstanceDetails;
+	}
+
+	@JsonProperty("autoScalingInstanceDetails")
+	public void setAutoScalingInstanceDetails(List<AutoScalingInstanceDetails> autoScalingInstanceDetails) {
+		this.autoScalingInstanceDetails = autoScalingInstanceDetails;
 	}
 }

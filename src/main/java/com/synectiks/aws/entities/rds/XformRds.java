@@ -3,8 +3,9 @@ package com.synectiks.aws.entities.rds;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.common.Tag;
 
-public class XformRDS {
+public class XformRds {
 	private String description;
 	private String port;
 	private String address;

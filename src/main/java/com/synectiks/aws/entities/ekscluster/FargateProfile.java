@@ -2,8 +2,10 @@ package com.synectiks.aws.entities.ekscluster;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.common.Tag;
 
 public class FargateProfile implements Serializable {
 	/**
@@ -18,7 +20,7 @@ public class FargateProfile implements Serializable {
 	private Selector[] selectors;
 	private String status;
 	private PublicAccessCIDR[] subnets;
-	private Tag[] tags;
+	private List<Tag> tags;
 
 	@JsonProperty("clusterName")
 	public String getClusterName() {
@@ -101,12 +103,12 @@ public class FargateProfile implements Serializable {
 	}
 
 	@JsonProperty("tags")
-	public Tag[] getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
 	@JsonProperty("tags")
-	public void setTags(Tag[] value) {
+	public void setTags(List<Tag> value) {
 		this.tags = value;
 	}
 
@@ -115,6 +117,6 @@ public class FargateProfile implements Serializable {
 		return "FargateProfile [clusterName=" + clusterName + ", createdAt=" + createdAt + ", fargateProfileArn="
 				+ fargateProfileArn + ", fargateProfileName=" + fargateProfileName + ", podExecutionRoleArn="
 				+ podExecutionRoleArn + ", selectors=" + Arrays.toString(selectors) + ", status=" + status
-				+ ", subnets=" + Arrays.toString(subnets) + ", tags=" + Arrays.toString(tags) + "]";
+				+ ", subnets=" + Arrays.toString(subnets) + ", tags=" + tags + "]";
 	}
 }

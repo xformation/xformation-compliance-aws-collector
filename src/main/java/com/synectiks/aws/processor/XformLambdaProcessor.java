@@ -21,7 +21,6 @@ import software.amazon.awssdk.services.lambda.model.FunctionConfiguration;
 import software.amazon.awssdk.services.lambda.model.GetAccountSettingsResponse;
 import software.amazon.awssdk.services.lambda.model.LambdaException;
 import software.amazon.awssdk.services.lambda.model.ListFunctionsResponse;
-import software.amazon.awssdk.services.lambda.model.TracingConfig;
 import software.amazon.awssdk.services.lambda.model.TracingConfigResponse;
 import software.amazon.awssdk.services.lambda.model.VpcConfigResponse;
 
@@ -227,4 +226,9 @@ public class XformLambdaProcessor extends XformAwsProcessor {
 		}
 	}
 
+	@Override
+	protected <T> T getXformObjectById(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

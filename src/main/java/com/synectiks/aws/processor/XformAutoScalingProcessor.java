@@ -1,191 +1,220 @@
 package com.synectiks.aws.processor;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synectiks.aws.entities.ec2.XformEc2;
-import com.synectiks.aws.entities.s3.XformS3RDSEntity;
 import com.synectiks.aws.main.XformAwsProcessor;
 
 import software.amazon.awssdk.services.autoscaling.AutoScalingClient;
 import software.amazon.awssdk.services.autoscaling.model.AutoScalingGroup;
+import software.amazon.awssdk.services.autoscaling.model.AutoScalingInstanceDetails;
 import software.amazon.awssdk.services.autoscaling.model.DescribeAutoScalingGroupsResponse;
-import software.amazon.awssdk.services.ec2.Ec2Client;
-import software.amazon.awssdk.services.ec2.model.CapacityReservationSpecificationResponse;
-import software.amazon.awssdk.services.ec2.model.CpuOptions;
-import software.amazon.awssdk.services.ec2.model.DescribeInstancesRequest;
-import software.amazon.awssdk.services.ec2.model.EnclaveOptions;
-import software.amazon.awssdk.services.ec2.model.HibernationOptions;
-import software.amazon.awssdk.services.ec2.model.IamInstanceProfile;
-import software.amazon.awssdk.services.ec2.model.Instance;
-import software.amazon.awssdk.services.ec2.model.InstanceMetadataOptionsResponse;
-import software.amazon.awssdk.services.ec2.model.InstanceState;
-import software.amazon.awssdk.services.ec2.model.Monitoring;
-import software.amazon.awssdk.services.ec2.model.Placement;
-import software.amazon.awssdk.services.ec2.model.Reservation;
-import software.amazon.awssdk.services.ec2.model.StateReason;
-import software.amazon.awssdk.services.ec2.model.Tag;
-import software.amazon.awssdk.services.ec2.model.Vpc;
+import software.amazon.awssdk.services.autoscaling.model.DescribeAutoScalingInstancesRequest;
+import software.amazon.awssdk.services.autoscaling.model.DescribeAutoScalingInstancesResponse;
+import software.amazon.awssdk.services.autoscaling.model.LaunchTemplateSpecification;
+import software.amazon.awssdk.services.autoscaling.model.MixedInstancesPolicy;
+import software.amazon.awssdk.services.autoscaling.model.WarmPoolConfiguration;
 
 public class XformAutoScalingProcessor extends XformAwsProcessor {
 
+	private static final Logger logger = LoggerFactory.getLogger(XformAutoScalingProcessor.class);
+	
 	public XformAutoScalingProcessor(String accessKey, String secretKey, String region) {
 		super(accessKey, secretKey, region);
-		// TODO Auto-generated constructor stub
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(XformAutoScalingProcessor.class);
-
 	@Override
-	protected List<AutoScalingGroup> getCloudObject() throws Exception {
-		AutoScalingClient client = AutoScalingClient.builder().credentialsProvider(awsCredentialsProvider)
-				.region(region).build();
+	public List<AutoScalingGroup> getCloudObject() throws Exception {
+		AutoScalingClient client = AutoScalingClient
+									.builder()
+									.credentialsProvider(awsCredentialsProvider)
+									.region(region)
+									.build();
 		DescribeAutoScalingGroupsResponse response=client.describeAutoScalingGroups();
 		List<AutoScalingGroup> autoScalingGroups=response.autoScalingGroups();
 		return autoScalingGroups;
 	}
-
-	@Override
-	public <T> T getXformObject() throws Exception {
-		List<AutoScalingGroup>  autoScalingGroups=getCloudObject();
-		for (AutoScalingGroup autoScalingGroup : autoScalingGroups) {
-			Optional<String> autoScalingGroupName = autoScalingGroup.getValueForField("AutoScalingGroupName", String.class);
-			Optional<String> autoScalingGroupARN = autoScalingGroup.getValueForField("AutoScalingGroupARN", String.class);
-			Optional<String> launchConfigurationName = autoScalingGroup.getValueForField("LaunchConfigurationName", String.class);
-			Optional<String> launchTemplate = autoScalingGroup.getValueForField("LaunchTemplate", String.class);
-			Optional<String> mixedInstancesPolicy = autoScalingGroup.getValueForField("MixedInstancesPolicy", String.class);
-			Optional<String> minSize = autoScalingGroup.getValueForField("MinSize", String.class);
-			Optional<String> desiredCapacity = autoScalingGroup.getValueForField("DesiredCapacity", String.class);
-			Optional<String> predictedCapacity = autoScalingGroup.getValueForField("PredictedCapacity", String.class);
-			Optional<String> defaultCooldown = autoScalingGroup.getValueForField("DefaultCooldown", String.class);
-			Optional<String> availabilityZones = autoScalingGroup.getValueForField("AvailabilityZones", String.class);
-			Optional<String> loadBalancerNames = autoScalingGroup.getValueForField("LoadBalancerNames", String.class);
-			Optional<String> targetGroupARNs = autoScalingGroup.getValueForField("TargetGroupARNs", String.class);
-			Optional<List> healthCheckType = autoScalingGroup.getValueForField("HealthCheckType", List.class);
-			Optional<String> healthCheckGracePeriod = autoScalingGroup.getValueForField("HealthCheckGracePeriod", String.class);
-			Optional<String> instances = autoScalingGroup.getValueForField("Instances", String.class);
-			Optional<String> createdTime = autoScalingGroup.getValueForField("CreatedTime", String.class);
-			Optional<String> suspendedProcesses = autoScalingGroup.getValueForField("SuspendedProcesses", String.class);
-			Optional<String> placementGroup = autoScalingGroup.getValueForField("PlacementGroup", String.class);
-			Optional<String> vPCZoneIdentifier = autoScalingGroup.getValueForField("VPCZoneIdentifier", String.class);
-			Optional<String> enabledMetrics = autoScalingGroup.getValueForField("EnabledMetrics", String.class);
-			Optional<String> status = autoScalingGroup.getValueForField("Status", String.class);
-			Optional<String> tags = autoScalingGroup.getValueForField("Tags", String.class);
-			Optional<String> terminationPolicies = autoScalingGroup.getValueForField("TerminationPolicies", String.class);
-			Optional<String> newInstancesProtectedFromScaleIn = autoScalingGroup.getValueForField("NewInstancesProtectedFromScaleIn", String.class);
-			Optional<String> serviceLinkedRoleARN = autoScalingGroup.getValueForField("ServiceLinkedRoleARN", String.class);
-			Optional<String> maxInstanceLifetime = autoScalingGroup.getValueForField("MaxInstanceLifetime", String.class);
-			Optional<String> warmPoolConfiguration = autoScalingGroup.getValueForField("WarmPoolConfiguration", String.class);
-			Optional<String> warmPoolSize = autoScalingGroup.getValueForField("WarmPoolSize", String.class);
-			Optional<String> context = autoScalingGroup.getValueForField("Context", String.class);
-			
-			
-			com.synectiks.aws.entities.ec2.AutoScalingGroup AutoScalingGroup = new com.synectiks.aws.entities.ec2.AutoScalingGroup();
 	
-//			xformS3RDSEntity.setAddress(null);
+	@Override
+	public List<com.synectiks.aws.entities.autoscaling.AutoScalingGroup> getXformObject() throws Exception {
+		XformAutoScalingProcessor xformAutoScalingProcessor = new XformAutoScalingProcessor(getAccessKey(), getSecretKey(), getRegionAsText()); 
+		List<AutoScalingGroup>  autoScalingGroups = xformAutoScalingProcessor.getCloudObject();
+		
+		List<com.synectiks.aws.entities.autoscaling.AutoScalingGroup> autoScalingGroupsList = new ArrayList<>();
+		
+		for (AutoScalingGroup awsAutoScalingGroup : autoScalingGroups) {
+			Optional<String> autoScalingGroupName = awsAutoScalingGroup.getValueForField("AutoScalingGroupName", String.class);
+			Optional<String> autoScalingGroupARN = awsAutoScalingGroup.getValueForField("AutoScalingGroupARN", String.class);
+			Optional<String> launchConfigurationName = awsAutoScalingGroup.getValueForField("LaunchConfigurationName", String.class);
+			Optional<LaunchTemplateSpecification> launchTemplate = awsAutoScalingGroup.getValueForField("LaunchTemplate", LaunchTemplateSpecification.class);
+			Optional<MixedInstancesPolicy> mixedInstancesPolicy = awsAutoScalingGroup.getValueForField("MixedInstancesPolicy", MixedInstancesPolicy.class);
+			Optional<Integer> minSize = awsAutoScalingGroup.getValueForField("MinSize", Integer.class);
+			Optional<Integer> maxSize = awsAutoScalingGroup.getValueForField("MaxSize", Integer.class);
+			Optional<Integer> desiredCapacity = awsAutoScalingGroup.getValueForField("DesiredCapacity", Integer.class);
+			Optional<Integer> predictedCapacity = awsAutoScalingGroup.getValueForField("PredictedCapacity", Integer.class);
+			Optional<Integer> defaultCooldown = awsAutoScalingGroup.getValueForField("DefaultCooldown", Integer.class);
+			Optional<List> availabilityZones = awsAutoScalingGroup.getValueForField("AvailabilityZones", List.class);
+			Optional<List> loadBalancerNames = awsAutoScalingGroup.getValueForField("LoadBalancerNames", List.class);
+			Optional<List> targetGroupARNs = awsAutoScalingGroup.getValueForField("TargetGroupARNs", List.class);
+			Optional<List> healthCheckType = awsAutoScalingGroup.getValueForField("HealthCheckType", List.class);
+			Optional<Integer> healthCheckGracePeriod = awsAutoScalingGroup.getValueForField("HealthCheckGracePeriod", Integer.class);
+			Optional<List> instances = awsAutoScalingGroup.getValueForField("Instances", List.class);
+			Optional<Instant> createdTime = awsAutoScalingGroup.getValueForField("CreatedTime", Instant.class);
+			Optional<List> suspendedProcesses = awsAutoScalingGroup.getValueForField("SuspendedProcesses", List.class);
+			Optional<String> placementGroup = awsAutoScalingGroup.getValueForField("PlacementGroup", String.class);
+			Optional<String> vPCZoneIdentifier = awsAutoScalingGroup.getValueForField("VPCZoneIdentifier", String.class);
+			Optional<List> enabledMetrics = awsAutoScalingGroup.getValueForField("EnabledMetrics", List.class);
+			Optional<String> status = awsAutoScalingGroup.getValueForField("Status", String.class);
+			Optional<List> tags = awsAutoScalingGroup.getValueForField("Tags", List.class);
+			Optional<List> terminationPolicies = awsAutoScalingGroup.getValueForField("TerminationPolicies", List.class);
+			Optional<Boolean> newInstancesProtectedFromScaleIn = awsAutoScalingGroup.getValueForField("NewInstancesProtectedFromScaleIn", Boolean.class);
+			Optional<String> serviceLinkedRoleARN = awsAutoScalingGroup.getValueForField("ServiceLinkedRoleARN", String.class);
+			Optional<Integer> maxInstanceLifetime = awsAutoScalingGroup.getValueForField("MaxInstanceLifetime", Integer.class);
+			Optional<Boolean> capacityRebalance = awsAutoScalingGroup.getValueForField("CapacityRebalance", Boolean.class);
+			Optional<WarmPoolConfiguration> warmPoolConfiguration = awsAutoScalingGroup.getValueForField("WarmPoolConfiguration", WarmPoolConfiguration.class);
+			Optional<Integer> warmPoolSize = awsAutoScalingGroup.getValueForField("WarmPoolSize", Integer.class);
+			Optional<String> context = awsAutoScalingGroup.getValueForField("Context", String.class);
+			
+			com.synectiks.aws.entities.autoscaling.AutoScalingGroup xformEc2AutoScalingGroup = new com.synectiks.aws.entities.autoscaling.AutoScalingGroup();
+			
 			if (autoScalingGroupName.isPresent()) {
-//				AutoScalingGroup.setAutoScalingGroupName(autoScalingGroupName.get());
+				xformEc2AutoScalingGroup.setAutoScalingGroupName(autoScalingGroupName.get());
 			}
 			if (autoScalingGroupARN.isPresent()) {
-//				AutoScalingGroup.setAutoScalingGroupARN(autoScalingGroupARN.get());
+				xformEc2AutoScalingGroup.setAutoScalingGroupARN(autoScalingGroupARN.get());
 			}
 			if (launchConfigurationName.isPresent()) {
-//				AutoScalingGroup.setlAunchConfigurationName(launchConfigurationName.get());
+				xformEc2AutoScalingGroup.setLaunchConfigurationName(launchConfigurationName.get());
 			}
-			if (autoScalingGroupName.isPresent()) {
-//				AutoScalingGroup.setAutoScalingGroupName(autoScalingGroupName.get());
-			}
+
 			if (launchTemplate.isPresent()) {
-//				AutoScalingGroup.setLaunchTemplate(launchTemplate.get());
+				xformEc2AutoScalingGroup.setLaunchTemplate(launchTemplate.get());
 			}
 			if (mixedInstancesPolicy.isPresent()) {
-//				AutoScalingGroup.setMixedInstancesPolicy(mixedInstancesPolicy.get());
+				xformEc2AutoScalingGroup.setMixedInstancesPolicy(mixedInstancesPolicy.get());
 			}
 			if (minSize.isPresent()) {
-//				AutoScalingGroup.setMinSize(minSize.get());
+				xformEc2AutoScalingGroup.setMinSize(minSize.get());
+			}
+			if (maxSize.isPresent()) {
+				xformEc2AutoScalingGroup.setMaxSize(maxSize.get());
 			}
 			if (desiredCapacity.isPresent()) {
-//				AutoScalingGroup.setDesiredCapacity(desiredCapacity.get());
+				xformEc2AutoScalingGroup.setDesiredCapacity(desiredCapacity.get());
 			}
 			if (predictedCapacity.isPresent()) {
-//				AutoScalingGroup.setPredictedCapacity(predictedCapacity.get());
+				xformEc2AutoScalingGroup.setPredictedCapacity(predictedCapacity.get());
 			}
 			if (defaultCooldown.isPresent()) {
-				AutoScalingGroup.setDefaultCooldown(defaultCooldown.get());
+				xformEc2AutoScalingGroup.setDefaultCooldown(defaultCooldown.get());
 			}
 			if (availabilityZones.isPresent()) {
-//				AutoScalingGroup.setAvailabilityZones(availabilityZones.get());
+				xformEc2AutoScalingGroup.setAvailabilityZones(availabilityZones.get());
 			}
 			if (loadBalancerNames.isPresent()) {
-//				AutoScalingGroup.setLoadBalancerNames(loadBalancerNames.get());
+				xformEc2AutoScalingGroup.setLoadBalancerNames(loadBalancerNames.get());
 			}
 			if (targetGroupARNs.isPresent()) {
-//				AutoScalingGroup.setTargetGroupARNs(targetGroupARNs.get());
+				xformEc2AutoScalingGroup.setTargetGroupARNs(targetGroupARNs.get());
 			}
 			if (healthCheckType.isPresent()) {
-//				AutoScalingGroup.setHealthCheckType(healthCheckType.get());
+				xformEc2AutoScalingGroup.setHealthCheckType(healthCheckType.get());
 			}
 			if (healthCheckGracePeriod.isPresent()) {
-//				AutoScalingGroup.setHealthCheckGracePeriod(healthCheckGracePeriod.get());
+				xformEc2AutoScalingGroup.setHealthCheckGracePeriod(healthCheckGracePeriod.get());
 			}
 			if (instances.isPresent()) {
-//				AutoScalingGroup.setInstances(instances.get());
+				xformEc2AutoScalingGroup.setInstances(instances.get());
 			}
 			if (createdTime.isPresent()) {
-//				AutoScalingGroup.setCreatedTime(createdTime.get());
+				xformEc2AutoScalingGroup.setCreatedTime(createdTime.get());
 			}
 			if (suspendedProcesses.isPresent()) {
-//				AutoScalingGroup.setSuspendedProcesses(suspendedProcesses.get());
+				xformEc2AutoScalingGroup.setSuspendedProcesses(suspendedProcesses.get());
 			}
 			if (placementGroup.isPresent()) {
-//				AutoScalingGroup.setPlacementGroup(placementGroup.get());
+				xformEc2AutoScalingGroup.setPlacementGroup(placementGroup.get());
 			}
 			if (vPCZoneIdentifier.isPresent()) {
-//				AutoScalingGroup.setvPCZoneIdentifier(vPCZoneIdentifier.get());
+				xformEc2AutoScalingGroup.setvPCZoneIdentifier(vPCZoneIdentifier.get());
 			}
 			if (enabledMetrics.isPresent()) {
-//				AutoScalingGroup.setEnabledMetrics(enabledMetrics.get());
+				xformEc2AutoScalingGroup.setEnabledMetrics(enabledMetrics.get());
 			}
 			if (status.isPresent()) {
-//				AutoScalingGroup.setStatus(status.get());
+				xformEc2AutoScalingGroup.setStatus(status.get());
 			}
 			if (tags.isPresent()) {
-//				AutoScalingGroup.setTags(tags.get());
+				xformEc2AutoScalingGroup.setTags(tags.get());
 			}
 			if (terminationPolicies.isPresent()) {
-//				AutoScalingGroup.setTerminationPolicies(terminationPolicies.get());
+				xformEc2AutoScalingGroup.setTerminationPolicies(terminationPolicies.get());
 			}
 			if (newInstancesProtectedFromScaleIn.isPresent()) {
-//				AutoScalingGroup.setNewInstancesProtectedFromScaleIn(newInstancesProtectedFromScaleIn.get());
+				xformEc2AutoScalingGroup.setNewInstancesProtectedFromScaleIn(newInstancesProtectedFromScaleIn.get());
 			}
 			if (serviceLinkedRoleARN.isPresent()) {
-				AutoScalingGroup.setServiceLinkedRoleARN(serviceLinkedRoleARN.get());
+				xformEc2AutoScalingGroup.setServiceLinkedRoleARN(serviceLinkedRoleARN.get());
 			}
 			if (maxInstanceLifetime.isPresent()) {
-//				AutoScalingGroup.setMaxInstanceLifetime(maxInstanceLifetime.get());
+				xformEc2AutoScalingGroup.setMaxInstanceLifetime(maxInstanceLifetime.get());
+			}
+			if(capacityRebalance.isPresent()) {
+				xformEc2AutoScalingGroup.setCapacityRebalance(capacityRebalance.get());
 			}
 			if (warmPoolConfiguration.isPresent()) {
-//				AutoScalingGroup.setWarmPoolConfiguration(warmPoolConfiguration.get());
+				xformEc2AutoScalingGroup.setWarmPoolConfiguration(warmPoolConfiguration.get());
 			}
 			if (warmPoolSize.isPresent()) {
-//				AutoScalingGroup.setWarmPoolSize(warmPoolSize.get());
+				xformEc2AutoScalingGroup.setWarmPoolSize(warmPoolSize.get());
 			}
 			if (context.isPresent()) {
-//				AutoScalingGroup.setContext(context.get());
+				xformEc2AutoScalingGroup.setContext(context.get());
 			}
-			
-			
+			autoScalingGroupsList.add(xformEc2AutoScalingGroup);
 			
 		}
-		return null;
+		return autoScalingGroupsList;
+	}
+	
+	public List<AutoScalingInstanceDetails> getAwsEc2AutScaling(String instanceId) throws Exception {
+		AutoScalingClient client = AutoScalingClient
+									.builder()
+									.credentialsProvider(awsCredentialsProvider)
+									.region(region)
+									.build();
+		DescribeAutoScalingInstancesRequest req = DescribeAutoScalingInstancesRequest
+																.builder()
+																.instanceIds(instanceId) 
+																.build();
+		DescribeAutoScalingInstancesResponse response = client.describeAutoScalingInstances(req);
+		List<AutoScalingInstanceDetails> autoScalingInstanceDetails = response.autoScalingInstances();
+		return autoScalingInstanceDetails;
+	}
+	
+	public List<AutoScalingInstanceDetails> getAwsEc2AutScaling() throws Exception {
+		AutoScalingClient client = AutoScalingClient
+									.builder()
+									.credentialsProvider(awsCredentialsProvider)
+									.region(region)
+									.build();
+		DescribeAutoScalingInstancesRequest req = DescribeAutoScalingInstancesRequest
+																.builder()
+																.build();
+		DescribeAutoScalingInstancesResponse response = client.describeAutoScalingInstances(req);
+		List<AutoScalingInstanceDetails> autoScalingInstanceDetails = response.autoScalingInstances();
+		return autoScalingInstanceDetails;
 	}
 
+	@Override
+	protected <T> T getXformObjectById(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

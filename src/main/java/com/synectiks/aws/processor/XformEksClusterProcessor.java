@@ -10,10 +10,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.synectiks.aws.entities.common.Tag;
 import com.synectiks.aws.entities.ekscluster.ClusterLogging;
 import com.synectiks.aws.entities.ekscluster.Oidc;
 import com.synectiks.aws.entities.ekscluster.ResourcesVpcConfig;
-import com.synectiks.aws.entities.ekscluster.Tag;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
 import com.synectiks.aws.main.XformAwsProcessor;
 
@@ -189,4 +189,9 @@ public class XformEksClusterProcessor extends XformAwsProcessor {
 		return vpcConfig;
 	}
 
+	@Override
+	protected <T> T getXformObjectById(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.common.Tag;
 import com.synectiks.aws.entities.vpc.Bound;
 import com.synectiks.aws.entities.vpc.ExternalFindings;
-import com.synectiks.aws.entities.vpc.Tag;
 import com.synectiks.aws.entities.vpc.Vpc;
 
 public class Nacl implements Serializable {

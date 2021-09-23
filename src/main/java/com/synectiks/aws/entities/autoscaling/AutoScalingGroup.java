@@ -1,4 +1,4 @@
-package com.synectiks.aws.entities.ec2;
+package com.synectiks.aws.entities.autoscaling;
 
 import java.io.Serializable;
 import java.time.Instant;

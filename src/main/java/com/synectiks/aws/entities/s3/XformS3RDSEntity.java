@@ -3,6 +3,7 @@ package com.synectiks.aws.entities.s3;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.common.Tag;
 
 public class XformS3RDSEntity {
 	private String description;

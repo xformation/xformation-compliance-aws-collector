@@ -9,20 +9,20 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 import com.synectiks.aws.config.Converter;
-import com.synectiks.aws.entities.ec2.AutoScalingGroup;
+import com.synectiks.aws.entities.autoscaling.AutoScalingGroup;
 import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
 import com.synectiks.aws.entities.lambda.XformLambda;
-import com.synectiks.aws.entities.s3.XformS3RDSEntity;
+import com.synectiks.aws.entities.rds.XformRds;
+import com.synectiks.aws.entities.subnet.XformSubnet;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.processor.XformAutoScalingProcessor;
 import com.synectiks.aws.processor.XformEc2Processor;
 import com.synectiks.aws.processor.XformEksClusterProcessor;
 import com.synectiks.aws.processor.XformLambdaProcessor;
-import com.synectiks.aws.processor.XformS3RDSProcessor;
+import com.synectiks.aws.processor.XformRdsProcessor;
+import com.synectiks.aws.processor.XformSubnetProcessor;
 import com.synectiks.aws.processor.XformVpcProcessor;
-
-import software.amazon.awssdk.services.ec2.model.Vpc;
 
 public class XformAwsCmd {
 	private static Options buildOptions() {
@@ -52,11 +52,15 @@ public class XformAwsCmd {
 		ec2.setRequired(false);
 		options.addOption(ec2);
 
+		Option ec2Id = new Option("ec2Id", "ec2Id", true, "Enter ec2 instance id");
+		ec2Id.setRequired(false);
+		options.addOption(ec2Id);
+		
 		Option eksCluster = new Option("eksCluster", "eksCluster");
 		eksCluster.setRequired(false);
 		options.addOption(eksCluster);
 
-		Option s3Rds = new Option("s3rds", "s3rds");
+		Option s3Rds = new Option("rds", "rds");
 		s3Rds.setRequired(false);
 		options.addOption(s3Rds);
 
@@ -67,44 +71,20 @@ public class XformAwsCmd {
 		Option subnet = new Option("subnet", "subnet");
 		subnet.setRequired(false);
 		options.addOption(subnet);
+		
+		Option subnetId = new Option("subnetId", "subnetId");
+		subnetId.setRequired(false);
+		options.addOption(subnetId);
 
-		Option autoscaling = new Option("autoscaling", "autoscaling");
+		Option autoscaling = new Option("autoScaling", "autoScaling");
 		autoscaling.setRequired(false);
 		options.addOption(autoscaling);
 
-//		Option helpOpt = new Option("help", "help", false, "For print helps");
-//		helpOpt.setRequired(false);
-//		options.addOption(helpOpt);
-
-//		Option helpOpt1 = new Option("h", "h", false, "For print helps");
-//		helpOpt1.setRequired(false);
-//		options.addOption(helpOpt1);
 		return options;
 	}
 
-//	public static void getHelp(Options options) {
-//		HelpFormatter formatter = new HelpFormatter();
-//		formatter.printHelp("vpc -id <vpcId> -r <region> -a <access key> -s secret key",
-//				"Type vpc, ec2, s3rds and subnets", options,
-//				"vpc for get vpc\n ec2 for describe ec2 instance\n s3rds for describe s3rds");
-//	}
 
-//	public static AwsCredentialsProvider getAwsCredentialsProvider(String accessKey, String secretKey) {
-//		AwsCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
-//		AwsCredentialsProvider asAwsCredentialsProvider = StaticCredentialsProvider.create(credentials);
-//		return asAwsCredentialsProvider;
-//	}
 
-//	public static Region getRegion(String region) {
-//		Region rg = null;
-//		if (region != null) {
-//			rg = Region.of(region);
-//		} else {
-//			System.out.println("Default region is: " + Constants.DEFAULT_REGION.toString());
-//			rg = Constants.DEFAULT_REGION;
-//		}
-//		return rg;
-//	}
 
 	public static void main(String[] args) throws Exception {
 		Options options = buildOptions();
@@ -112,137 +92,73 @@ public class XformAwsCmd {
 		CommandLine cmd = parser.parse(options, args);
 
 		if (cmd.hasOption("vpc")) {
+			List<XformVpc> list = null;
 			if (cmd.hasOption("vpcId")) {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-						cmd.getOptionValue("r"));
-				List<XformVpc> list = processor.getXformObjectById(cmd.getOptionValue("vpcId"));
-				for (XformVpc vpc : list) {
-					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
-				}
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				list = processor.getXformObjectById(cmd.getOptionValue("vpcId"));
 			} else {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-						cmd.getOptionValue("r"));
-				List<XformVpc> list = processor.getXformObject();
-				for (XformVpc vpc : list) {
-					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
-				}
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				list = processor.getXformObject();
 			}
+			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
 
 		if (cmd.hasOption("ec2")) {
-			XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-					cmd.getOptionValue("r"));
-			List<XformEc2> list = processor.getXformObject();
-			for (XformEc2 ec2 : list) {
-				System.out.println(Converter.toPrettyJsonString(ec2, XformEc2.class));
+			List<XformEc2> list = null;
+			if(cmd.hasOption("ec2Id")) {
+				XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				list = processor.getXformObjectById(cmd.getOptionValue("ec2Id"));
+			}else {
+				XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				list = processor.getXformObject();
 			}
+			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
 
 		if (cmd.hasOption("eksCluster")) {
-			XformEksClusterProcessor processor = new XformEksClusterProcessor(cmd.getOptionValue("a"),
-					cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			XformEksClusterProcessor processor = new XformEksClusterProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 			List<XformEksCluster> list = processor.getXformObject();
-			for (XformEksCluster eksClusterObj : list) {
-				System.out.println(Converter.toPrettyJsonString(eksClusterObj, XformEksCluster.class));
-			}
+			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
-		if (cmd.hasOption("s3rds")) {
-			XformS3RDSProcessor processor = new XformS3RDSProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-					cmd.getOptionValue("r"));
-			List<XformS3RDSEntity> list = processor.getXformObject();
-			for (XformS3RDSEntity xformS3RDSEntity : list) {
-				System.out.println(Converter.toPrettyJsonString(xformS3RDSEntity, XformS3RDSEntity.class));
-			}
+		
+		if (cmd.hasOption("rds")) {
+			XformRdsProcessor processor = new XformRdsProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			List<XformRds> list = processor.getXformObject();
+			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
+		
 		if (cmd.hasOption("lambda")) {
-			XformLambdaProcessor processor = new XformLambdaProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-					cmd.getOptionValue("r"));
+			XformLambdaProcessor processor = new XformLambdaProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 			List<XformLambda> list = processor.getXformObject();
-			for (XformLambda xformLambda : list) {
-				System.out.println("iterating list of lambda....");
-				System.out.println(Converter.toPrettyJsonString(xformLambda, XformLambda.class));
-			}
+			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
 
 		if (cmd.hasOption("subnet")) {
-			if (cmd.hasOption("vpcId")) {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-						cmd.getOptionValue("r"));
-				List<com.synectiks.aws.entities.vpc.Subnet> subnets = processor.getAllXfromSubnets();
-				for (com.synectiks.aws.entities.vpc.Subnet subnet : subnets) {
-					System.out
-							.println(Converter.toPrettyJsonString(subnet, com.synectiks.aws.entities.vpc.Subnet.class));
-				}
+			List<XformSubnet> list = null;
+			if (cmd.hasOption("subnetId")) {
+				XformSubnetProcessor processor = new XformSubnetProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				list = processor.getXformObjectById(cmd.getOptionValue("subnetId"));
+				System.out.println(Converter.toPrettyJsonString(list, List.class));
 			} else {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-						cmd.getOptionValue("r"));
-				List<XformVpc> list = processor.getXformObject();
-				for (XformVpc vpc : list) {
-					System.out.println(Converter.toPrettyJsonString(vpc, XformVpc.class));
-				}
+				XformSubnetProcessor processor = new XformSubnetProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				list = processor.getXformObject();
+				System.out.println(Converter.toPrettyJsonString(list, List.class));
 			}
 			System.exit(0);
 		}
 
-		if (cmd.hasOption("autoscaling")) {
-			XformAutoScalingProcessor processor = new XformAutoScalingProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
-					cmd.getOptionValue("r"));
+		if (cmd.hasOption("autoScaling")) {
+			XformAutoScalingProcessor processor = new XformAutoScalingProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 			List<AutoScalingGroup> list = processor.getXformObject();
-			for (AutoScalingGroup autoScalingGroup : list) {
-				System.out.println(Converter.toPrettyJsonString(autoScalingGroup, AutoScalingGroup.class));
-			}
+			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
-
-//		String r = cmd.getOptionValue("r");
-//		Region reg = getRegion(r);
-//		AwsCredentialsProvider asAwsCredentialsProvider = null;
-
-//		if (cmd.hasOption("a") && cmd.hasOption("s")) {
-//			asAwsCredentialsProvider = getAwsCredentialsProvider(cmd.getOptionValue("a"), cmd.getOptionValue("s"));
-//		} else {
-//			asAwsCredentialsProvider = DefaultCredentialsProvider.create();
-//		}
-
-//		List<String> cmdArgs = cmd.getArgList();
-//		if (cmd.hasOption("help")) {
-//			getHelp(options);
-//			return;
-//		}
-
-//		if (cmdArgs.size() > 0) {
-//			String firstArg = cmdArgs.get(0);
-//			if (firstArg.equalsIgnoreCase("ec2")) {
-//				DescribeInstances describeInstances = new DescribeInstances(asAwsCredentialsProvider, reg);
-//				try {
-//					describeInstances.describeEC2Instances();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			} else if (firstArg.equalsIgnoreCase("vpc")) {
-//				XformVpcProcessor vp = new XformVpcProcessor(asAwsCredentialsProvider);
-//				if (cmd.hasOption("id")) {
-//					String vpcId = cmd.getOptionValue("id");
-//					System.out.println(vp.getAwsVpcById(vpcId));
-//				} else {
-//					System.out.println(vp.describeEC2Vpcs());
-//				}
-//			} else if (firstArg.equalsIgnoreCase("s3rds")) {
-//				DescribeS3RdsDBInstances describeS3RdsDBInstances = new DescribeS3RdsDBInstances(
-//						asAwsCredentialsProvider, reg);
-//				System.out.println(describeS3RdsDBInstances.describeInstances());
-//			} else if (firstArg.equalsIgnoreCase("subnets")) {
-//				XformVpcProcessor vpcProcessor = new XformVpcProcessor(asAwsCredentialsProvider, reg);
-//				System.out.println(vpcProcessor.describeSubnets());
-//			} else {
-//				System.out.println("please Enter valid command");
-//				System.out.println("To get more information type -h or -help");
-//			}
-//		}
+		
+		System.out.println("");
 	}
 }

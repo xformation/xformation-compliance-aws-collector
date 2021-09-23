@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.common.Tag;
 
 public class TransitGateway implements Serializable {
 	/**

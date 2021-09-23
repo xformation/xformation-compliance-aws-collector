@@ -2,8 +2,10 @@ package com.synectiks.aws.entities.ekscluster;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.common.Tag;
 
 public class NodeGroup implements Serializable {
 	/**
@@ -26,8 +28,8 @@ public class NodeGroup implements Serializable {
 	private RemoteAccess remoteAccess;
 	private PublicAccessCIDR[] instanceTypes;
 	private PublicAccessCIDR[] subnets;
-	private Tag[] tags;
-	private Tag[] labels;
+	private List<Tag> tags;
+	private List<Tag> labels;
 
 	@JsonProperty("nodegroupName")
 	public String getNodegroupName() {
@@ -190,22 +192,22 @@ public class NodeGroup implements Serializable {
 	}
 
 	@JsonProperty("tags")
-	public Tag[] getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
 	@JsonProperty("tags")
-	public void setTags(Tag[] value) {
+	public void setTags(List<Tag> value) {
 		this.tags = value;
 	}
 
 	@JsonProperty("labels")
-	public Tag[] getLabels() {
+	public List<Tag> getLabels() {
 		return labels;
 	}
 
 	@JsonProperty("labels")
-	public void setLabels(Tag[] value) {
+	public void setLabels(List<Tag> value) {
 		this.labels = value;
 	}
 
@@ -217,6 +219,6 @@ public class NodeGroup implements Serializable {
 				+ ", amiType=" + amiType + ", diskSize=" + diskSize + ", scalingConfig=" + scalingConfig
 				+ ", resources=" + resources + ", remoteAccess=" + remoteAccess + ", instanceTypes="
 				+ Arrays.toString(instanceTypes) + ", subnets=" + Arrays.toString(subnets) + ", tags="
-				+ Arrays.toString(tags) + ", labels=" + Arrays.toString(labels) + "]";
+				+ tags + ", labels=" + labels + "]";
 	}
 }

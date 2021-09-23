@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.main.XformAwsProcessor;
 
+import software.amazon.awssdk.services.autoscaling.model.AutoScalingInstanceDetails;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.CapacityReservationSpecificationResponse;
 import software.amazon.awssdk.services.ec2.model.CpuOptions;
@@ -41,7 +42,6 @@ public class XformEc2Processor extends XformAwsProcessor {
 
 	@Override
 	public List<Instance> getCloudObject() throws Exception {
-		Ec2Client ec2 = getEc2Client();
 		List<Instance> instanceList = new ArrayList<>();
 		try {
 			DescribeInstancesRequest request = DescribeInstancesRequest.builder().build();
@@ -54,9 +54,7 @@ public class XformEc2Processor extends XformAwsProcessor {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Exception in getCloudObject: ", e);
-		} finally {
-			closeEc2Client(ec2);
-		}
+		} 
 		return Collections.unmodifiableList(instanceList);
 	}
 
@@ -74,9 +72,38 @@ public class XformEc2Processor extends XformAwsProcessor {
 		return Collections.unmodifiableList(reservationList);
 	}
 
+	public List<Instance> getCloudObject(String instanceId) throws Exception {
+		List<Instance> instanceList = new ArrayList<>();
+		try {
+			DescribeInstancesRequest request = DescribeInstancesRequest.builder().instanceIds(instanceId).build();
+			List<Reservation> listReservations = describeAwsEc2Instance(request);
+			for (Reservation reservation : listReservations) {
+				for (Instance instance : reservation.instances()) {
+					instanceList.add(instance);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Exception in getCloudObject: ", e);
+		} 
+		return Collections.unmodifiableList(instanceList);
+	}
+	
+	@Override
+	public List<XformEc2> getXformObjectById(String instanceId) throws Exception {
+		List<Instance> instanceList = getCloudObject(instanceId);
+		List<XformEc2> xformEc2List = createXformEc2Instance(instanceList);
+		return xformEc2List;
+	}
+	
 	@Override
 	public List<XformEc2> getXformObject() throws Exception {
 		List<Instance> instanceList = getCloudObject();
+		List<XformEc2> xformEc2List = createXformEc2Instance(instanceList);
+		return xformEc2List;
+	}
+
+	private List<XformEc2> createXformEc2Instance(List<Instance> instanceList) throws IOException, Exception {
 		List<XformEc2> xformEc2List = new ArrayList<XformEc2>();
 		for (Instance in : instanceList) {
 			Optional<Integer> amiLaunchIndex = in.getValueForField("AmiLaunchIndex", Integer.class);
@@ -283,6 +310,7 @@ public class XformEc2Processor extends XformAwsProcessor {
 			if (bootMode.isPresent()) {
 				obj.setBootMode(bootMode.get());
 			}
+			obj.setAutoScalingInstanceDetails(getAutoScalingInstanceDetails(instanceId.get()));
 			obj.setAccountNumber(getAwsAccountNumber());
 			obj.setRegion(getRegionAsText());
 			obj.setID(in.instanceId());
@@ -311,11 +339,11 @@ public class XformEc2Processor extends XformAwsProcessor {
 		return ec2Vpc;
 	}
 
-	private List<com.synectiks.aws.entities.ec2.Tag> getEc2TagList(List tags) throws IOException {
-		List<com.synectiks.aws.entities.ec2.Tag> ec2Tags = new ArrayList<>();
+	private List<com.synectiks.aws.entities.common.Tag> getEc2TagList(List tags) throws IOException {
+		List<com.synectiks.aws.entities.common.Tag> ec2Tags = new ArrayList<>();
 		for (Object obj : tags) {
 			Tag tag = (Tag) obj;
-			com.synectiks.aws.entities.ec2.Tag customTag = new com.synectiks.aws.entities.ec2.Tag();
+			com.synectiks.aws.entities.common.Tag customTag = new com.synectiks.aws.entities.common.Tag();
 			customTag.setKey(tag.key().toString());
 			customTag.setValue(tag.value());
 			ec2Tags.add(customTag);
@@ -323,4 +351,10 @@ public class XformEc2Processor extends XformAwsProcessor {
 		return ec2Tags;
 	}
 
+	public List<AutoScalingInstanceDetails> getAutoScalingInstanceDetails(String ec2InstanceId) throws Exception {
+		XformAutoScalingProcessor xformAutoScalingProcessor = new XformAutoScalingProcessor(getAccessKey(), getSecretKey(), getRegionAsText()); 
+		return xformAutoScalingProcessor.getAwsEc2AutScaling(ec2InstanceId);
+	}
+	
+	
 }

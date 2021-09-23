@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.common.Tag;
 
 import software.amazon.awssdk.services.eks.model.Certificate;
 import software.amazon.awssdk.services.eks.model.EncryptionConfig;

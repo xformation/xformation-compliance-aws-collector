@@ -57,11 +57,11 @@ public class Converter {
 	}
 	// Serialize/deserialize helpers
 
-	public static XformRDS fromJsonString(String json) throws IOException {
+	public static XformRds fromJsonString(String json) throws IOException {
 		return getObjectReader().readValue(json);
 	}
 
-	public static String toJsonString(XformRDS obj) throws JsonProcessingException {
+	public static String toJsonString(XformRds obj) throws JsonProcessingException {
 		return getObjectWriter().writeValueAsString(obj);
 	}
 
@@ -82,8 +82,8 @@ public class Converter {
 			}
 		});
 		mapper.registerModule(module);
-		reader = mapper.readerFor(XformRDS.class);
-		writer = mapper.writerFor(XformRDS.class);
+		reader = mapper.readerFor(XformRds.class);
+		writer = mapper.writerFor(XformRds.class);
 	}
 
 	private static ObjectReader getObjectReader() {

@@ -47,6 +47,8 @@ public abstract class XformAwsProcessor implements XformCollector {
 	protected abstract <T> T getCloudObject() throws Exception;
 
 	protected abstract <T> T getXformObject() throws Exception;
+	
+	protected abstract <T> T getXformObjectById(String id) throws Exception;
 
 	@Override
 	public String getAwsAccountNumber() {

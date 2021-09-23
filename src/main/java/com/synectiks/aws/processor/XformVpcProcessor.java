@@ -54,8 +54,7 @@ public class XformVpcProcessor extends XformAwsProcessor {
 			Optional<String> vpcId = vpc.getValueForField("VpcId", String.class);
 			Optional<String> ownerId = vpc.getValueForField("OwnerId", String.class);
 			Optional<String> instanceTenancy = vpc.getValueForField("InstanceTenancy", String.class);
-			Optional<List> ipv6CidrBlockAssociationSet = vpc.getValueForField("Ipv6CidrBlockAssociationSet",
-					List.class);
+			Optional<List> ipv6CidrBlockAssociationSet = vpc.getValueForField("Ipv6CidrBlockAssociationSet", List.class);
 			Optional<List> cidrBlockAssociationSet = vpc.getValueForField("CidrBlockAssociationSet", List.class);
 			Optional<Boolean> isDefault = vpc.getValueForField("IsDefault", Boolean.class);
 			Optional<List> tags = vpc.getValueForField("Tags", List.class);
@@ -202,6 +201,7 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return response.vpcs();
 	}
 
+	@Override
 	public List<XformVpc> getXformObjectById(String vpcId) throws Exception {
 		List<Vpc> vpcList = getAwsVpcById(vpcId);
 		List<XformVpc> xformVpcList = new ArrayList<>();
@@ -212,8 +212,7 @@ public class XformVpcProcessor extends XformAwsProcessor {
 //			Optional<String> vpcId = vpc.getValueForField("VpcId", String.class);
 			Optional<String> ownerId = vpc.getValueForField("OwnerId", String.class);
 			Optional<String> instanceTenancy = vpc.getValueForField("InstanceTenancy", String.class);
-			Optional<List> ipv6CidrBlockAssociationSet = vpc.getValueForField("Ipv6CidrBlockAssociationSet",
-					List.class);
+			Optional<List> ipv6CidrBlockAssociationSet = vpc.getValueForField("Ipv6CidrBlockAssociationSet", List.class);
 			Optional<List> cidrBlockAssociationSet = vpc.getValueForField("CidrBlockAssociationSet", List.class);
 			Optional<Boolean> isDefault = vpc.getValueForField("IsDefault", Boolean.class);
 			Optional<List> tags = vpc.getValueForField("Tags", List.class);
@@ -259,11 +258,11 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		return xformVpcList;
 	}
 
-	public List<com.synectiks.aws.entities.vpc.Tag> getXformTagList(List tags) {
-		List<com.synectiks.aws.entities.vpc.Tag> listTag = new ArrayList<>();
+	public List<com.synectiks.aws.entities.common.Tag> getXformTagList(List tags) {
+		List<com.synectiks.aws.entities.common.Tag> listTag = new ArrayList<>();
 		for (Object obj : tags) {
 			Tag tag = (Tag) obj;
-			com.synectiks.aws.entities.vpc.Tag xformTag = new com.synectiks.aws.entities.vpc.Tag();
+			com.synectiks.aws.entities.common.Tag xformTag = new com.synectiks.aws.entities.common.Tag();
 			xformTag.setKey(tag.key());
 			xformTag.setValue(tag.value());
 			listTag.add(xformTag);
