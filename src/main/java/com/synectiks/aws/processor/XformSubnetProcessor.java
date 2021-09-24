@@ -7,7 +7,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.synectiks.aws.entities.subnet.InternetGateway;
+import com.synectiks.aws.entities.subnet.VPNGateway;
 import com.synectiks.aws.entities.subnet.Vpc;
+import com.synectiks.aws.entities.subnet.VpcPeeringConnection;
 import com.synectiks.aws.entities.subnet.XformSubnet;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.main.XformAwsProcessor;
@@ -116,6 +119,17 @@ public class XformSubnetProcessor extends XformAwsProcessor {
 					subnetVpc.setID(vpcId.get());
 					subnetVpc.setInstanceTenancy(xformVpc.getInstanceTenancy());
 //						subnetVpc.setInternetGateways(xformVpc.getInternetGateways());
+					subnetVpc.setIsDefault(xformVpc.getIsDefault());
+					subnetVpc.setName(xformVpc.getName());
+					if(ownerId.isPresent()) {
+						subnetVpc.setOwnerID(ownerId.get());
+					}
+					subnetVpc.setRegion(getRegionAsText());
+//					subnetVpc.setSource(xformVpc.getS);
+					subnetVpc.setState(xformVpc.getState());
+					subnetVpc.setTags(xformVpc.getTags());
+//					subnetVpc.setVPNGateways(xformVpc.getVPNGateways());
+//					subnetVpc.setVpcPeeringConnections(xformVpc.getVpcPeeringConnections());
 					
 					obj.setVpc(subnetVpc);
 				}

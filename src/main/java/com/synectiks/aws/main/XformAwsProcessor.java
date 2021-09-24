@@ -12,6 +12,7 @@ import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.cloudtrail.CloudTrailClient;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 
 public abstract class XformAwsProcessor implements XformCollector {
@@ -23,7 +24,8 @@ public abstract class XformAwsProcessor implements XformCollector {
 	private String bucket;
 	private AwsCredentials awsCredentials;
 	protected AwsCredentialsProvider awsCredentialsProvider;
-	private Ec2Client ec2Client;
+//	private Ec2Client ec2Client;
+//	private CloudTrailClient cloudTrailClient;
 
 	public XformAwsProcessor(String accessKey, String secretKey, String region) {
 		this.accessKey = accessKey;
@@ -67,23 +69,38 @@ public abstract class XformAwsProcessor implements XformCollector {
 	}
 
 	public Ec2Client getEc2Client() {
-		this.ec2Client = Ec2Client.builder().credentialsProvider(getAwsCredentialsProvider()).region(getRegion())
+		Ec2Client ec2Client = Ec2Client.builder().credentialsProvider(getAwsCredentialsProvider()).region(getRegion())
 				.build();
-		return this.ec2Client;
+		return ec2Client;
 	}
 
+	public CloudTrailClient getCloudTrailClient() {
+		CloudTrailClient cloudTrailClient = CloudTrailClient
+												.builder()
+												.credentialsProvider(getAwsCredentialsProvider())
+								                .region(getRegion())
+								                .build();
+		return cloudTrailClient;
+	}
+	
 	public void closeEc2Client(Ec2Client ec2Client) {
 		if (ec2Client != null) {
 			ec2Client.close();
 		}
 	}
 
-	public void closeEc2Client() {
-		if (this.ec2Client != null) {
-			this.ec2Client.close();
+	public void closeCloudTrailClient(CloudTrailClient cloudTrailClient) {
+		if (cloudTrailClient != null) {
+			cloudTrailClient.close();
 		}
 	}
-
+	
+//	public void closeEc2Client() {
+//		if (this.ec2Client != null) {
+//			this.ec2Client.close();
+//		}
+//	}
+	
 	public String getAccessKey() {
 		return accessKey;
 	}

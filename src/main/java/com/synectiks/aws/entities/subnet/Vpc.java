@@ -15,7 +15,7 @@ public class Vpc {
 	private List<InternetGateway> internetGateways;
 	private String dhcpOptionsID;
 	private String instanceTenancy;
-	private String isDefault;
+	private Boolean isDefault;
 	private String state;
 	private List<Tag> tags;
 	private String name;
@@ -114,12 +114,12 @@ public class Vpc {
 	}
 
 	@JsonProperty("isDefault")
-	public String getIsDefault() {
+	public Boolean getIsDefault() {
 		return isDefault;
 	}
 
 	@JsonProperty("isDefault")
-	public void setIsDefault(String value) {
+	public void setIsDefault(Boolean value) {
 		this.isDefault = value;
 	}
 

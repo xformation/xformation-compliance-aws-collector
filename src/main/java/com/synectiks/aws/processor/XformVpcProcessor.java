@@ -246,6 +246,7 @@ public class XformVpcProcessor extends XformAwsProcessor {
 				xformVpc.setTags(getXformTagList(tags.get()));
 			}
 
+			
 			xformVpc.setID(vpcId);
 
 //			xformVpc.setType();

@@ -10,6 +10,7 @@ import org.apache.commons.cli.Options;
 
 import com.synectiks.aws.config.Converter;
 import com.synectiks.aws.entities.autoscaling.AutoScalingGroup;
+import com.synectiks.aws.entities.cloudtrail.XformCloudTrail;
 import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
 import com.synectiks.aws.entities.lambda.XformLambda;
@@ -17,6 +18,7 @@ import com.synectiks.aws.entities.rds.XformRds;
 import com.synectiks.aws.entities.subnet.XformSubnet;
 import com.synectiks.aws.entities.vpc.XformVpc;
 import com.synectiks.aws.processor.XformAutoScalingProcessor;
+import com.synectiks.aws.processor.XformCloudTrailProcessor;
 import com.synectiks.aws.processor.XformEc2Processor;
 import com.synectiks.aws.processor.XformEksClusterProcessor;
 import com.synectiks.aws.processor.XformLambdaProcessor;
@@ -72,14 +74,22 @@ public class XformAwsCmd {
 		subnet.setRequired(false);
 		options.addOption(subnet);
 		
-		Option subnetId = new Option("subnetId", "subnetId");
+		Option subnetId = new Option("subnetId", "subnetId", true, "Enter subnetId id");
 		subnetId.setRequired(false);
 		options.addOption(subnetId);
-
+		
 		Option autoscaling = new Option("autoScaling", "autoScaling");
 		autoscaling.setRequired(false);
 		options.addOption(autoscaling);
 
+		Option cloudTrail = new Option("cloudTrail", "cloudTrail");
+		cloudTrail.setRequired(false);
+		options.addOption(cloudTrail);
+		
+		Option cloudTrailName = new Option("trailName", "trailName", true, "Enter cloud trail name");
+		cloudTrailName.setRequired(false);
+		options.addOption(cloudTrailName);
+		
 		return options;
 	}
 
@@ -159,6 +169,22 @@ public class XformAwsCmd {
 			System.exit(0);
 		}
 		
-		System.out.println("");
+		
+		if (cmd.hasOption("cloudTrail")) {
+			List<XformCloudTrail> list = null;
+			if (cmd.hasOption("trailName")) {
+				XformCloudTrailProcessor processor = new XformCloudTrailProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				list = processor.getXformObjectById(cmd.getOptionValue("trailName"));
+				System.out.println(Converter.toPrettyJsonString(list, List.class));
+			} else {
+				XformCloudTrailProcessor processor = new XformCloudTrailProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				list = processor.getXformObject();
+				System.out.println(Converter.toPrettyJsonString(list, List.class));
+			}
+			System.exit(0);
+		}
+		
+		System.out.println("Please provide some options like vpc, subnet etc... ");
+		System.exit(0);
 	}
 }
