@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.synectiks.aws.entities.common.Tag;
 
 public class Subnet {
-	private Vpc vpc;
+	private RdsVpc vpc;
 	private String state;
 	private String availabilityZone;
 	private String defaultForAz;
@@ -28,12 +28,12 @@ public class Subnet {
 	private ExternalFindings externalFindings;
 
 	@JsonProperty("vpc")
-	public Vpc getVpc() {
+	public RdsVpc getVpc() {
 		return vpc;
 	}
 
 	@JsonProperty("vpc")
-	public void setVpc(Vpc value) {
+	public void setVpc(RdsVpc value) {
 		this.vpc = value;
 	}
 

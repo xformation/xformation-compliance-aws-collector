@@ -10,7 +10,7 @@ public class Nacl {
 	private ExternalFindings externalFindings;
 	private String source;
 	private String type;
-	private Vpc vpc;
+	private RdsVpc vpc;
 	private String name;
 	private String id;
 	private String dome9ID;
@@ -61,12 +61,12 @@ public class Nacl {
 	}
 
 	@JsonProperty("vpc")
-	public Vpc getVpc() {
+	public RdsVpc getVpc() {
 		return vpc;
 	}
 
 	@JsonProperty("vpc")
-	public void setVpc(Vpc value) {
+	public void setVpc(RdsVpc value) {
 		this.vpc = value;
 	}
 

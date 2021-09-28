@@ -198,10 +198,10 @@ public class XformLambdaProcessor extends XformAwsProcessor {
 		try {
 			XformVpcProcessor xformVpcProcessor = new XformVpcProcessor(getAccessKey(), getSecretKey(),
 					getRegionAsText());
-			List<Vpc> vpcList = xformVpcProcessor.getAwsVpcById(vpcId);
+			List<Vpc> vpcList = xformVpcProcessor.getCloudObjectById(vpcId);
 			if (vpcList.size() > 0) {
 				Vpc vpc = vpcList.get(0);
-				com.synectiks.aws.entities.vpc.Vpc xformVpc = xformVpcProcessor.getXformVpc(vpc);
+				com.synectiks.aws.entities.vpc.Vpc xformVpc = xformVpcProcessor.convertAwsVpcIntoXformVpc(vpc);
 				lambdaVpc = new com.synectiks.aws.entities.lambda.Vpc();
 				BeanUtils.copyProperties(lambdaVpc, xformVpc);
 			}

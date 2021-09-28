@@ -18,6 +18,7 @@ import com.synectiks.aws.main.XformAwsProcessor;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.DescribeSubnetsRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeSubnetsResponse;
+import software.amazon.awssdk.services.ec2.model.Filter;
 import software.amazon.awssdk.services.ec2.model.Subnet;
 //import software.amazon.awssdk.services.ec2.model.Vpc;
 import software.amazon.awssdk.services.ec2.model.Tag;
@@ -106,37 +107,42 @@ public class XformSubnetProcessor extends XformAwsProcessor {
 			obj.setId(subnetId.get());
 			obj.setSubnetId(subnetId.get());
 		}
+		
 		try {
 			if(vpcId.isPresent()) {
 				obj.setVpcId(vpcId.get());
-				List<XformVpc> vpcList = vpcProcessor.getXformObjectById(vpcId.get());
-				if(vpcList.size() > 0) {
-					XformVpc xformVpc = vpcList.get(0);
-					Vpc subnetVpc = new Vpc();
-					subnetVpc.setAccountNumber(getAwsAccountNumber());
-					subnetVpc.setCIDR(obj.getCidr());
-					subnetVpc.setDHCPOptionsID(xformVpc.getDHCPOptionsID());
-					subnetVpc.setID(vpcId.get());
-					subnetVpc.setInstanceTenancy(xformVpc.getInstanceTenancy());
-//						subnetVpc.setInternetGateways(xformVpc.getInternetGateways());
-					subnetVpc.setIsDefault(xformVpc.getIsDefault());
-					subnetVpc.setName(xformVpc.getName());
-					if(ownerId.isPresent()) {
-						subnetVpc.setOwnerID(ownerId.get());
+				if(vpcProcessor != null) {
+					List<XformVpc> vpcList = vpcProcessor.getXformObjectById(vpcId.get());
+					if(vpcList.size() > 0) {
+						XformVpc xformVpc = vpcList.get(0);
+						Vpc subnetVpc = new Vpc();
+						subnetVpc.setAccountNumber(getAwsAccountNumber());
+						subnetVpc.setCIDR(obj.getCidr());
+						subnetVpc.setDHCPOptionsID(xformVpc.getDHCPOptionsID());
+						subnetVpc.setID(vpcId.get());
+						subnetVpc.setInstanceTenancy(xformVpc.getInstanceTenancy());
+//							subnetVpc.setInternetGateways(xformVpc.getInternetGateways());
+						subnetVpc.setIsDefault(xformVpc.getIsDefault());
+						subnetVpc.setName(xformVpc.getName());
+						if(ownerId.isPresent()) {
+							subnetVpc.setOwnerID(ownerId.get());
+						}
+						subnetVpc.setRegion(getRegionAsText());
+//						subnetVpc.setSource(xformVpc.getS);
+						subnetVpc.setState(xformVpc.getState());
+						subnetVpc.setTags(xformVpc.getTags());
+//						subnetVpc.setVPNGateways(xformVpc.getVPNGateways());
+//						subnetVpc.setVpcPeeringConnections(xformVpc.getVpcPeeringConnections());
+						
+						obj.setVpc(subnetVpc);
 					}
-					subnetVpc.setRegion(getRegionAsText());
-//					subnetVpc.setSource(xformVpc.getS);
-					subnetVpc.setState(xformVpc.getState());
-					subnetVpc.setTags(xformVpc.getTags());
-//					subnetVpc.setVPNGateways(xformVpc.getVPNGateways());
-//					subnetVpc.setVpcPeeringConnections(xformVpc.getVpcPeeringConnections());
-					
-					obj.setVpc(subnetVpc);
 				}
+				
 			}
 		}catch(Exception e) {
 			logger.warn("Exception in geting vpc details for subnet. Exception: "+e.getMessage());
 		}
+		
 		if(ownerId.isPresent()) {
 			obj.setOwnerId(ownerId.get());
 		}
@@ -163,7 +169,7 @@ public class XformSubnetProcessor extends XformAwsProcessor {
 		xformSubnetList.add(obj);
 	}
 	
-	public List<Subnet> getCloudObjectBySubnetId(String subnetId) {
+	public List<Subnet> getCloudObjectById(String subnetId) {
 		Ec2Client ec2 = getEc2Client();
 		List<Subnet> listSubnets = null;
 		try {
@@ -181,7 +187,7 @@ public class XformSubnetProcessor extends XformAwsProcessor {
 	
 	@Override
 	public List<XformSubnet> getXformObjectById(String subnetId) {
-		List<Subnet> awsSubnetList = getCloudObjectBySubnetId(subnetId);
+		List<Subnet> awsSubnetList = getCloudObjectById(subnetId);
 		List<XformSubnet> xformSubnetList = new ArrayList<>();
 		XformVpcProcessor vpcProcessor = new XformVpcProcessor(getAccessKey(), getSecretKey(), getRegionAsText());
 		for (Subnet subnet : awsSubnetList) {
@@ -201,5 +207,26 @@ public class XformSubnetProcessor extends XformAwsProcessor {
 		}
 		return listTag;
 	}
+
+	public List<XformSubnet> getSubnetByVpcId(String vpcId) {
+		Ec2Client ec2 = getEc2Client();
+		List<XformSubnet> xformSubnetList = new ArrayList<>();
+		try {
+			Filter filter = Filter.builder().name("vpc-id").values(vpcId).build();
+			DescribeSubnetsRequest req = DescribeSubnetsRequest.builder().filters(filter).build();
+			DescribeSubnetsResponse describeSubnetsResponse = ec2.describeSubnets(req);
+			List<Subnet> awsSubnetList = describeSubnetsResponse.subnets();
+			for (Subnet subnet : awsSubnetList) {
+				createXformSubnet(xformSubnetList, null, subnet);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Exception in getSubnetByVpcId: ", e);
+		} finally {
+			closeEc2Client(ec2);
+		}
+		return xformSubnetList;
+	}
+	
 
 }

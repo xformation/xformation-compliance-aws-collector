@@ -12,7 +12,7 @@ public class SecurityGroup {
 	private String dome9ID;
 	private String accountNumber;
 	private String region;
-	private Vpc vpc;
+	private RdsVpc vpc;
 	private List<Tag> tags;
 	private String source;
 	private String description;
@@ -85,12 +85,12 @@ public class SecurityGroup {
 	}
 
 	@JsonProperty("vpc")
-	public Vpc getVpc() {
+	public RdsVpc getVpc() {
 		return vpc;
 	}
 
 	@JsonProperty("vpc")
-	public void setVpc(Vpc value) {
+	public void setVpc(RdsVpc value) {
 		this.vpc = value;
 	}
 

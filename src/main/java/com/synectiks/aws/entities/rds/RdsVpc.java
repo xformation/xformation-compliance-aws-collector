@@ -1,11 +1,22 @@
 package com.synectiks.aws.entities.rds;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.synectiks.aws.entities.common.Tag;
+import com.synectiks.aws.entities.ec2.XformEc2VpcCidrBlockAssociation;
 
-public class Vpc {
+import software.amazon.awssdk.services.ec2.model.Vpc;
+import software.amazon.awssdk.services.ec2.model.VpcIpv6CidrBlockAssociation;
+
+public class RdsVpc implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String cloudAccountID;
 	private String cidr;
 	private String region;
@@ -15,14 +26,16 @@ public class Vpc {
 	private List<InternetGateway> internetGateways;
 	private String dhcpOptionsID;
 	private String instanceTenancy;
-	private String isDefault;
+	private Boolean isDefault;
 	private String state;
 	private List<Tag> tags;
 	private String name;
 	private List<VpcPeeringConnection> vpcPeeringConnections;
 	private String source;
 	private String ownerID;
-
+	private List<VpcIpv6CidrBlockAssociation> ipv6CidrBlockAssociationSet;
+	private List<XformEc2VpcCidrBlockAssociation> cidrBlockAssociationSet;
+    
 	@JsonProperty("cloudAccountId")
 	public String getCloudAccountID() {
 		return cloudAccountID;
@@ -114,12 +127,12 @@ public class Vpc {
 	}
 
 	@JsonProperty("isDefault")
-	public String getIsDefault() {
+	public Boolean getIsDefault() {
 		return isDefault;
 	}
 
 	@JsonProperty("isDefault")
-	public void setIsDefault(String value) {
+	public void setIsDefault(Boolean value) {
 		this.isDefault = value;
 	}
 
@@ -182,4 +195,52 @@ public class Vpc {
 	public void setOwnerID(String value) {
 		this.ownerID = value;
 	}
+	
+	@JsonProperty("ipv6CidrBlockAssociationSet")
+	public List<VpcIpv6CidrBlockAssociation> getIpv6CidrBlockAssociationSet() {
+		return ipv6CidrBlockAssociationSet;
+	}
+
+	@JsonProperty("ipv6CidrBlockAssociationSet")
+	public void setIpv6CidrBlockAssociationSet(List<VpcIpv6CidrBlockAssociation> ipv6CidrBlockAssociationSet) {
+		this.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet;
+	}
+
+	@JsonProperty("cidrBlockAssociationSet")
+	public List<XformEc2VpcCidrBlockAssociation> getCidrBlockAssociationSet() {
+		return cidrBlockAssociationSet;
+	}
+
+	@JsonProperty("cidrBlockAssociationSet")
+	public void setCidrBlockAssociationSet(List<XformEc2VpcCidrBlockAssociation> cidrBlockAssociationSet) {
+		this.cidrBlockAssociationSet = cidrBlockAssociationSet;
+	}
+	
+	public static RdsVpc build(Vpc vpc) {
+		RdsVpc obj = null;
+		if(vpc != null) {
+			obj = new RdsVpc();
+			obj.setCIDR(vpc.cidrBlock());
+	        obj.setDHCPOptionsID(vpc.dhcpOptionsId());
+	        obj.setState(vpc.stateAsString());
+	        obj.setID(vpc.vpcId());
+	        obj.setOwnerID(vpc.ownerId());
+	        obj.setInstanceTenancy(vpc.instanceTenancyAsString());
+	        obj.setIpv6CidrBlockAssociationSet(vpc.ipv6CidrBlockAssociationSet());
+	        obj.setCidrBlockAssociationSet(XformEc2VpcCidrBlockAssociation.list(vpc.cidrBlockAssociationSet()));
+	        obj.setIsDefault(vpc.isDefault());
+	        List<Tag> tagList = new ArrayList<>();
+	        for (Object oTag : vpc.tags()) {
+	        	software.amazon.awssdk.services.ec2.model.Tag tag = (software.amazon.awssdk.services.ec2.model.Tag)oTag;
+	        	Tag xTag = new Tag(); 
+	        	xTag.setKey(tag.key());
+	        	xTag.setValue(tag.value());
+	        	tagList.add(xTag);
+	        }
+	        obj.setTags(tagList);
+	    }
+		return obj;
+	}
+	
+	
 }

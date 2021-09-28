@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.CloudService;
 import com.synectiks.aws.entities.common.Tag;
+import com.synectiks.aws.entities.kubecluster.Cluster;
+import com.synectiks.aws.entities.subnet.XformSubnet;
 
 public class XformVpc implements Serializable {
 	/**
@@ -12,7 +15,7 @@ public class XformVpc implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String cidr;
-	private List<Subnet> subnets;
+	private List<XformSubnet> subnets;
 	private String dhcpOptionsID;
 	private String instanceTenancy;
 	private Boolean isDefault;
@@ -34,6 +37,9 @@ public class XformVpc implements Serializable {
 	private String region;
 	private ExternalFindings externalFindings;
 
+	private List<Cluster> cluster;
+	private CloudService cloudService;
+	
 	@JsonProperty("cidr")
 	public String getCIDR() {
 		return cidr;
@@ -45,12 +51,12 @@ public class XformVpc implements Serializable {
 	}
 
 	@JsonProperty("subnets")
-	public List<Subnet> getSubnets() {
+	public List<XformSubnet> getSubnets() {
 		return subnets;
 	}
 
 	@JsonProperty("subnets")
-	public void setSubnets(List<Subnet> value) {
+	public void setSubnets(List<XformSubnet> value) {
 		this.subnets = value;
 	}
 
@@ -253,5 +259,25 @@ public class XformVpc implements Serializable {
 				+ ", hasFlowLogs=" + hasFlowLogs + ", flowLogs=" + flowLogs + ", vpc=" + vpc + ", tags=" + tags
 				+ ", id=" + id + ", type=" + type + ", name=" + name + ", accountNumber=" + accountNumber + ", region="
 				+ region + ", externalFindings=" + externalFindings + "]";
+	}
+
+	
+	public List<Cluster> getCluster() {
+		return cluster;
+	}
+
+	@JsonProperty("cluster")
+	public void setCluster(List<Cluster> cluster) {
+		this.cluster = cluster;
+	}
+
+	@JsonProperty("cloudService")
+	public CloudService getCloudService() {
+		return cloudService;
+	}
+
+	@JsonProperty("cloudService")
+	public void setCloudService(CloudService cloudService) {
+		this.cloudService = cloudService;
 	}
 }

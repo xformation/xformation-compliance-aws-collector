@@ -16,7 +16,9 @@ public class XformSubnet implements Serializable {
 	private Vpc vpc;
 	private String state;
 	private String availabilityZone;
-	private String mapPublicIPOnLaunch;
+	private Boolean defaultForAz;
+	private Boolean mapPublicIpOnLaunch;
+	private Integer availableIpAddressCount;
 	private String externalID;
 	private String description;
 	private String cidr;
@@ -33,10 +35,7 @@ public class XformSubnet implements Serializable {
 
 
     private String availabilityZoneId;
-    private Integer availableIpAddressCount;
     private String cidrBlock;
-    private Boolean defaultForAz;
-    private Boolean mapPublicIpOnLaunch;
     private Boolean mapCustomerOwnedIpOnLaunch;
     private String customerOwnedIpv4Pool;
     private String subnetId;
@@ -85,11 +84,6 @@ public class XformSubnet implements Serializable {
 	@JsonProperty("defaultForAz")
 	public void setDefaultForAz(Boolean value) {
 		this.defaultForAz = value;
-	}
-
-	@JsonProperty("mapPublicIpOnLaunch")
-	public String getMapPublicIPOnLaunch() {
-		return mapPublicIPOnLaunch;
 	}
 
 	@JsonProperty("externalId")
@@ -222,106 +216,132 @@ public class XformSubnet implements Serializable {
 		this.id = id;
 	}
 
+	@JsonProperty("availabilityZoneId")
 	public String getAvailabilityZoneId() {
 		return availabilityZoneId;
 	}
 
+	@JsonProperty("availabilityZoneId")
 	public void setAvailabilityZoneId(String availabilityZoneId) {
 		this.availabilityZoneId = availabilityZoneId;
 	}
 
+	@JsonProperty("availableIpAddressCount")
 	public Integer getAvailableIpAddressCount() {
 		return availableIpAddressCount;
 	}
 
+	@JsonProperty("availableIpAddressCount")
 	public void setAvailableIpAddressCount(Integer availableIpAddressCount) {
 		this.availableIpAddressCount = availableIpAddressCount;
 	}
 
+	@JsonProperty("cidrBlock")
 	public String getCidrBlock() {
 		return cidrBlock;
 	}
 
+	@JsonProperty("cidrBlock")
 	public void setCidrBlock(String cidrBlock) {
 		this.cidrBlock = cidrBlock;
 	}
 
+	@JsonProperty("mapPublicIpOnLaunch")
 	public Boolean getMapPublicIpOnLaunch() {
 		return mapPublicIpOnLaunch;
 	}
 
+	@JsonProperty("mapPublicIpOnLaunch")
 	public void setMapPublicIpOnLaunch(Boolean mapPublicIpOnLaunch) {
 		this.mapPublicIpOnLaunch = mapPublicIpOnLaunch;
 	}
 
+	@JsonProperty("mapCustomerOwnedIpOnLaunch")
 	public Boolean getMapCustomerOwnedIpOnLaunch() {
 		return mapCustomerOwnedIpOnLaunch;
 	}
 
+	@JsonProperty("mapCustomerOwnedIpOnLaunch")
 	public void setMapCustomerOwnedIpOnLaunch(Boolean mapCustomerOwnedIpOnLaunch) {
 		this.mapCustomerOwnedIpOnLaunch = mapCustomerOwnedIpOnLaunch;
 	}
 
+	@JsonProperty("customerOwnedIpv4Pool")
 	public String getCustomerOwnedIpv4Pool() {
 		return customerOwnedIpv4Pool;
 	}
 
+	@JsonProperty("customerOwnedIpv4Pool")
 	public void setCustomerOwnedIpv4Pool(String customerOwnedIpv4Pool) {
 		this.customerOwnedIpv4Pool = customerOwnedIpv4Pool;
 	}
 
+	@JsonProperty("subnetId")
 	public String getSubnetId() {
 		return subnetId;
 	}
 
+	@JsonProperty("subnetId")
 	public void setSubnetId(String subnetId) {
 		this.subnetId = subnetId;
 	}
 
+	@JsonProperty("vpcId")
 	public String getVpcId() {
 		return vpcId;
 	}
 
+	@JsonProperty("vpcId")
 	public void setVpcId(String vpcId) {
 		this.vpcId = vpcId;
 	}
 
+	@JsonProperty("ownerId")
 	public String getOwnerId() {
 		return ownerId;
 	}
 
+	@JsonProperty("ownerId")
 	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
 	}
 
+	@JsonProperty("assignIpv6AddressOnCreation")
 	public Boolean getAssignIpv6AddressOnCreation() {
 		return assignIpv6AddressOnCreation;
 	}
 
+	@JsonProperty("assignIpv6AddressOnCreation")
 	public void setAssignIpv6AddressOnCreation(Boolean assignIpv6AddressOnCreation) {
 		this.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation;
 	}
 
+	@JsonProperty("ipv6CidrBlockAssociationSet")
 	public List<SubnetIpv6CidrBlockAssociation> getIpv6CidrBlockAssociationSet() {
 		return ipv6CidrBlockAssociationSet;
 	}
 
+	@JsonProperty("ipv6CidrBlockAssociationSet")
 	public void setIpv6CidrBlockAssociationSet(List<SubnetIpv6CidrBlockAssociation> ipv6CidrBlockAssociationSet) {
 		this.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet;
 	}
 
+	@JsonProperty("subnetArn")
 	public String getSubnetArn() {
 		return subnetArn;
 	}
 
+	@JsonProperty("subnetArn")
 	public void setSubnetArn(String subnetArn) {
 		this.subnetArn = subnetArn;
 	}
 
+	@JsonProperty("outpostArn")
 	public String getOutpostArn() {
 		return outpostArn;
 	}
 
+	@JsonProperty("outpostArn")
 	public void setOutpostArn(String outpostArn) {
 		this.outpostArn = outpostArn;
 	}
