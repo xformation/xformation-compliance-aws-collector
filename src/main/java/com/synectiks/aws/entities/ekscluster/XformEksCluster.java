@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.synectiks.aws.entities.assets.AppService;
+import com.synectiks.aws.entities.assets.DataService;
 import com.synectiks.aws.entities.common.Tag;
 
-import software.amazon.awssdk.services.eks.model.Certificate;
 import software.amazon.awssdk.services.eks.model.EncryptionConfig;
-import software.amazon.awssdk.services.eks.model.KubernetesNetworkConfigResponse;
 
 public class XformEksCluster implements Serializable {
 
@@ -34,8 +34,8 @@ public class XformEksCluster implements Serializable {
 	private String region;
 	private ExternalFindings externalFindings;
 
-	private KubernetesNetworkConfigResponse kubernetesNetworkConfig;
-	private Certificate certificateAuthority;
+	private XformEksClusterKubernetesNetworkConfigResponse kubernetesNetworkConfig;
+	private XformEksClusterCertificate certificateAuthority;
 	private String clientRequestToken;
 	private String platformVersion;
 	private List<EncryptionConfig> encryptionConfig;
@@ -52,6 +52,9 @@ public class XformEksCluster implements Serializable {
 	/** TO DO. Yet to identify type */
 	private String type;
 
+	private List<AppService> appServices;
+	private List<DataService> dataService;
+	
 	@JsonProperty("clusterName")
 	public String getClusterName() {
 		return clusterName;
@@ -243,22 +246,22 @@ public class XformEksCluster implements Serializable {
 	}
 
 	@JsonProperty("kubernetesNetworkConfig")
-	public KubernetesNetworkConfigResponse getKubernetesNetworkConfig() {
+	public XformEksClusterKubernetesNetworkConfigResponse getKubernetesNetworkConfig() {
 		return kubernetesNetworkConfig;
 	}
 
 	@JsonProperty("kubernetesNetworkConfig")
-	public void setKubernetesNetworkConfig(KubernetesNetworkConfigResponse value) {
+	public void setKubernetesNetworkConfig(XformEksClusterKubernetesNetworkConfigResponse value) {
 		this.kubernetesNetworkConfig = value;
 	}
 
 	@JsonProperty("certificateAuthority")
-	public Certificate getCertificateAuthority() {
+	public XformEksClusterCertificate getCertificateAuthority() {
 		return certificateAuthority;
 	}
 
 	@JsonProperty("certificateAuthority")
-	public void setCertificateAuthority(Certificate value) {
+	public void setCertificateAuthority(XformEksClusterCertificate value) {
 		this.certificateAuthority = value;
 	}
 
@@ -292,6 +295,22 @@ public class XformEksCluster implements Serializable {
 		this.encryptionConfig = value;
 	}
 
+	public List<AppService> getAppServices() {
+		return appServices;
+	}
+
+	public void setAppServices(List<AppService> appServices) {
+		this.appServices = appServices;
+	}
+
+	public List<DataService> getDataService() {
+		return dataService;
+	}
+
+	public void setDataService(List<DataService> dataService) {
+		this.dataService = dataService;
+	}
+
 	@Override
 	public String toString() {
 		return "XformEksCluster [clusterName=" + clusterName + ", version=" + version + ", status=" + status
@@ -304,5 +323,4 @@ public class XformEksCluster implements Serializable {
 				+ certificateAuthority + ", clientRequestToken=" + clientRequestToken + ", platformVersion="
 				+ platformVersion + ", encryptionConfig=" + encryptionConfig + "]";
 	}
-
 }

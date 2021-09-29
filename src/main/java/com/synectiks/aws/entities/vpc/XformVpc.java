@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.synectiks.aws.entities.CloudService;
+import com.synectiks.aws.entities.assets.CloudManagedService;
 import com.synectiks.aws.entities.common.Tag;
-import com.synectiks.aws.entities.kubecluster.Cluster;
+import com.synectiks.aws.entities.ekscluster.XformEksCluster;
 import com.synectiks.aws.entities.subnet.XformSubnet;
 
 public class XformVpc implements Serializable {
@@ -37,8 +37,8 @@ public class XformVpc implements Serializable {
 	private String region;
 	private ExternalFindings externalFindings;
 
-	private List<Cluster> cluster;
-	private CloudService cloudService;
+	private List<XformEksCluster> cluster;
+	private CloudManagedService cloudService;
 	
 	@JsonProperty("cidr")
 	public String getCIDR() {
@@ -249,7 +249,27 @@ public class XformVpc implements Serializable {
 	public void setExternalFindings(ExternalFindings value) {
 		this.externalFindings = value;
 	}
+	
+	@JsonProperty("cluster")
+	public List<XformEksCluster> getCluster() {
+		return cluster;
+	}
 
+	@JsonProperty("cluster")
+	public void setCluster(List<XformEksCluster> cluster) {
+		this.cluster = cluster;
+	}
+
+	@JsonProperty("cloudService")
+	public CloudManagedService getCloudService() {
+		return cloudService;
+	}
+
+	@JsonProperty("cloudService")
+	public void setCloudService(CloudManagedService cloudService) {
+		this.cloudService = cloudService;
+	}
+	
 	@Override
 	public String toString() {
 		return "XformVpc [cidr=" + cidr + ", subnets=" + subnets + ", dhcpOptionsID=" + dhcpOptionsID
@@ -260,24 +280,5 @@ public class XformVpc implements Serializable {
 				+ ", id=" + id + ", type=" + type + ", name=" + name + ", accountNumber=" + accountNumber + ", region="
 				+ region + ", externalFindings=" + externalFindings + "]";
 	}
-
 	
-	public List<Cluster> getCluster() {
-		return cluster;
-	}
-
-	@JsonProperty("cluster")
-	public void setCluster(List<Cluster> cluster) {
-		this.cluster = cluster;
-	}
-
-	@JsonProperty("cloudService")
-	public CloudService getCloudService() {
-		return cloudService;
-	}
-
-	@JsonProperty("cloudService")
-	public void setCloudService(CloudService cloudService) {
-		this.cloudService = cloudService;
-	}
 }

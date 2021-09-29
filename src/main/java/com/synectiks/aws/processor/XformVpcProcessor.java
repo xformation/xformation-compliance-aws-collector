@@ -1,5 +1,6 @@
 package com.synectiks.aws.processor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,13 +47,15 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		List<Vpc> vpcList = getCloudObject();
 		List<XformVpc> xformVpcList = new ArrayList<>();
 		XformSubnetProcessor subnetProcessor = new XformSubnetProcessor(getAccessKey(), getSecretKey(), getRegionAsText());
+		XformEksClusterProcessor clusterProcessor = new XformEksClusterProcessor(getAccessKey(), getSecretKey(), getRegionAsText());
+		
 		for (Vpc vpc : vpcList) {
-			createXformVpc(xformVpcList, vpc, subnetProcessor);
+			createXformVpc(xformVpcList, vpc, subnetProcessor, clusterProcessor);
 		}
 		return xformVpcList;
 	}
 
-	private void createXformVpc(List<XformVpc> xformVpcList, Vpc vpc, XformSubnetProcessor subnetProcessor) {
+	private void createXformVpc(List<XformVpc> xformVpcList, Vpc vpc, XformSubnetProcessor subnetProcessor, XformEksClusterProcessor clusterProcessor) throws IOException {
 		Optional<String> cidrBlock = vpc.getValueForField("CidrBlock", String.class);
 		Optional<String> dhcpOptionsId = vpc.getValueForField("DhcpOptionsId", String.class);
 		Optional<String> state = vpc.getValueForField("State", String.class);
@@ -63,14 +66,14 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		Optional<List> cidrBlockAssociationSet = vpc.getValueForField("CidrBlockAssociationSet", List.class);
 		Optional<Boolean> isDefault = vpc.getValueForField("IsDefault", Boolean.class);
 		Optional<List> tags = vpc.getValueForField("Tags", List.class);
-
+		
 		XformVpc xformVpc = new XformVpc();
 		if (cidrBlock.isPresent()) {
 			xformVpc.setCIDR(cidrBlock.get());
 		}
 		
-//		xformVpc.setSubnets(convertAwsSubnetIntoXformSubnet(subnetProcessor, vpc));
 		xformVpc.setSubnets(subnetProcessor.getSubnetByVpcId(vpc.vpcId()));
+		xformVpc.setCluster(clusterProcessor.getClusterByVpcId(vpc.vpcId()));
 		
 		if (dhcpOptionsId.isPresent()) {
 			xformVpc.setDHCPOptionsID(dhcpOptionsId.get());
@@ -149,8 +152,9 @@ public class XformVpcProcessor extends XformAwsProcessor {
 		List<Vpc> vpcList = getCloudObjectById(vpcId);
 		List<XformVpc> xformVpcList = new ArrayList<>();
 		XformSubnetProcessor subnetProcessor = new XformSubnetProcessor(getAccessKey(), getSecretKey(), getRegionAsText());
+		XformEksClusterProcessor clusterProcessor = new XformEksClusterProcessor(getAccessKey(), getSecretKey(), getRegionAsText());
 		for (Vpc vpc : vpcList) {
-			createXformVpc(xformVpcList, vpc, subnetProcessor);
+			createXformVpc(xformVpcList, vpc, subnetProcessor, clusterProcessor);
 		}
 		return xformVpcList;
 	}

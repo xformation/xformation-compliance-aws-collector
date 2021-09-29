@@ -23,7 +23,6 @@ public class XformSubnet implements Serializable {
 	private String description;
 	private String cidr;
 	private RouteTable routeTable;
-	private String ownerID;
 	private Nacl nacl;
 	private List<Tag> tags;
 	private String id;
@@ -114,16 +113,6 @@ public class XformSubnet implements Serializable {
 	@JsonProperty("routeTable")
 	public void setRouteTable(RouteTable value) {
 		this.routeTable = value;
-	}
-
-	@JsonProperty("ownerId")
-	public String getOwnerID() {
-		return ownerID;
-	}
-
-	@JsonProperty("ownerId")
-	public void setOwnerID(String value) {
-		this.ownerID = value;
 	}
 
 	@JsonProperty("nacl")

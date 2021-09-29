@@ -15,6 +15,8 @@ import com.synectiks.aws.entities.ekscluster.ClusterLogging;
 import com.synectiks.aws.entities.ekscluster.Oidc;
 import com.synectiks.aws.entities.ekscluster.ResourcesVpcConfig;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
+import com.synectiks.aws.entities.ekscluster.XformEksClusterCertificate;
+import com.synectiks.aws.entities.ekscluster.XformEksClusterKubernetesNetworkConfigResponse;
 import com.synectiks.aws.main.XformAwsProcessor;
 
 import software.amazon.awssdk.services.eks.EksClient;
@@ -104,7 +106,7 @@ public class XformEksClusterProcessor extends XformAwsProcessor {
 				cl.setResourcesVpcConfig(setVpcConfig(resourcesVpcConfig.get()));
 			}
 			if (kubernetesNetworkConfig.isPresent()) {
-				cl.setKubernetesNetworkConfig(kubernetesNetworkConfig.get());
+				cl.setKubernetesNetworkConfig(XformEksClusterKubernetesNetworkConfigResponse.build(kubernetesNetworkConfig.get()));
 			}
 			if (logging.isPresent()) {
 				cl.setLogging(setLogging(logging.get()));
@@ -120,7 +122,7 @@ public class XformEksClusterProcessor extends XformAwsProcessor {
 				cl.setStatus(status.get());
 			}
 			if (certificateAuthority.isPresent()) {
-				cl.setCertificateAuthority(certificateAuthority.get());
+				cl.setCertificateAuthority(XformEksClusterCertificate.build(certificateAuthority.get()));
 			}
 			if (clientRequestToken.isPresent()) {
 				cl.setClientRequestToken(clientRequestToken.get());
@@ -193,5 +195,16 @@ public class XformEksClusterProcessor extends XformAwsProcessor {
 	protected <T> T getXformObjectById(String id) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<XformEksCluster> getClusterByVpcId(String vpcId) throws IOException {
+		List<XformEksCluster> xformClusterList = getXformObject();
+		List<XformEksCluster> list = new ArrayList<>();
+		for(XformEksCluster cl: xformClusterList) {
+			if (cl.getResourcesVpcConfig() != null && cl.getResourcesVpcConfig().getVpcID().equals(vpcId)) {
+				list.add(cl);
+			}
+		}
+		return list;
 	}
 }
