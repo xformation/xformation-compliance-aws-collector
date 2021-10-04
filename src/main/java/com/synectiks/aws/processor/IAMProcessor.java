@@ -1,8 +1,21 @@
 package com.synectiks.aws.processor;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import com.synectiks.aws.entities.common.ProcessorUtils;
+import com.synectiks.aws.entities.iam.XformIAM;
 import com.synectiks.aws.main.XformAwsProcessor;
 
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.ec2.model.IamInstanceProfile;
+import software.amazon.awssdk.services.ec2.model.Instance;
+import software.amazon.awssdk.services.ec2.model.InstanceState;
+import software.amazon.awssdk.services.ec2.model.Monitoring;
+import software.amazon.awssdk.services.ec2.model.Placement;
+import software.amazon.awssdk.services.ec2.model.StateReason;
 import software.amazon.awssdk.services.iam.IamClient;
 import software.amazon.awssdk.services.iam.model.IamException;
 import software.amazon.awssdk.services.iam.model.ListUsersRequest;
@@ -23,8 +36,47 @@ public class IAMProcessor extends XformAwsProcessor {
 	}
 
 	@Override
-	protected <T> T getXformObject() throws Exception {
-		return null;
+	public List<XformIAM>  getXformObject() throws Exception {
+		IamClient iam = getCloudObject();
+		List<XformIAM> iams=new ArrayList<>();
+		List<User> listUsers = listAllUsers(iam);
+		for (User user : listUsers) {
+			Optional<String> path = user.getValueForField("Path", String.class);
+			Optional<String> userName = user.getValueForField("UserName", String.class);
+			Optional<String> UserId = user.getValueForField("UserId", String.class);
+			Optional<String> arn = user.getValueForField("Arn", String.class);
+			Optional<Instant> createDate = user.getValueForField("CreateDate", Instant.class);
+			Optional<String> passwordLastUsed = user.getValueForField("passwordLastUsed", String.class);
+			Optional<String> permissionsBoundary = user.getValueForField("PermissionsBoundary", String.class);
+			Optional<List> tags = user.getValueForField("Tags", List.class);
+			XformIAM xformIAM=new XformIAM();
+			if (path.isPresent()) {
+				xformIAM.setAccountNumber(getAwsAccountNumber());
+			}
+			if (userName.isPresent()) {
+				xformIAM.setName(userName.get());
+			}
+			if (UserId.isPresent()) {
+				xformIAM.setID(UserId.get());
+			}
+			if (arn.isPresent()) {
+				xformIAM.setArn(arn.get());
+			}
+			if (createDate.isPresent()) {
+				xformIAM.setCreateDate(createDate.get().toString());
+			}
+			if (passwordLastUsed.isPresent()) {
+				xformIAM.setPasswordLastUsed(passwordLastUsed.get());
+			}
+			if (permissionsBoundary.isPresent()) {
+//				xformIAM.setPermissionsBoundary(permissionsBoundary.get());
+			}
+			if (tags.isPresent()) {
+				xformIAM.setTags(ProcessorUtils.getXformTagList(tags.get()));
+			}
+			iams.add(xformIAM);
+		}
+		return iams;
 	}
 
 	@Override
@@ -32,7 +84,7 @@ public class IAMProcessor extends XformAwsProcessor {
 		return null;
 	}
 
-	public ListUsersResponse listAllUsers(IamClient iam) {
+	public List<User> listAllUsers(IamClient iam) {
 		ListUsersResponse response = null;
 		try {
 
@@ -62,7 +114,7 @@ public class IAMProcessor extends XformAwsProcessor {
 		}
 
 		// snippet-end:[iam.java2.list_users.main]
-		return response;
+		return response.users();
 	}
 
 }

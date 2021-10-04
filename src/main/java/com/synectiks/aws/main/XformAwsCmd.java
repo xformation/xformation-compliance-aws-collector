@@ -13,6 +13,7 @@ import com.synectiks.aws.entities.autoscaling.AutoScalingGroup;
 import com.synectiks.aws.entities.cloudtrail.XformCloudTrail;
 import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
+import com.synectiks.aws.entities.iam.XformIAM;
 import com.synectiks.aws.entities.lambda.XformLambda;
 import com.synectiks.aws.entities.rds.XformRds;
 import com.synectiks.aws.entities.subnet.XformSubnet;
@@ -200,8 +201,8 @@ public class XformAwsCmd {
 		if (cmd.hasOption("iam")) {
 			IAMProcessor iamProcessor = new IAMProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
 					cmd.getOptionValue("r"));
-			IamClient iam = iamProcessor.getCloudObject();
-			System.out.println("list of  Iam user :-" + iamProcessor.listAllUsers(iam));
+			List<XformIAM> iamXformIAMs=  iamProcessor.getXformObject();
+			System.out.println(Converter.toPrettyJsonString(iamXformIAMs, List.class));
 			System.exit(0);
 		}
 		System.out.println("Please provide some options like vpc, subnet etc... ");
