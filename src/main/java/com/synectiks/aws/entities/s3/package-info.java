@@ -1,0 +1,1 @@
+package com.synectiks.aws.entities.s3;

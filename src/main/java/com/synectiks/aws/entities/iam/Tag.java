@@ -1,4 +1,4 @@
-package com.synectiks.aws.entities.common;
+package com.synectiks.aws.entities.iam;
 
 import com.fasterxml.jackson.annotation.*;
 

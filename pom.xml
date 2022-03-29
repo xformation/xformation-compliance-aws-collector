@@ -8,11 +8,11 @@
 	<version>1.0.0</version>
 	<name>xformation-compliance-aws-collector</name>
 	<description>xformation compliance aws collector</description>
-	
+
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -31,7 +31,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -65,18 +65,13 @@
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>ec2</artifactId>
 		</dependency>
-		<!-- <dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>bom</artifactId>
-			<version>2.16.29</version>
-			<type>pom</type>
-			<scope>import</scope>
-		</dependency> -->
+		<!-- <dependency> <groupId>software.amazon.awssdk</groupId> <artifactId>bom</artifactId> 
+			<version>2.16.29</version> <type>pom</type> <scope>import</scope> </dependency> -->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>lambda</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-cli</groupId>
 			<artifactId>commons-cli</artifactId>
@@ -111,30 +106,34 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>applicationautoscaling</artifactId>
 			<version>2.17.42</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>autoscaling</artifactId>
 			<version>2.17.42</version>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>cloudtrail</artifactId>
-        </dependency>
-        <dependency>
-		    <groupId>com.fasterxml.jackson.datatype</groupId>
-		    <artifactId>jackson-datatype-jsr310</artifactId>
-		    <version>2.12.4</version>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>cloudtrail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.12.4</version>
+		</dependency>
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>iam</artifactId>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<!-- <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 

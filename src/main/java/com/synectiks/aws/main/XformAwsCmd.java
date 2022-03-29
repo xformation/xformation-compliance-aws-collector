@@ -13,10 +13,12 @@ import com.synectiks.aws.entities.autoscaling.AutoScalingGroup;
 import com.synectiks.aws.entities.cloudtrail.XformCloudTrail;
 import com.synectiks.aws.entities.ec2.XformEc2;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
+import com.synectiks.aws.entities.iam.XformIAM;
 import com.synectiks.aws.entities.lambda.XformLambda;
 import com.synectiks.aws.entities.rds.XformRds;
 import com.synectiks.aws.entities.subnet.XformSubnet;
 import com.synectiks.aws.entities.vpc.XformVpc;
+import com.synectiks.aws.processor.IAMProcessor;
 import com.synectiks.aws.processor.XformAutoScalingProcessor;
 import com.synectiks.aws.processor.XformCloudTrailProcessor;
 import com.synectiks.aws.processor.XformEc2Processor;
@@ -25,6 +27,8 @@ import com.synectiks.aws.processor.XformLambdaProcessor;
 import com.synectiks.aws.processor.XformRdsProcessor;
 import com.synectiks.aws.processor.XformSubnetProcessor;
 import com.synectiks.aws.processor.XformVpcProcessor;
+
+import software.amazon.awssdk.services.iam.IamClient;
 
 public class XformAwsCmd {
 	private static Options buildOptions() {
@@ -57,7 +61,7 @@ public class XformAwsCmd {
 		Option ec2Id = new Option("ec2Id", "ec2Id", true, "Enter ec2 instance id");
 		ec2Id.setRequired(false);
 		options.addOption(ec2Id);
-		
+
 		Option eksCluster = new Option("eksCluster", "eksCluster");
 		eksCluster.setRequired(false);
 		options.addOption(eksCluster);
@@ -73,11 +77,11 @@ public class XformAwsCmd {
 		Option subnet = new Option("subnet", "subnet");
 		subnet.setRequired(false);
 		options.addOption(subnet);
-		
+
 		Option subnetId = new Option("subnetId", "subnetId", true, "Enter subnetId id");
 		subnetId.setRequired(false);
 		options.addOption(subnetId);
-		
+
 		Option autoscaling = new Option("autoScaling", "autoScaling");
 		autoscaling.setRequired(false);
 		options.addOption(autoscaling);
@@ -85,16 +89,16 @@ public class XformAwsCmd {
 		Option cloudTrail = new Option("cloudTrail", "cloudTrail");
 		cloudTrail.setRequired(false);
 		options.addOption(cloudTrail);
-		
+
 		Option cloudTrailName = new Option("trailName", "trailName", true, "Enter cloud trail name");
 		cloudTrailName.setRequired(false);
 		options.addOption(cloudTrailName);
-		
+
+		Option iamUserList1 = new Option("iam", "iam", true, "It will show all IAM Users List");
+		iamUserList1.setRequired(false);
+		options.addOption(iamUserList1);
 		return options;
 	}
-
-
-
 
 	public static void main(String[] args) throws Exception {
 		Options options = buildOptions();
@@ -104,10 +108,12 @@ public class XformAwsCmd {
 		if (cmd.hasOption("vpc")) {
 			List<XformVpc> list = null;
 			if (cmd.hasOption("vpcId")) {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+						cmd.getOptionValue("r"));
 				list = processor.getXformObjectById(cmd.getOptionValue("vpcId"));
 			} else {
-				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				XformVpcProcessor processor = new XformVpcProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+						cmd.getOptionValue("r"));
 				list = processor.getXformObject();
 			}
 			System.out.println(Converter.toPrettyJsonString(list, List.class));
@@ -116,11 +122,13 @@ public class XformAwsCmd {
 
 		if (cmd.hasOption("ec2")) {
 			List<XformEc2> list = null;
-			if(cmd.hasOption("ec2Id")) {
-				XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			if (cmd.hasOption("ec2Id")) {
+				XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+						cmd.getOptionValue("r"));
 				list = processor.getXformObjectById(cmd.getOptionValue("ec2Id"));
-			}else {
-				XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			} else {
+				XformEc2Processor processor = new XformEc2Processor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+						cmd.getOptionValue("r"));
 				list = processor.getXformObject();
 			}
 			System.out.println(Converter.toPrettyJsonString(list, List.class));
@@ -128,21 +136,24 @@ public class XformAwsCmd {
 		}
 
 		if (cmd.hasOption("eksCluster")) {
-			XformEksClusterProcessor processor = new XformEksClusterProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			XformEksClusterProcessor processor = new XformEksClusterProcessor(cmd.getOptionValue("a"),
+					cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 			List<XformEksCluster> list = processor.getXformObject();
 			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
-		
+
 		if (cmd.hasOption("rds")) {
-			XformRdsProcessor processor = new XformRdsProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			XformRdsProcessor processor = new XformRdsProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+					cmd.getOptionValue("r"));
 			List<XformRds> list = processor.getXformObject();
 			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
-		
+
 		if (cmd.hasOption("lambda")) {
-			XformLambdaProcessor processor = new XformLambdaProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			XformLambdaProcessor processor = new XformLambdaProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+					cmd.getOptionValue("r"));
 			List<XformLambda> list = processor.getXformObject();
 			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
@@ -151,11 +162,13 @@ public class XformAwsCmd {
 		if (cmd.hasOption("subnet")) {
 			List<XformSubnet> list = null;
 			if (cmd.hasOption("subnetId")) {
-				XformSubnetProcessor processor = new XformSubnetProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				XformSubnetProcessor processor = new XformSubnetProcessor(cmd.getOptionValue("a"),
+						cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 				list = processor.getXformObjectById(cmd.getOptionValue("subnetId"));
 				System.out.println(Converter.toPrettyJsonString(list, List.class));
 			} else {
-				XformSubnetProcessor processor = new XformSubnetProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				XformSubnetProcessor processor = new XformSubnetProcessor(cmd.getOptionValue("a"),
+						cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 				list = processor.getXformObject();
 				System.out.println(Converter.toPrettyJsonString(list, List.class));
 			}
@@ -163,27 +176,35 @@ public class XformAwsCmd {
 		}
 
 		if (cmd.hasOption("autoScaling")) {
-			XformAutoScalingProcessor processor = new XformAutoScalingProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+			XformAutoScalingProcessor processor = new XformAutoScalingProcessor(cmd.getOptionValue("a"),
+					cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 			List<AutoScalingGroup> list = processor.getXformObject();
 			System.out.println(Converter.toPrettyJsonString(list, List.class));
 			System.exit(0);
 		}
-		
-		
+
 		if (cmd.hasOption("cloudTrail")) {
 			List<XformCloudTrail> list = null;
 			if (cmd.hasOption("trailName")) {
-				XformCloudTrailProcessor processor = new XformCloudTrailProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				XformCloudTrailProcessor processor = new XformCloudTrailProcessor(cmd.getOptionValue("a"),
+						cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 				list = processor.getXformObjectById(cmd.getOptionValue("trailName"));
 				System.out.println(Converter.toPrettyJsonString(list, List.class));
 			} else {
-				XformCloudTrailProcessor processor = new XformCloudTrailProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"), cmd.getOptionValue("r"));
+				XformCloudTrailProcessor processor = new XformCloudTrailProcessor(cmd.getOptionValue("a"),
+						cmd.getOptionValue("s"), cmd.getOptionValue("r"));
 				list = processor.getXformObject();
 				System.out.println(Converter.toPrettyJsonString(list, List.class));
 			}
 			System.exit(0);
 		}
-		
+		if (cmd.hasOption("iam")) {
+			IAMProcessor iamProcessor = new IAMProcessor(cmd.getOptionValue("a"), cmd.getOptionValue("s"),
+					cmd.getOptionValue("r"));
+			List<XformIAM> iamXformIAMs=  iamProcessor.getXformObject();
+			System.out.println(Converter.toPrettyJsonString(iamXformIAMs, List.class));
+			System.exit(0);
+		}
 		System.out.println("Please provide some options like vpc, subnet etc... ");
 		System.exit(0);
 	}
