@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.synectiks.aws.entities.assets.CloudManagedService;
+import com.synectiks.aws.entities.assets.GatewayService;
 import com.synectiks.aws.entities.common.Tag;
 import com.synectiks.aws.entities.ekscluster.XformEksCluster;
 import com.synectiks.aws.entities.subnet.XformSubnet;
@@ -39,6 +40,7 @@ public class XformVpc implements Serializable {
 
 	private List<XformEksCluster> cluster;
 	private CloudManagedService cloudService;
+	private GatewayService gatewayService;
 	
 	@JsonProperty("cidr")
 	public String getCIDR() {
@@ -268,6 +270,16 @@ public class XformVpc implements Serializable {
 	@JsonProperty("cloudService")
 	public void setCloudService(CloudManagedService cloudService) {
 		this.cloudService = cloudService;
+	}
+
+	@JsonProperty("gatewayService")
+	public GatewayService getGatewayService() {
+		return gatewayService;
+	}
+
+	@JsonProperty("gatewayService")
+	public void setGatewayService(GatewayService gatewayService) {
+		this.gatewayService = gatewayService;
 	}
 	
 	@Override
